@@ -1,0 +1,22 @@
+version: 1
+image_representation: cached_0_255
+normalization: false
+bin_width: 5
+dimensionality: 3D
+image_types:
+  - Original
+feature_classes:
+  - shape
+  - firstorder
+  - glcm
+  - glrlm
+  - glszm
+  - gldm
+  - ngtdm
+features_per_phase: 107
+candidate_features_per_patient: 428
+phase_order:
+  - P
+  - C1
+  - C2
+  - C3

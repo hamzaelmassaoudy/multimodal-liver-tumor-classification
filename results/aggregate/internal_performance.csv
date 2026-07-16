@@ -1,0 +1,8 @@
+model,cv_macro_auc_mean,cv_macro_auc_sd,heldout_macro_auc,heldout_ci_low,heldout_ci_high,scope
+Clinical baseline,0.650,0.073,0.630,,,Five-fold development CV and independent 56-patient evaluation
+W3 single-phase CNN,0.912,0.048,0.860,,,Five-fold development CV and independent 56-patient evaluation
+W4 multiphase CNN,0.951,0.040,0.906,,,Five-fold development CV and independent 56-patient evaluation
+W5 radiomics-LightGBM,0.922,0.044,0.938,,,Five-fold development CV and independent 56-patient evaluation
+CNN + radiomics fusion,0.955,0.034,0.930,,,Five-fold development CV and independent 56-patient evaluation
+Full fusion,0.955,0.033,0.950,0.896,0.988,Five-fold development CV and independent 56-patient evaluation
+Tumor-size-only baseline,0.633,0.080,,,,Five-fold development CV only

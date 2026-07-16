@@ -1,0 +1,6 @@
+version: 1
+paths:
+  plc_cect_root: ${PLC_CECT_ROOT}
+  hcc_tace_seg_root: ${HCC_TACE_SEG_ROOT}
+  private_artifact_root: ${PRIVATE_ARTIFACT_ROOT}
+  output_root: ${OUTPUT_ROOT}

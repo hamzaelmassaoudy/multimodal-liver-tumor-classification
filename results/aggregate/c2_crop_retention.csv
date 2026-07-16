@@ -1,0 +1,11 @@
+metric,count,total,percent,scope
+Exact retention,124,278,44.6,C2 only
+Some tumor loss,154,278,55.4,C2 only
+Retention below 95%,80,278,28.8,C2 only
+Retention below 90%,67,278,24.1,C2 only
+Retention below 75%,39,278,14.0,C2 only
+Retention below 50%,15,278,5.4,C2 only
+Empty crops,0,278,0.0,C2 only
+Median retention,,,99.89,C2 only; percent of tumor voxels
+Minimum retention,,,15.64,C2 only; percent of tumor voxels
+Volume-weighted retention,,,61.46,C2 only; percent of tumor voxels

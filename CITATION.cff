@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+message: "If you use this research software, please cite it using this metadata."
+title: "Multimodal Classification of Primary Liver Tumors on Multiphase CT: Internal Fusion Performance and External Transportability Stress Testing"
+type: software
+authors:
+  - family-names: Wen
+    given-names: Xuezhi
+  - family-names: El Massaoudy
+    given-names: Hamza
+version: 1.0.0
+date-released: 2026-07-16
+repository-code: "https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification"

@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "saved_prediction_metric_reanalysis": true,
+  "aggregate_statistical_checks": true,
+  "external_sex_scenario_analysis": true,
+  "aggregate_c2_crop_retention_reporting": true,
+  "scientific_workflow_inspection": true,
+  "exact_end_to_end_reconstruction": false,
+  "patient_level_artifacts_public": false,
+  "limitations": [
+    "W3 fold 1 checkpoint was not retained",
+    "W4 fold 0 checkpoint was not retained",
+    "Original internal source geometry was not retained",
+    "Historical phase-specific crop coordinates were not retained",
+    "Patient-level derived artifacts are intentionally excluded"
+  ]
+}

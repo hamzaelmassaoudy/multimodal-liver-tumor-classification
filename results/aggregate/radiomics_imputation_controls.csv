@@ -1,0 +1,6 @@
+condition,hcc_sensitivity,interpretation
+Real + imputed,0.961,Historical mixed feature pathway
+Median-only,1.000,All available features replaced by locked medians
+Strict overlap-only,0.243,Only directly overlapping real features
+Real-only with missing zero,0.010,Real external features retained and missing features zeroed
+Imputed-only with real zero,0.971,Imputed features retained and real features zeroed

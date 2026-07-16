@@ -1,0 +1,5 @@
+branch,scenario,cases,hcc_correct,hcc_sensitivity,changed_predictions_relative_to_historical,interpretation
+W3 single-phase CNN,Historical frozen external inference,103,5,0.049,,HCC-only stress test
+W4 multiphase CNN,Historical frozen external inference,103,0,0.000,,HCC-only stress test
+Full fusion,"Historical external adapter, sex=0",103,2,0.019,0,Originally implemented missing-sex encoding
+Full fusion,"Locked fold-median sex sensitivity analysis, sex=1",103,83,0.806,82,Deterministic sensitivity analysis; not observed sex

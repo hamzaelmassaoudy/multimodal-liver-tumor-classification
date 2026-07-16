@@ -1,0 +1,17 @@
+version: 1
+primary_metric: macro_one_vs_rest_auc
+class_order:
+  - HCC
+  - ICC
+  - cHCC-CCA
+internal_evaluation_size: 56
+delong:
+  sidedness: two-sided
+  exploratory_comparisons: 9
+  adjustments:
+    - Bonferroni
+    - Benjamini-Hochberg
+external:
+  scope: HCC-only transportability stress test
+  retained_cases: 103
+  report_multiclass_auc: false

@@ -1,0 +1,28 @@
+version: 1
+class_order:
+  - HCC
+  - ICC
+  - cHCC-CCA
+phase_order:
+  - P
+  - C1
+  - C2
+  - C3
+crop_size: 96
+cross_validation_folds: 5
+cnn:
+  architecture: monai_resnet18_3d
+  initialization: random
+  w3_input_channels: 1
+  w3_phase: C2
+  w4_input_channels: 4
+  random_in_plane_flips: true
+  w4_joint_spatial_flip_across_channels: true
+  per_channel_intensity_jitter: true
+  validation_augmentation: false
+  evaluation_augmentation: false
+radiomics_lightgbm:
+  fold_specific_feature_selection: true
+fusion:
+  learner: fold_specific_multinomial_logistic_regression
+  include_w3: false

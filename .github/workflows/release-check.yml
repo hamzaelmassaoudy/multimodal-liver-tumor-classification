@@ -1,0 +1,41 @@
+name: Release check
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  release-safety:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install package and test tools
+        run: python -m pip install -e ".[test]"
+      - name: Run deterministic release checks
+        run: |
+          python -m ruff check src scripts tests
+          python -m ruff format --check src scripts tests
+          python -m pytest -q
+          python scripts/validate_aggregate_results.py
+          python scripts/validate_release.py
+      - name: Enforce GitHub file-size boundary
+        shell: python
+        run: |
+          from pathlib import Path
+          oversized = [p for p in Path('.').rglob('*') if p.is_file() and '.git' not in p.parts and p.stat().st_size > 100 * 1024 * 1024]
+          if oversized:
+              raise SystemExit('Files exceed 100 MiB: ' + ', '.join(map(str, oversized)))
+          print('All release files are below 100 MiB.')
