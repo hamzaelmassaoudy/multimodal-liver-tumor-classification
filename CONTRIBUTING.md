@@ -9,7 +9,9 @@ Use Python 3.10 or later in an isolated environment:
 ```bash
 python -m pip install -e ".[test]"
 python -m pytest
-ruff check .
+python -m ruff check src scripts tests
+python -m ruff format --check src scripts tests
+python scripts/smoke_test.py
 python scripts/validate_release.py .
 ```
 

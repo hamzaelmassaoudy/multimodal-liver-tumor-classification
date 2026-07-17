@@ -27,5 +27,7 @@ jobs:
         run: python -m ruff format --check src scripts tests
       - name: Run unit tests
         run: python -m pytest -q
+      - name: Run public-clone smoke test
+        run: python scripts/smoke_test.py
       - name: Validate public release
         run: python scripts/validate_release.py

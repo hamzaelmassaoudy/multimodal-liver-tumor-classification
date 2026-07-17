@@ -198,6 +198,13 @@ For notebook workflows that require imaging and model libraries:
 python -m pip install -e ".[workflow]"
 ```
 
+For the test, lint, and public-release validation tools:
+
+```bash
+python -m pip install -e ".[test]"
+python scripts/smoke_test.py
+```
+
 The exact historical software environment was not preserved for every component; the
 declared ranges describe compatible public tooling rather than an exact environment
 reconstruction.
@@ -228,11 +235,16 @@ do not claim to recreate missing historical checkpoints.
 Aggregate checks do not require patient data:
 
 ```bash
+python scripts/smoke_test.py
 python scripts/validate_aggregate_results.py
 python scripts/recalculate_delong_summary.py results/aggregate/delong_summary.csv
 python scripts/validate_release.py
 python -m pytest
 ```
+
+The smoke test validates the released aggregates and repository safety, then exercises
+independent phase-specific preprocessing and the exact eight-feature fusion construction
+with synthetic arrays. It neither accesses patient data nor trains a model.
 
 The C2 audit and saved-prediction metric scripts accept authorized local artifacts and emit
 aggregate summaries only; their inputs must never be committed.

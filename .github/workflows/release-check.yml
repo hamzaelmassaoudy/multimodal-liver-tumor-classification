@@ -29,6 +29,7 @@ jobs:
           python -m ruff check src scripts tests
           python -m ruff format --check src scripts tests
           python -m pytest -q
+          python scripts/smoke_test.py
           python scripts/validate_aggregate_results.py
           python scripts/validate_release.py
       - name: Enforce GitHub file-size boundary

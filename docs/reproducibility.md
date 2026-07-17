@@ -14,7 +14,9 @@ After installing the package and test dependencies, run:
 
 ```bash
 python -m pytest
-ruff check .
+python -m ruff check src scripts tests
+python -m ruff format --check src scripts tests
+python scripts/smoke_test.py
 python scripts/validate_aggregate_results.py
 python scripts/validate_release.py .
 ```
@@ -35,6 +37,9 @@ Aggregate metric recalculation from saved predictions, the C2 retention audit, a
 - The historical W4 fold 0 checkpoint was not retained.
 - Original internal source geometry was not retained with the processed arrays.
 - Historical phase-specific crop coordinates were not retained.
+- Patient-level external adapter manifests are not public, and no verified aggregate count
+  or outcome stratification for the `c2_fallback_used` field is included. This cannot be
+  inferred from the separate C2 crop-retention audit.
 - Patient-level splits, predictions, clinical rows, and derived imaging artifacts remain private.
 - Exact historical package versions are not available for every dependency; compatible ranges are provided for the released utilities.
 

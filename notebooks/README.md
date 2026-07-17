@@ -13,6 +13,10 @@ Create an untracked `configs/paths.yaml` from `configs/paths.example.yaml` only 
 requires user-obtained datasets or private artifacts. Generated patient-linked files must remain
 under the configured private roots and must not be committed.
 
+Notebook classifications identify prerequisites, not a guarantee of uninterrupted end-to-end
+execution. Where a historical manual decision or private orchestration step was not retained, the
+notebook states that boundary explicitly.
+
 | Order | Notebook | Classification |
 |---:|---|---|
 | 1 | [Internal cohort and splits](01_data_and_preprocessing/01_internal_cohort_and_splits.ipynb) | Public dataset plus configured private storage |
@@ -23,12 +27,12 @@ under the configured private roots and must not be committed.
 | 6 | [Late fusion and internal evaluation](03_fusion_and_internal_results/06_late_fusion_internal_evaluation.ipynb) | Public aggregate reanalysis; private artifacts required for refitting |
 | 7 | [External data acquisition](04_external_stress_test/07_external_data_acquisition.ipynb) | Public dataset acquisition into private storage |
 | 8 | [External DICOM-to-NIfTI](04_external_stress_test/08_external_dicom_to_nifti.ipynb) | Public dataset plus configured private storage |
-| 9 | [External tumor-mask preprocessing](04_external_stress_test/09_external_tumor_mask_preprocessing.ipynb) | Public dataset plus private SEG review |
+| 9 | [External tumor-mask preprocessing](04_external_stress_test/09_external_tumor_mask_preprocessing.ipynb) | Public dataset plus operator-controlled private SEG review and resume step |
 | 10 | [External mask-density QC](04_external_stress_test/10_external_mask_density_qc.ipynb) | Historical workflow requiring private images and masks |
-| 11 | [External liver-mask adapter](04_external_stress_test/11_external_liver_mask_adapter.ipynb) | Historical workflow requiring private images and masks |
+| 11 | [External liver-mask adapter](04_external_stress_test/11_external_liver_mask_adapter.ipynb) | Historical per-case method interface; released notebook does not construct the private manifest |
 | 12 | [External frozen inference](04_external_stress_test/12_external_frozen_inference.ipynb) | Public aggregate reanalysis; complete historical CNN inference unavailable |
 | 13 | [Radiomics imputation controls](04_external_stress_test/13_radiomics_imputation_controls.ipynb) | Public aggregate reanalysis; private artifacts required for patient-level rerun |
-| 14 | [Explainability and aggregate figures](05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb) | Public aggregate figures; private artifacts required for case-level explanation |
+| 14 | [Explainability and aggregate figures](05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb) | Public internal-performance figure and external-table inspection; complete aggregate figure set uses the standalone script |
 
 ## Scientific and reproducibility boundaries
 
