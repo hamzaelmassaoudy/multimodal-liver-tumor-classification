@@ -7,9 +7,9 @@
     "results/aggregate/radiomics_imputation_controls.csv": "e2c9731818afa7b481faae6e6d439e5050c49ffe08ac87ff03230722596b9da8",
     "results/aggregate/reproducibility_status.json": "6c2f5c4f86fe35554e35944c69cc1e99828ba167962455c0a74e61069c1650ed"
   },
-  "commit_hash": "1db32ec57aebb1818bb15bef3707f38dc805c7e0",
+  "commit_hash": "cf9f2c80ef0b9ab560fc61c99a7a11ac1611a586",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "1db32ec57aebb1818bb15bef3707f38dc805c7e0",
+  "content_commit": "cf9f2c80ef0b9ab560fc61c99a7a11ac1611a586",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 93360,
@@ -26,11 +26,11 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "size_bytes": 750
+      "size_bytes": 834
     },
     {
       "path": ".github/workflows/release-check.yml",
-      "size_bytes": 1233
+      "size_bytes": 1272
     },
     {
       "path": ".gitignore",
@@ -38,7 +38,7 @@
     },
     {
       "path": ".pre-commit-config.yaml",
-      "size_bytes": 159
+      "size_bytes": 233
     },
     {
       "path": "CITATION.cff",
@@ -46,11 +46,11 @@
     },
     {
       "path": "CONTRIBUTING.md",
-      "size_bytes": 2173
+      "size_bytes": 2276
     },
     {
       "path": "README.md",
-      "size_bytes": 11787
+      "size_bytes": 12204
     },
     {
       "path": "SECURITY.md",
@@ -118,7 +118,7 @@
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 3306
+      "size_bytes": 3643
     },
     {
       "path": "docs/results_provenance.md",
@@ -162,7 +162,7 @@
     },
     {
       "path": "notebooks/04_external_stress_test/09_external_tumor_mask_preprocessing.ipynb",
-      "size_bytes": 18905
+      "size_bytes": 19374
     },
     {
       "path": "notebooks/04_external_stress_test/10_external_mask_density_qc.ipynb",
@@ -170,7 +170,7 @@
     },
     {
       "path": "notebooks/04_external_stress_test/11_external_liver_mask_adapter.ipynb",
-      "size_bytes": 6862
+      "size_bytes": 7329
     },
     {
       "path": "notebooks/04_external_stress_test/12_external_frozen_inference.ipynb",
@@ -182,11 +182,11 @@
     },
     {
       "path": "notebooks/05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb",
-      "size_bytes": 7794
+      "size_bytes": 8041
     },
     {
       "path": "notebooks/README.md",
-      "size_bytes": 4122
+      "size_bytes": 4476
     },
     {
       "path": "pyproject.toml",
@@ -263,6 +263,10 @@
     {
       "path": "scripts/recalculate_internal_metrics.py",
       "size_bytes": 1568
+    },
+    {
+      "path": "scripts/smoke_test.py",
+      "size_bytes": 3242
     },
     {
       "path": "scripts/validate_aggregate_results.py",
