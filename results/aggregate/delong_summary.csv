@@ -1,10 +1,10 @@
-class,comparison,comparator,auc_full_fusion,auc_comparator,auc_difference,uncorrected_p_recomputed,reported_raw_p,bonferroni_p_9,bh_p_9,adjustment_basis,interpretation
-HCC,full_fusion vs multi_phase_cnn,Multi-phase CNN,0.9459459459459459,0.9153627311522049,0.030583214793741043,0.15786008690757081,0.1579,1.0,0.4086,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-ICC,full_fusion vs multi_phase_cnn,Multi-phase CNN,0.9694444444444443,0.9562499999999998,0.013194444444444509,0.3263480635679894,0.3263,1.0,0.44447142857142857,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-cHCC-CCA,full_fusion vs multi_phase_cnn,Multi-phase CNN,0.93363499245852188,0.84766214177978894,0.085972850678732948,0.029347313285050358,0.0293,0.2637,0.2637,nine_reported_four_decimal_raw_p_values,smallest_raw_p_not_significant_after_adjustment
-HCC,full_fusion vs radiomics,Radiomics + LightGBM,0.9459459459459459,0.9302987197724039,0.015647226173542084,0.55487983250918615,0.5549,1.0,0.5549,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-ICC,full_fusion vs radiomics,Radiomics + LightGBM,0.9694444444444443,0.9305555555555556,0.03888888888888875,0.10295692348232399,0.1030,0.9270,0.4086,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-cHCC-CCA,full_fusion vs radiomics,Radiomics + LightGBM,0.93363499245852188,0.95324283559577672,-0.019607843137254832,0.34573685687193567,0.3457,1.0,0.44447142857142857,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-HCC,full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.946,0.937,0.009,0.5367,0.5367,1.0,0.5549,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-ICC,full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.969,0.956,0.014,0.1816,0.1816,1.0,0.4086,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
-cHCC-CCA,full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.934,0.897,0.036,0.2275,0.2275,1.0,0.4095,nine_reported_four_decimal_raw_p_values,exploratory_not_significant_after_adjustment
+class,comparison,comparator,auc_full_fusion,auc_comparator,auc_difference,delong_z,uncorrected_p,reported_raw_p,bonferroni_p_9,bh_p_9,adjustment_basis,interpretation
+HCC,full_fusion vs multi_phase_cnn,Multi-phase CNN,0.938834,0.915363,0.023471,1.035302,0.300528,0.300528,1.000000,0.553302,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+ICC,full_fusion vs multi_phase_cnn,Multi-phase CNN,0.963889,0.956250,0.007639,0.482934,0.629143,0.629143,1.000000,0.808898,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+cHCC-CCA,full_fusion vs multi_phase_cnn,Multi-phase CNN,0.933635,0.847662,0.085973,2.178789,0.029347,0.029347,0.264126,0.264126,exact_corrected_p_values,smallest_raw_p_not_significant_after_adjustment
+HCC,full_fusion vs radiomics,Radiomics + LightGBM,0.938834,0.930299,0.008535,0.338390,0.735069,0.735069,1.000000,0.826953,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+ICC,full_fusion vs radiomics,Radiomics + LightGBM,0.963889,0.930556,0.033333,1.581015,0.113875,0.113875,1.000000,0.512436,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+cHCC-CCA,full_fusion vs radiomics,Radiomics + LightGBM,0.933635,0.953243,-0.019608,-0.942891,0.345737,0.345737,1.000000,0.553302,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+HCC,full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.938834,0.937411,0.001422,0.112787,0.910200,0.910200,1.000000,0.910200,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+ICC,full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.963889,0.955556,0.008333,0.898596,0.368868,0.368868,1.000000,0.553302,exact_corrected_p_values,exploratory_not_significant_after_adjustment
+cHCC-CCA,full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.933635,0.897436,0.036199,1.206838,0.227495,0.227495,1.000000,0.553302,exact_corrected_p_values,exploratory_not_significant_after_adjustment

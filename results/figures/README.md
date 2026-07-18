@@ -1,11 +1,11 @@
 # Aggregate figures
 
-The three PNG files in this directory are generated only from the privacy-safe tables in
+The three PNG files in this directory are generated only from privacy-safe tables in
 [`results/aggregate`](../aggregate/):
 
-- `internal_performance.png` compares cross-validation and held-out macro-AUC.
-- `external_stress_test.png` distinguishes frozen branch results and the two full-fusion
-  missing-sex scenarios.
+- `internal_performance.png` compares corrected cross-validation and held-out macro-AUC.
+- `external_stress_test.png` distinguishes W3, W4, W5 baseline, corrected missing-sex primary,
+  and encoded-sex-zero sensitivity results.
 - `c2_crop_retention.png` summarizes verified C2 fixed-crop truncation thresholds.
 
 Regenerate them from the repository root with:

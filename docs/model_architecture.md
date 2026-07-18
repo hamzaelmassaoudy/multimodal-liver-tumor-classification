@@ -1,33 +1,41 @@
 # Model architecture
 
-## Locked class and phase conventions
+## Locked conventions
 
 - Class order: HCC, ICC, cHCC-CCA.
 - Phase order: P, C1, C2, C3.
 - Crop size: `96 x 96 x 96` voxels.
 
-The token `CHCC` appears in some historical probability-column names for compatibility; its display class is cHCC-CCA.
+The compatibility token `CHCC` denotes cHCC-CCA.
 
 ## W3: single-phase CNN
 
-W3 used the portal-venous C2 crop only, with input shape `1 x 96 x 96 x 96`. The network was MONAI's three-dimensional ResNet-18 with random initialization and a three-class output. W3 was a comparator and was not an input to the full-fusion model.
+W3 used portal-venous C2 only with input shape `1 x 96 x 96 x 96`. It was a randomly
+initialized MONAI 3D ResNet-18 and served only as a comparator.
 
 ## W4: multiphase CNN
 
-W4 used input shape `4 x 96 x 96 x 96`, with channels ordered P, C1, C2, C3. Each channel was independently centered on its own phase-specific tumor-mask centroid. The network was a three-dimensional ResNet-18 initialized randomly, with a three-class output.
-
-Historical training augmentation used random in-plane flips, with the same selected spatial flip applied jointly across all W4 channels, and per-channel intensity jitter. Validation and internal evaluation used no augmentation. Applying the same flip to the stacked crops does not imply that the source phases were anatomically registered.
+W4 used P/C1/C2/C3 channels with input shape `4 x 96 x 96 x 96`. Each channel was
+independently centered on its own phase-specific tumor-mask centroid. Joint flips of the stacked
+crops during augmentation do not imply source-phase registration.
 
 ## W5: radiomics-LightGBM
 
-W5 extracted original-image PyRadiomics features from the tumor portion retained inside each fixed crop. The cached images used the 0-255 representation, no additional radiomics z-score normalization, fixed bin width 5, and three-dimensional extraction. Enabled classes were shape, first-order, GLCM, GLRLM, GLSZM, GLDM, and NGTDM.
+W5 extracted original-image PyRadiomics features from the tumor retained inside each crop. Enabled
+classes were shape, first-order, GLCM, GLRLM, GLSZM, GLDM, and NGTDM. There were 107 features
+per phase and 428 candidates per patient, followed by fold-specific selection and LightGBM.
 
-There were 107 features per phase and 428 candidate features per patient. Feature handling and selection were fold-specific, followed by LightGBM classification. Because some lesions were truncated by the fixed cube, W5 is a crop-restricted tumor-radiomics branch.
+Cached arrays lacked source geometry and spacing. SimpleITK conversion used unit spacing, so shape
+outputs are crop-grid descriptors rather than verified physical-unit measurements. Crop truncation
+also means W5 is crop-restricted rather than guaranteed complete-lesion radiomics.
 
 ## Clinical and fusion models
 
-The clinical baseline used age and sex. Late fusion used fold-specific multinomial logistic regression. The exact full-fusion vector is defined in [fusion definition](fusion_definition.md).
+The clinical baseline used age and sex. Corrected primary models retained unresolved sex as missing
+and used fold-local median imputation. Full fusion used W4 and W5 probability triplets plus age and
+sex. W3 was excluded. See [fusion definition](fusion_definition.md).
 
 ## Retained-artifact limitation
 
-The W3 fold 1 and W4 fold 0 historical checkpoints were not retained. Saved predictions support aggregate metric reanalysis, but exact all-fold historical CNN inference cannot be reconstructed from the checkpoint collection. See [reproducibility](reproducibility.md).
+W3 fold 1 and W4 fold 0 checkpoints were not retained. Saved predictions support aggregate metric
+reanalysis, but exact all-fold CNN inference cannot be reconstructed.

@@ -1,8 +1,8 @@
-model,cv_macro_auc_mean,cv_macro_auc_sd,heldout_macro_auc,heldout_ci_low,heldout_ci_high,scope
-Clinical baseline,0.650,0.073,0.630,,,Five-fold development CV and independent 56-patient evaluation
-W3 single-phase CNN,0.912,0.048,0.860,,,Five-fold development CV and independent 56-patient evaluation
-W4 multiphase CNN,0.951,0.040,0.906,,,Five-fold development CV and independent 56-patient evaluation
-W5 radiomics-LightGBM,0.922,0.044,0.938,,,Five-fold development CV and independent 56-patient evaluation
-CNN + radiomics fusion,0.955,0.034,0.930,,,Five-fold development CV and independent 56-patient evaluation
-Full fusion,0.955,0.033,0.950,0.896,0.988,Five-fold development CV and independent 56-patient evaluation
-Tumor-size-only baseline,0.633,0.080,,,,Five-fold development CV only
+model,cv_macro_auc_mean,cv_macro_auc_sd,heldout_macro_auc,heldout_ci_low,heldout_ci_high,heldout_accuracy,heldout_macro_f1,heldout_macro_precision,analysis,scope
+Clinical baseline,0.649149,0.073105,0.614432,0.499488,0.720784,0.428571,0.417835,0.444354,corrected_primary,Five-fold development CV and independent 56-patient evaluation
+W3 single-phase CNN,0.912303,0.048013,0.859849,0.783794,0.927731,0.696429,0.685300,0.687118,frozen_upstream_branch,Five-fold development CV and independent 56-patient evaluation
+W4 multiphase CNN,0.950869,0.040101,0.906425,0.829357,0.970604,0.821429,0.818467,0.819706,frozen_upstream_branch,Five-fold development CV and independent 56-patient evaluation
+W5 radiomics-LightGBM,0.921576,0.043815,0.938032,0.879476,0.979261,0.803571,0.808793,0.816693,frozen_upstream_branch,Five-fold development CV and independent 56-patient evaluation
+CNN + radiomics fusion,0.955303,0.034475,0.930134,0.854479,0.985510,0.785714,0.787500,0.793651,imaging_only_fusion,Five-fold development CV and independent 56-patient evaluation
+Full fusion,0.954965,0.033381,0.945452,0.889577,0.984331,0.803571,0.804669,0.819118,corrected_primary,Exact eight-feature fusion with unresolved sex treated as missing
+Tumor-size-only baseline,0.633,0.080,,,,,,,development_only,Five-fold development CV only

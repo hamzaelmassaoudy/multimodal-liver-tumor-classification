@@ -1,0 +1,8 @@
+metric,count,scope,interpretation
+Male,185,All 278 internal patients,Exact male tokens
+Female,90,All 278 internal patients,Exact female tokens
+Unresolved,3,All 278 internal patients,Blank or NA-like entries retained as missing
+Unresolved in development,1,222-patient development cohort,Training-fold median imputation applied within each fold
+Unresolved in held-out evaluation,2,56-patient evaluation cohort,Each fitted fold model applied its training-fold median
+Unresolved with ICC,3,All unresolved entries,Tumor-class distribution of unresolved entries
+Cross-phase sex conflicts,0,All 278 internal patients,Four phase rows agreed within every patient

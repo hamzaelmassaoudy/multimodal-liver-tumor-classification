@@ -39,29 +39,36 @@ def save_internal_performance(aggregate: Path, figures: Path) -> None:
     axis.legend(frameon=False)
     axis.grid(axis="y", alpha=0.2)
     fig.tight_layout()
-    fig.savefig(figures / "internal_performance.png", dpi=180, bbox_inches="tight")
+    fig.savefig(figures / "internal_performance.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
 def save_external_scenarios(aggregate: Path, figures: Path) -> None:
     frame = pd.read_csv(aggregate / "external_stress_test.csv")
-    labels = [
-        "W3",
-        "W4",
-        "Full fusion\nhistorical sex=0",
-        "Full fusion\nmedian sex=1",
+    selections = [
+        ("W3 single-phase CNN", "Frozen external inference", "W3"),
+        ("W4 multiphase CNN", "Frozen external inference", "W4"),
+        ("W5 radiomics-LightGBM", "Baseline real plus imputed feature handling", "W5 baseline"),
+        ("Full fusion", "Missing sex, fold-local median", "Full fusion\nmissing → median"),
+        ("Full fusion", "Encoded sex=0 sensitivity", "Full fusion\nsex=0 sensitivity"),
     ]
-    fig, axis = plt.subplots(figsize=(8, 4.8))
-    bars = axis.bar(
-        labels, frame["hcc_sensitivity"], color=["#4C78A8", "#72B7B2", "#E45756", "#F2CF5B"]
-    )
+    values = []
+    labels = []
+    for branch, scenario, label in selections:
+        rows = frame[(frame["branch"] == branch) & (frame["scenario"] == scenario)]
+        if len(rows) != 1:
+            raise ValueError(f"Expected one aggregate row for {branch}: {scenario}")
+        values.append(float(rows.iloc[0]["hcc_sensitivity"]))
+        labels.append(label)
+    fig, axis = plt.subplots(figsize=(9.4, 5.0))
+    bars = axis.bar(labels, values, color=["#4C78A8", "#72B7B2", "#59A14F", "#F2CF5B", "#E45756"])
     axis.set_ylabel("HCC sensitivity")
-    axis.set_ylim(0, 1.05)
+    axis.set_ylim(0, 1.08)
     axis.grid(axis="y", alpha=0.2)
-    for bar, value in zip(bars, frame["hcc_sensitivity"], strict=True):
+    for bar, value in zip(bars, values, strict=True):
         axis.text(bar.get_x() + bar.get_width() / 2, value + 0.025, f"{value:.3f}", ha="center")
     fig.tight_layout()
-    fig.savefig(figures / "external_stress_test.png", dpi=180, bbox_inches="tight")
+    fig.savefig(figures / "external_stress_test.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 
@@ -87,7 +94,7 @@ def save_crop_retention(aggregate: Path, figures: Path) -> None:
     for bar, value in zip(bars, selected["percent"], strict=True):
         axis.text(value + 1, bar.get_y() + bar.get_height() / 2, f"{value:.1f}%", va="center")
     fig.tight_layout()
-    fig.savefig(figures / "c2_crop_retention.png", dpi=180, bbox_inches="tight")
+    fig.savefig(figures / "c2_crop_retention.png", dpi=300, bbox_inches="tight")
     plt.close(fig)
 
 

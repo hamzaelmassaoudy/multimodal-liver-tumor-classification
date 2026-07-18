@@ -17,22 +17,22 @@ def hcc_sensitivity(predicted_labels: Sequence[int], *, hcc_label: int = 0) -> f
 
 
 def compare_sex_scenarios(
-    historical_predictions: Sequence[int],
-    median_sex_predictions: Sequence[int],
+    primary_missing_sex_predictions: Sequence[int],
+    sex_zero_predictions: Sequence[int],
     *,
     hcc_label: int = 0,
 ) -> dict[str, float | int]:
-    """Compare the locked sex=0 and sex=1 external prediction scenarios."""
+    """Compare the corrected missing-sex primary and encoded-sex-zero scenarios."""
 
-    historical = np.asarray(historical_predictions, dtype=int).reshape(-1)
-    sensitivity = np.asarray(median_sex_predictions, dtype=int).reshape(-1)
-    if historical.size == 0 or historical.shape != sensitivity.shape:
+    primary = np.asarray(primary_missing_sex_predictions, dtype=int).reshape(-1)
+    sex_zero = np.asarray(sex_zero_predictions, dtype=int).reshape(-1)
+    if primary.size == 0 or primary.shape != sex_zero.shape:
         raise ValueError("Scenario predictions must be nonempty aligned vectors")
     return {
-        "patients": int(historical.size),
-        "historical_hcc_count": int(np.count_nonzero(historical == hcc_label)),
-        "historical_hcc_sensitivity": hcc_sensitivity(historical, hcc_label=hcc_label),
-        "median_sex_hcc_count": int(np.count_nonzero(sensitivity == hcc_label)),
-        "median_sex_hcc_sensitivity": hcc_sensitivity(sensitivity, hcc_label=hcc_label),
-        "changed_predictions": int(np.count_nonzero(historical != sensitivity)),
+        "patients": int(primary.size),
+        "primary_hcc_count": int(np.count_nonzero(primary == hcc_label)),
+        "primary_hcc_sensitivity": hcc_sensitivity(primary, hcc_label=hcc_label),
+        "sex_zero_hcc_count": int(np.count_nonzero(sex_zero == hcc_label)),
+        "sex_zero_hcc_sensitivity": hcc_sensitivity(sex_zero, hcc_label=hcc_label),
+        "changed_predictions": int(np.count_nonzero(primary != sex_zero)),
     }

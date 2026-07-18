@@ -1,6 +1,7 @@
 # Contributing
 
-Contributions should preserve the scientific definitions, privacy boundary, and aggregate-only release design of this repository.
+Contributions must preserve the scientific definitions, privacy boundary, and aggregate-only
+release design of this repository.
 
 ## Development setup
 
@@ -15,35 +16,45 @@ python scripts/smoke_test.py
 python scripts/validate_release.py .
 ```
 
-The test and validation workflows use synthetic inputs and released aggregates. They must not require patient data, model training, cloud authentication, or private checkpoints.
+The test and validation workflows use synthetic inputs and released aggregates. They must not
+require patient data, model training, cloud authentication, or private checkpoints.
 
 ## Scientific invariants
 
-Changes must retain unless supported by a separately reviewed study:
+Changes must retain these definitions unless supported by a separately reviewed study:
 
 - Class order HCC, ICC, cHCC-CCA.
 - Phase order P, C1, C2, C3.
-- Historical independent phase-specific tumor-centroid cropping to `96 x 96 x 96`.
+- Independent phase-specific lesion-centered cropping to `96 x 96 x 96`.
 - No claim of explicit registration or voxelwise phase correspondence.
 - Crop-restricted radiomics terminology and C2-only retention scope.
-- W3 exclusion from the eight-feature full-fusion vector.
-- Corrected nine-comparison DeLong interpretation.
-- Clear separation of historical sex=0 and locked-median sex=1 external scenarios.
+- Unit-spacing limitation for historical radiomics shape outputs.
+- W3 exclusion from the exact eight-feature full-fusion vector.
+- Unresolved internal sex retained as missing for the corrected primary analysis.
+- Historical non-male-to-zero encoding identified only as a sensitivity analysis.
+- Corrected nine-comparison DeLong values and adjustment family.
+- Corrected missing-sex fold-median external scenario identified as model-defined primary.
+- Condition C identified as an internal diagnostic refit, not frozen external validation.
 
-Proposed registration, physical-space alignment, or adaptive-crop methods must be identified as new research and must not replace the provenance of existing results.
+Proposed registration, physical-space alignment, or adaptive-crop methods are new research and
+must not replace the provenance of existing results.
 
 ## Privacy and files
 
-Never submit patient images, masks, identifiers, clinical rows, splits, predictions, feature matrices, private paths, credentials, authentication output, manuscript files, or unpublished checkpoints. Tests must use clearly synthetic arrays. Public result additions must be aggregate, documented in `docs/results_provenance.md`, and supported by verifiable scientific evidence.
+Never submit patient images, masks, identifiers, clinical rows, splits, predictions, feature
+matrices, private paths, credentials, authentication output, manuscript files, or unpublished
+checkpoints. Tests must use clearly synthetic arrays. Public result additions must be aggregate,
+documented in `docs/results_provenance.md`, and supported by verifiable scientific evidence.
 
 ## Change quality
 
 Before submitting a change:
 
-1. Run the unit tests, lint check, aggregate validation, and release validation.
-2. Confirm that notebooks have no outputs or execution counts.
-3. Check all relative Markdown links.
+1. Run unit tests, lint, aggregate validation, and release validation.
+2. Confirm notebooks have no outputs or execution counts.
+3. Check every relative Markdown link.
 4. Explain the scientific source for any changed number or method statement.
 5. Keep commits neutral and focused.
 
-No general reuse license is granted solely by public availability of this repository. Contribution acceptance and licensing remain subject to explicit author agreement.
+By contributing, you agree that accepted contributions are distributed under the repository’s
+[MIT License](LICENSE).

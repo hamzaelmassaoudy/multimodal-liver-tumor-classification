@@ -2,17 +2,10 @@
 
 ## Class and column order
 
-Every probability triplet is ordered:
+Every probability triplet is ordered HCC, ICC, cHCC-CCA. Some retained files use `CHCC` as the
+third token; it denotes cHCC-CCA and does not define a fourth class.
 
-1. HCC
-2. ICC
-3. cHCC-CCA
-
-Some historical files use `CHCC` as the third probability-column token. It denotes cHCC-CCA and does not define a fourth class.
-
-## Full-fusion vector
-
-The full-fusion model used exactly eight inputs in this immutable order:
+## Exact full-fusion vector
 
 | Position | Feature |
 |---:|---|
@@ -25,14 +18,28 @@ The full-fusion model used exactly eight inputs in this immutable order:
 | 7 | Age |
 | 8 | Sex |
 
-W3 was a comparator and was explicitly excluded. The public constructor [`build_full_fusion_features`](../src/liver_tumor_pipeline/fusion.py) does not accept W3 probabilities and validates both three-class probability matrices before constructing the feature matrix.
+W3 was a comparator and was excluded. The public constructor
+[`build_full_fusion_features`](../src/liver_tumor_pipeline/fusion.py) validates the two three-class
+probability matrices before constructing the eight-column matrix.
 
-The CNN-plus-radiomics comparator used the six W4 and W5 probability features without age or sex. The full model added the two clinical features. The meta-learner was fold-specific multinomial logistic regression.
+CNN-plus-radiomics used the six W4/W5 probability features. Full fusion added age and sex.
+The meta-learner was fold-specific multinomial logistic regression.
 
-## Fold pairing and evaluation
+## Corrected internal missingness handling
 
-OOF W4 and W5 probabilities were paired by patient and fold within the 222-patient development cohort. Fold-specific meta-learners were then applied to the corresponding held-out internal predictions. Patient-level tables are not released; only privacy-safe aggregates are public.
+The provenance audit found three unresolved internal sex entries. The corrected primary analysis
+retained them as missing. Each fold fitted median imputation and scaling on its training patients,
+then fitted clinical and fusion logistic regression. The historical exact-token rule encoded male
+as 1 and every other token as 0; it is retained only as a sensitivity analysis.
+
+OOF W4 and W5 probabilities were paired by patient and fold within 222 development patients.
+Corrected clinical and fusion models were refitted; upstream branch probabilities were unchanged.
+Patient-level tables remain private.
 
 ## External clinical assumptions
 
-External age was unavailable and replaced with the locked fold-specific development median. External sex was also unavailable. The historical adapter encoded sex as 0; a deterministic sensitivity analysis substituted the locked fold median of 1 in every fold. The models were neither retrained nor recalibrated for this comparison. See [external stress test](external_stress_test.md).
+External age and sex were unavailable. The corrected primary model-defined scenario passed both as
+missing and used each model’s training-fold median; all five sex medians were 1. Encoded sex=0 was
+evaluated separately. No external values or labels entered fitting or model selection for these
+fusion scenarios. The separate radiomics Condition C availability-subset diagnostic is documented
+in the [external stress test](external_stress_test.md).

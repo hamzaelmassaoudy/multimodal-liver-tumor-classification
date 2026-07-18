@@ -42,8 +42,15 @@ def test_citation_metadata_is_complete_and_does_not_invent_identifiers():
     with (ROOT / "CITATION.cff").open(encoding="utf-8") as stream:
         citation = yaml.safe_load(stream)
     assert citation["cff-version"] == "1.2.0"
-    assert citation["version"] == "1.0.0"
+    assert citation["version"] == "1.1.0"
     names = [(author["given-names"], author["family-names"]) for author in citation["authors"]]
     assert names == [("Xuezhi", "Wen"), ("Hamza", "El Massaoudy")]
+    assert citation["license"] == "MIT"
     assert "doi" not in citation
-    assert "license" not in citation
+
+
+def test_mit_license_is_complete():
+    license_text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    assert license_text.startswith("MIT License")
+    assert "Wen Xuezhi and Hamza El Massaoudy" in license_text
+    assert 'THE SOFTWARE IS PROVIDED "AS IS"' in license_text

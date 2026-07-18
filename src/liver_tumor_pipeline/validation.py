@@ -20,13 +20,18 @@ AGGREGATE_SCHEMAS = {
     "delong_summary.csv": {
         "class",
         "comparison",
-        "reported_raw_p",
+        "uncorrected_p",
         "bonferroni_p_9",
         "bh_p_9",
     },
     "external_stress_test.csv": {"branch", "scenario", "cases", "hcc_sensitivity"},
     "radiomics_imputation_controls.csv": {"condition", "hcc_sensitivity"},
     "c2_crop_retention.csv": {"metric", "count", "total", "percent"},
+    "internal_sex_provenance.csv": {"metric", "count", "scope"},
+    "internal_sex_sensitivity.csv": {"model", "scenario", "heldout_macro_auc"},
+    "internal_per_class.csv": {"class", "support", "heldout_auc"},
+    "internal_paired_tests.csv": {"comparison", "paired_t_pvalue", "wilcoxon_pvalue"},
+    "external_adapter_qc.csv": {"metric", "group", "count", "total"},
 }
 _SENSITIVE_AGGREGATE_COLUMNS = {
     "patient_id",
@@ -99,6 +104,20 @@ _CREDENTIAL_PATTERNS = (
     re.compile(r"sk-[0-9A-Za-z]{20,}"),
     re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
     re.compile("X-Amz-" + "Signature=", re.IGNORECASE),
+)
+_DEVELOPMENT_TRACE_PATTERNS = tuple(
+    re.compile(pattern, re.IGNORECASE)
+    for pattern in (
+        "Chat" + "GPT",
+        "Open" + "AI",
+        "Clau" + "de",
+        "Co" + "pilot",
+        "Gem" + "ini",
+        "Co-authored" + "-by",
+        "\\.co" + "dex",
+        "AI-" + "generated",
+        "AI " + "generated",
+    )
 )
 
 
@@ -238,6 +257,10 @@ def release_safety_issues(root: Path) -> list[str]:
             if pattern.search(text):
                 issues.append(f"Credential-like value in {relative}")
                 break
+        for pattern in _DEVELOPMENT_TRACE_PATTERNS:
+            if pattern.search(text):
+                issues.append(f"Development-trace marker in {relative}")
+                break
     issues.extend(notebook_output_issues(root))
     issues.extend(notebook_syntax_issues(root))
     issues.extend(markdown_link_issues(root))
@@ -248,6 +271,11 @@ def validate_release(root: Path) -> list[str]:
     """Run all checks that are safe and deterministic in a public clone."""
 
     issues = validate_aggregate_directory(root / "results" / "aggregate")
+    license_path = root / "LICENSE"
+    if not license_path.is_file() or not license_path.read_text(encoding="utf-8").startswith(
+        "MIT License"
+    ):
+        issues.append("Missing or invalid MIT license")
     issues.extend(release_safety_issues(root))
     return sorted(set(issues))
 

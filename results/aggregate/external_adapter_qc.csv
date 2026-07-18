@@ -1,0 +1,5 @@
+metric,group,count,total,hcc_correct_primary,hcc_sensitivity_primary,interpretation
+C2 referenced-series fallback,Used,102,103,82,0.803922,Only one retained patient did not require fallback; no meaningful comparison
+C2 referenced-series fallback,Not used,1,103,1,1.000000,Single-patient group is descriptive only
+Complete four-phase coverage,Present,0,103,,,No retained external patient had all four required phases
+Complete four-phase coverage,Absent,103,103,,,All retained external patients had incomplete phase coverage

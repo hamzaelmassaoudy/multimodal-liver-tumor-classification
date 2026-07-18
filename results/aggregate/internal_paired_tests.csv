@@ -1,0 +1,6 @@
+comparison,comparator,fusion_cv_auc_mean,comparator_cv_auc_mean,mean_difference,folds_fusion_wins,paired_t_statistic,paired_t_pvalue,wilcoxon_statistic,wilcoxon_pvalue,interpretation
+full_fusion vs clinical_only,Clinical baseline,0.954965377,0.649149171,0.305816207,5,7.387957400,0.001789727,0.000000000,0.062500000,Exploratory five-fold paired comparison
+full_fusion vs single_phase_cnn,W3 single-phase CNN,0.954965377,0.912303239,0.042662138,5,2.181522023,0.094583477,0.000000000,0.062500000,Exploratory five-fold paired comparison
+full_fusion vs multi_phase_cnn,W4 multiphase CNN,0.954965377,0.950869320,0.004096057,3,0.459427068,0.669787098,5.000000000,0.625000000,Exploratory five-fold paired comparison
+full_fusion vs radiomics,W5 radiomics-LightGBM,0.954965377,0.921576484,0.033388893,5,2.562693565,0.062459706,0.000000000,0.062500000,Exploratory five-fold paired comparison
+full_fusion vs cnn_plus_radiomics,CNN + radiomics fusion,0.954965377,0.955302865,-0.000337488,3,-0.089675131,0.932856091,6.000000000,0.812500000,Exploratory five-fold paired comparison

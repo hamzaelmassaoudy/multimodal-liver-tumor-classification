@@ -1,5 +1,6 @@
-branch,scenario,cases,hcc_correct,hcc_sensitivity,changed_predictions_relative_to_historical,interpretation
-W3 single-phase CNN,Historical frozen external inference,103,5,0.049,,HCC-only stress test
-W4 multiphase CNN,Historical frozen external inference,103,0,0.000,,HCC-only stress test
-Full fusion,"Historical external adapter, sex=0",103,2,0.019,0,Originally implemented missing-sex encoding
-Full fusion,"Locked fold-median sex sensitivity analysis, sex=1",103,83,0.806,82,Deterministic sensitivity analysis; not observed sex
+branch,scenario,cases,hcc_correct,hcc_sensitivity,hcc_sensitivity_ci_low,hcc_sensitivity_ci_high,predicted_hcc,predicted_icc,predicted_chcc,changed_predictions_vs_primary,interpretation
+W3 single-phase CNN,Frozen external inference,103,5,0.048544,,,,,,,HCC-only branch stress test
+W4 multiphase CNN,Frozen external inference,103,0,0.000000,,,,,,,HCC-only branch stress test
+W5 radiomics-LightGBM,Baseline real plus imputed feature handling,103,99,0.961165,,,,,,,Apparent sensitivity audited by feature-handling controls
+Full fusion,"Missing sex, fold-local median",103,83,0.805825,0.728155,0.883495,83,7,13,0,Corrected primary model-defined scenario; external age and sex unavailable
+Full fusion,Encoded sex=0 sensitivity,103,2,0.019417,0.000000,0.048544,2,68,33,82,Model-defined sensitivity scenario; external age and sex unavailable

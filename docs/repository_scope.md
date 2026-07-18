@@ -1,21 +1,33 @@
 # Repository scope
 
-This repository accompanies the research study "Multimodal Classification of Primary Liver Tumors on Multiphase CT: Internal Fusion Performance and External Transportability Stress Testing." It documents the historical analysis that produced the reported results and provides privacy-safe aggregate artifacts, reusable analysis utilities, configuration templates, curated notebooks, and synthetic-data tests.
+This repository accompanies “Multimodal Classification of Primary Liver Tumors on Multiphase CT:
+Internal Fusion Performance and External Transportability Stress Testing.” It provides corrected
+aggregate results, reusable analysis utilities, curated notebooks, configuration examples, and
+synthetic-data tests.
 
-## Included scope
+## Included
 
-- The verified four-phase, independently lesion-centered preprocessing method.
-- W3 single-phase CNN, W4 four-phase CNN, W5 crop-restricted radiomics-LightGBM, the clinical baseline, and late-fusion specifications.
-- Aggregate internal performance, exploratory DeLong comparisons, C2 crop-retention findings, and external HCC-only stress-test summaries.
-- Deterministic reanalysis utilities that operate on authorized local artifacts or released aggregate files.
-- Explicit scientific, privacy, and reproducibility boundaries.
+- Independent phase-specific lesion-centered preprocessing.
+- W3, W4, W5, clinical, and late-fusion specifications.
+- Corrected internal sex handling and aggregate sensitivity evidence.
+- Corrected internal performance, DeLong, paired-fold, per-class, and confusion summaries.
+- C2 crop retention and external adapter/fallback summaries.
+- External missing-covariate and radiomics feature-handling controls.
+- Deterministic release, privacy, and scientific-invariant validation.
 
-## Deliberate boundaries
+## Excluded
 
-The repository does not distribute CT images, masks, clinical rows, patient identifiers, patient-level splits or predictions, manuscript files, or private derived artifacts. Dataset access remains subject to each source repository's terms. Model training and clinical deployment are outside the release-validation workflow.
+The repository does not distribute CT images, masks, clinical rows, patient identifiers,
+patient-level splits or predictions, manuscript files, private derived artifacts, or checkpoints.
+Dataset access remains subject to each provider’s terms. Model training and clinical deployment are
+outside the release-validation workflow.
 
-The repository does not claim that phase inputs were registered or voxelwise aligned. It does not present a proposed shared-reference crop as the method used for the paper. Registration, physical-coordinate alignment, controlled resampling, and adaptive crop design are future research directions.
+The repository does not claim registered phase inputs, physical-space correspondence, or verified
+physical radiomics geometry. Registration, controlled resampling, and adaptive crops are future
+research directions rather than descriptions of the reported pipeline.
 
-## Intended use
+## Intended use and license
 
-The software and documentation are for research and aggregate scientific audit only. They are not a medical device and must not be used for diagnosis, treatment selection, or patient management. See [scientific scope](scientific_scope.md), [privacy boundary](privacy_and_data_boundary.md), and [reproducibility](reproducibility.md).
+The software and documentation support research and aggregate scientific audit only. They are not
+a medical device. Repository-authored materials are provided under the [MIT License](../LICENSE);
+third-party datasets are not included or relicensed.

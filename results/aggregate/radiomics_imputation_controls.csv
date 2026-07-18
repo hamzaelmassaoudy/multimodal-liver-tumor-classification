@@ -1,6 +1,6 @@
-condition,hcc_sensitivity,interpretation
-Real + imputed,0.961,Historical mixed feature pathway
-Median-only,1.000,All available features replaced by locked medians
-Strict overlap-only,0.243,Only directly overlapping real features
-Real-only with missing zero,0.010,Real external features retained and missing features zeroed
-Imputed-only with real zero,0.971,Imputed features retained and real features zeroed
+condition_code,condition,hcc_sensitivity,model_status,interpretation
+A,Real plus imputed,0.961165,Frozen baseline pathway,Observed external cells with internal training-fold medians for unavailable cells
+B,Median-only,1.000000,Frozen sensitivity pathway,Median substitution alone favored HCC predictions
+C,Strict overlap-only,0.242718,Internal diagnostic refit,Refit on internal development data using an externally defined availability subset; not frozen external validation
+D1,Real-only with unavailable cells zeroed,0.009709,Frozen sensitivity pathway,Extractable external values alone were insufficient under zero filling
+D2,Imputed-only with real cells zeroed,0.970874,Frozen sensitivity pathway,The imputation pathway reproduced the high apparent sensitivity

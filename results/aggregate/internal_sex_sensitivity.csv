@@ -1,0 +1,5 @@
+model,scenario,cv_macro_auc_mean,cv_macro_auc_sd,heldout_macro_auc,delta_heldout_auc_vs_historical,heldout_accuracy,heldout_macro_f1,heldout_macro_precision,changed_heldout_predictions,changed_oof_predictions,interpretation
+Clinical baseline,Corrected unresolved sex as missing with fold-local median,0.649149,0.073105,0.614432,-0.016047,0.428571,0.417835,0.444354,3,3,Primary internal analysis
+Clinical baseline,Historical non-male tokens encoded as 0,0.650060,0.072693,0.630479,0.000000,0.446429,0.421851,0.434568,0,0,Provenance sensitivity analysis
+Full fusion,Corrected unresolved sex as missing with fold-local median,0.954965,0.033381,0.945452,-0.004223,0.803571,0.804669,0.819118,1,0,Primary internal analysis
+Full fusion,Historical non-male tokens encoded as 0,0.954970,0.033013,0.949675,0.000000,0.821429,0.821376,0.831562,0,0,Provenance sensitivity analysis

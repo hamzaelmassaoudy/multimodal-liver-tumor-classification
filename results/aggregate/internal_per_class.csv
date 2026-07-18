@@ -1,0 +1,4 @@
+class,support,heldout_auc,correct,recall,precision,analysis
+HCC,19,0.938834,17,0.894737,0.708333,corrected_primary_full_fusion
+ICC,20,0.963889,15,0.750000,0.882353,corrected_primary_full_fusion
+cHCC-CCA,17,0.933635,13,0.764706,0.866667,corrected_primary_full_fusion
