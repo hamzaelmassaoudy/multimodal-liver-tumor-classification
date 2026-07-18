@@ -1,18 +1,25 @@
 {
   "aggregate_sha256": {
     "results/aggregate/c2_crop_retention.csv": "74d05151c13f57512285021a2cd6a85eda8c0a6c664610799426db82a69d4588",
-    "results/aggregate/delong_summary.csv": "cb18a7af595d6ed9f04237505d87228787b244e52dc6924a2f3fd024835798a5",
-    "results/aggregate/external_stress_test.csv": "68ebb45dd69f5334bd2c1193186220834d1a9e4e95c733e8433180536a861a29",
-    "results/aggregate/internal_performance.csv": "e1ed3ec53e75b6046755b2bd3f8025eebf86eb714f174c673b7522b179070e69",
-    "results/aggregate/radiomics_imputation_controls.csv": "e2c9731818afa7b481faae6e6d439e5050c49ffe08ac87ff03230722596b9da8",
-    "results/aggregate/reproducibility_status.json": "6c2f5c4f86fe35554e35944c69cc1e99828ba167962455c0a74e61069c1650ed"
+    "results/aggregate/delong_summary.csv": "93ac1cb416459e120057a3e6a34708c615e46337c94bcddaa3878eaeb4d156b3",
+    "results/aggregate/external_adapter_qc.csv": "371e250e80096e004e59004698069ec335768259724d07d8992b8ac7b3211029",
+    "results/aggregate/external_stress_test.csv": "ae5e4f8c7a20c6c59a902453bd7f08b55282c3b9f3cd491b2076d9cb19dd3884",
+    "results/aggregate/internal_confusion_matrices.json": "9d2c1944ff81e0ccea5a871bed9326071b8269502bba8b50ac01a6b33635b965",
+    "results/aggregate/internal_paired_tests.csv": "2ffa0d490134df2585f1332b9e117e3da40e3599d6e3f7110736a7c32c735ec5",
+    "results/aggregate/internal_per_class.csv": "f0a9e25f318d9b039256cb9e01bcbc722544271725b947fb94504f0c490af5d4",
+    "results/aggregate/internal_performance.csv": "57417ebcbbed229ccf13c3c2f105b154b7d864292279a2947fc80ec300da5355",
+    "results/aggregate/internal_sex_provenance.csv": "76f9b16206d88b8e2c65258d440769ce80cff73f5708aa8883239362a86a963c",
+    "results/aggregate/internal_sex_sensitivity.csv": "8e52dd89e912c3dc2479f5f2256a84672e7df335ffdaf4dbc253eb6fe9901bb6",
+    "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
+    "results/aggregate/reproducibility_status.json": "c6d242aa04e6cd5e3a072a8578f19d298d7697d67863c1c3fe06b125f6b5bb4f"
   },
-  "commit_hash": "cf9f2c80ef0b9ab560fc61c99a7a11ac1611a586",
+  "commit_hash": "2542893878cd1fb736d018d967e328fdde94fefa",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "cf9f2c80ef0b9ab560fc61c99a7a11ac1611a586",
+  "content_commit": "2542893878cd1fb736d018d967e328fdde94fefa",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
-  "largest_public_file_bytes": 93360,
+  "largest_public_file_bytes": 137230,
+  "license": "MIT",
   "notebook_count": 14,
   "notebook_outputs_cleared": true,
   "public_files": [
@@ -42,15 +49,19 @@
     },
     {
       "path": "CITATION.cff",
-      "size_bytes": 509
+      "size_bytes": 522
     },
     {
       "path": "CONTRIBUTING.md",
-      "size_bytes": 2276
+      "size_bytes": 2549
+    },
+    {
+      "path": "LICENSE",
+      "size_bytes": 1090
     },
     {
       "path": "README.md",
-      "size_bytes": 12204
+      "size_bytes": 13793
     },
     {
       "path": "SECURITY.md",
@@ -78,7 +89,7 @@
     },
     {
       "path": "docs/artifact_contracts.md",
-      "size_bytes": 3003
+      "size_bytes": 2790
     },
     {
       "path": "docs/datasets.md",
@@ -86,27 +97,27 @@
     },
     {
       "path": "docs/external_stress_test.md",
-      "size_bytes": 2579
+      "size_bytes": 3129
     },
     {
       "path": "docs/fusion_definition.md",
-      "size_bytes": 1792
+      "size_bytes": 1998
     },
     {
       "path": "docs/manuscript_repository_alignment.md",
-      "size_bytes": 3096
+      "size_bytes": 3045
     },
     {
       "path": "docs/model_architecture.md",
-      "size_bytes": 2331
+      "size_bytes": 1738
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 3593
+      "size_bytes": 3524
     },
     {
       "path": "docs/preprocessing.md",
-      "size_bytes": 2990
+      "size_bytes": 2603
     },
     {
       "path": "docs/privacy_and_data_boundary.md",
@@ -114,19 +125,19 @@
     },
     {
       "path": "docs/repository_scope.md",
-      "size_bytes": 1977
+      "size_bytes": 1717
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 3643
+      "size_bytes": 2904
     },
     {
       "path": "docs/results_provenance.md",
-      "size_bytes": 3293
+      "size_bytes": 3613
     },
     {
       "path": "docs/scientific_scope.md",
-      "size_bytes": 2312
+      "size_bytes": 1819
     },
     {
       "path": "notebooks/01_data_and_preprocessing/01_internal_cohort_and_splits.ipynb",
@@ -134,7 +145,7 @@
     },
     {
       "path": "notebooks/01_data_and_preprocessing/02_historical_independent_phase_preprocessing.ipynb",
-      "size_bytes": 10006
+      "size_bytes": 10909
     },
     {
       "path": "notebooks/02_internal_models/03_single_phase_cnn.ipynb",
@@ -146,11 +157,11 @@
     },
     {
       "path": "notebooks/02_internal_models/05_radiomics_lightgbm.ipynb",
-      "size_bytes": 11306
+      "size_bytes": 11649
     },
     {
       "path": "notebooks/03_fusion_and_internal_results/06_late_fusion_internal_evaluation.ipynb",
-      "size_bytes": 7924
+      "size_bytes": 8862
     },
     {
       "path": "notebooks/04_external_stress_test/07_external_data_acquisition.ipynb",
@@ -174,23 +185,23 @@
     },
     {
       "path": "notebooks/04_external_stress_test/12_external_frozen_inference.ipynb",
-      "size_bytes": 9905
+      "size_bytes": 9878
     },
     {
       "path": "notebooks/04_external_stress_test/13_radiomics_imputation_controls.ipynb",
-      "size_bytes": 5189
+      "size_bytes": 5097
     },
     {
       "path": "notebooks/05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb",
-      "size_bytes": 8041
+      "size_bytes": 8077
     },
     {
       "path": "notebooks/README.md",
-      "size_bytes": 4476
+      "size_bytes": 3555
     },
     {
       "path": "pyproject.toml",
-      "size_bytes": 1123
+      "size_bytes": 1725
     },
     {
       "path": "requirements.txt",
@@ -198,7 +209,7 @@
     },
     {
       "path": "results/README.md",
-      "size_bytes": 2292
+      "size_bytes": 3273
     },
     {
       "path": "results/aggregate/c2_crop_retention.csv",
@@ -206,43 +217,67 @@
     },
     {
       "path": "results/aggregate/delong_summary.csv",
-      "size_bytes": 2184
+      "size_bytes": 1950
+    },
+    {
+      "path": "results/aggregate/external_adapter_qc.csv",
+      "size_bytes": 523
     },
     {
       "path": "results/aggregate/external_stress_test.csv",
-      "size_bytes": 529
+      "size_bytes": 835
+    },
+    {
+      "path": "results/aggregate/internal_confusion_matrices.json",
+      "size_bytes": 1236
+    },
+    {
+      "path": "results/aggregate/internal_paired_tests.csv",
+      "size_bytes": 1067
+    },
+    {
+      "path": "results/aggregate/internal_per_class.csv",
+      "size_bytes": 266
     },
     {
       "path": "results/aggregate/internal_performance.csv",
-      "size_bytes": 786
+      "size_bytes": 1303
+    },
+    {
+      "path": "results/aggregate/internal_sex_provenance.csv",
+      "size_bytes": 654
+    },
+    {
+      "path": "results/aggregate/internal_sex_sensitivity.csv",
+      "size_bytes": 868
     },
     {
       "path": "results/aggregate/radiomics_imputation_controls.csv",
-      "size_bytes": 408
+      "size_bytes": 765
     },
     {
       "path": "results/aggregate/reproducibility_status.json",
-      "size_bytes": 630
+      "size_bytes": 745
     },
     {
       "path": "results/figures/README.md",
-      "size_bytes": 601
+      "size_bytes": 632
     },
     {
       "path": "results/figures/c2_crop_retention.png",
-      "size_bytes": 50630
+      "size_bytes": 83194
     },
     {
       "path": "results/figures/external_stress_test.png",
-      "size_bytes": 37308
+      "size_bytes": 78160
     },
     {
       "path": "results/figures/internal_performance.png",
-      "size_bytes": 93360
+      "size_bytes": 137230
     },
     {
       "path": "scripts/analyze_external_sex_sensitivity.py",
-      "size_bytes": 1146
+      "size_bytes": 1149
     },
     {
       "path": "scripts/audit_c2_crop_retention.py",
@@ -250,15 +285,15 @@
     },
     {
       "path": "scripts/build_release_manifest.py",
-      "size_bytes": 2952
+      "size_bytes": 2978
     },
     {
       "path": "scripts/generate_aggregate_figures.py",
-      "size_bytes": 3689
+      "size_bytes": 4329
     },
     {
       "path": "scripts/recalculate_delong_summary.py",
-      "size_bytes": 1114
+      "size_bytes": 1744
     },
     {
       "path": "scripts/recalculate_internal_metrics.py",
@@ -290,7 +325,7 @@
     },
     {
       "path": "src/liver_tumor_pipeline/external.py",
-      "size_bytes": 1583
+      "size_bytes": 1559
     },
     {
       "path": "src/liver_tumor_pipeline/fusion.py",
@@ -310,15 +345,15 @@
     },
     {
       "path": "src/liver_tumor_pipeline/validation.py",
-      "size_bytes": 9235
+      "size_bytes": 10338
     },
     {
       "path": "tests/test_config.py",
-      "size_bytes": 1963
+      "size_bytes": 2245
     },
     {
       "path": "tests/test_external.py",
-      "size_bytes": 381
+      "size_bytes": 376
     },
     {
       "path": "tests/test_fusion_features.py",
@@ -326,7 +361,7 @@
     },
     {
       "path": "tests/test_metrics.py",
-      "size_bytes": 1693
+      "size_bytes": 1629
     },
     {
       "path": "tests/test_preprocessing.py",
@@ -338,12 +373,12 @@
     },
     {
       "path": "tests/test_result_integrity.py",
-      "size_bytes": 3376
+      "size_bytes": 5063
     }
   ],
-  "repository_version": "1.0.0",
+  "repository_version": "1.1.0",
   "test_status": {
     "passed": true,
-    "tests_passed": 29
+    "tests_passed": 32
   }
 }
