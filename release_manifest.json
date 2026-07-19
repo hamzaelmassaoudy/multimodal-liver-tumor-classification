@@ -13,9 +13,9 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "c6d242aa04e6cd5e3a072a8578f19d298d7697d67863c1c3fe06b125f6b5bb4f"
   },
-  "commit_hash": "2542893878cd1fb736d018d967e328fdde94fefa",
+  "commit_hash": "767878371531633a88366dcbd657882e78d4eeec",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "2542893878cd1fb736d018d967e328fdde94fefa",
+  "content_commit": "767878371531633a88366dcbd657882e78d4eeec",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 137230,
@@ -201,7 +201,7 @@
     },
     {
       "path": "pyproject.toml",
-      "size_bytes": 1725
+      "size_bytes": 1668
     },
     {
       "path": "requirements.txt",
