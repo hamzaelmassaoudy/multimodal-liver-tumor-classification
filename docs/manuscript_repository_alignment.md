@@ -1,6 +1,7 @@
 # Manuscript and repository alignment
 
-This release follows the corrected primary analysis reported in the final manuscript.
+This page records the analysis definitions and aggregate values distributed with the study
+release. It describes the repository contents; citation metadata are in [CITATION.cff](../CITATION.cff).
 
 ## Internal preprocessing and radiomics
 
@@ -41,7 +42,7 @@ or Benjamini–Hochberg correction across nine tests.
 HCC-TACE-Seg supplied an HCC-only stress test of 103 patients. Missing external sex with each
 corrected fusion model’s fold-local median yielded sensitivity 0.806 (83/103; CI 0.728–0.883).
 Encoded sex=0 yielded 0.019 (2/103; CI 0–0.049), and 82/103 hard labels differed. Both values
-are model-defined because external age and sex were unavailable.
+are model-defined because external age and sex were not available in the analysis artifacts.
 
 C2 fallback occurred for 102/103 patients, preventing a meaningful fallback comparison. Strict
 radiomics Condition C was an internal diagnostic refit using an externally defined availability

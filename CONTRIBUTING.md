@@ -5,14 +5,16 @@ release design of this repository.
 
 ## Development setup
 
-Use Python 3.10 or later in an isolated environment:
+Use Python 3.10 or later in an isolated environment. Shell-specific setup is in the
+[quick start](docs/quickstart.md). Run these checks from the repository root:
 
 ```bash
 python -m pip install -e ".[test]"
 python -m pytest
-python -m ruff check src scripts tests
-python -m ruff format --check src scripts tests
+python -m ruff check src scripts examples tests
+python -m ruff format --check src scripts examples tests
 python scripts/smoke_test.py
+python examples/synthetic_fusion.py
 python scripts/validate_release.py .
 ```
 
@@ -54,7 +56,8 @@ Before submitting a change:
 2. Confirm notebooks have no outputs or execution counts.
 3. Check every relative Markdown link.
 4. Explain the scientific source for any changed number or method statement.
-5. Keep commits neutral and focused.
+5. Keep commits neutral and focused, and record user-facing changes in [CHANGELOG.md](CHANGELOG.md).
+6. Preserve existing study tags. Create a new version for a subsequent release.
 
 By contributing, you agree that accepted contributions are distributed under the repository’s
 [MIT License](LICENSE).

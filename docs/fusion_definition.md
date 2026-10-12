@@ -20,7 +20,11 @@ third token; it denotes cHCC-CCA and does not define a fourth class.
 
 W3 was a comparator and was excluded. The public constructor
 [`build_full_fusion_features`](../src/liver_tumor_pipeline/fusion.py) validates the two three-class
-probability matrices before constructing the eight-column matrix.
+probability matrices before constructing the eight-column matrix. It requires finite
+clinical values and does not fit an imputer. Fit the imputer on each training fold, transform
+training and evaluation clinical rows with that fitted instance, then call the constructor.
+The [synthetic example](../examples/synthetic_fusion.py) demonstrates this order without
+patient data or model training.
 
 CNN-plus-radiomics used the six W4/W5 probability features. Full fusion added age and sex.
 The meta-learner was fold-specific multinomial logistic regression.
@@ -38,7 +42,8 @@ Patient-level tables remain private.
 
 ## External clinical assumptions
 
-External age and sex were unavailable. The corrected primary model-defined scenario passed both as
+External age and sex were not available in the artifacts used for this analysis. The corrected
+primary model-defined scenario passed both as
 missing and used each model’s training-fold median; all five sex medians were 1. Encoded sex=0 was
 evaluated separately. No external values or labels entered fitting or model selection for these
 fusion scenarios. The separate radiomics Condition C availability-subset diagnostic is documented

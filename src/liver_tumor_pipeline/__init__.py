@@ -1,4 +1,4 @@
-"""Verified reusable logic for the liver-tumor classification study."""
+"""Analysis utilities for the liver-tumor classification study."""
 
 from .constants import CLASS_ORDER, CROP_SIZE, FULL_FUSION_FEATURES, PHASE_ORDER
 

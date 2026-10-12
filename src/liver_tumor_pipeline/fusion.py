@@ -1,4 +1,4 @@
-"""Late-fusion feature construction with the locked eight-feature order."""
+"""Late-fusion feature construction in the study's eight-feature order."""
 
 from __future__ import annotations
 
@@ -14,7 +14,12 @@ def build_full_fusion_features(
     age: np.ndarray,
     sex: np.ndarray,
 ) -> np.ndarray:
-    """Construct W4 + W5 + age + sex features; W3 is intentionally not accepted."""
+    """Construct W4 + W5 + age + sex features from aligned, finite inputs.
+
+    Impute missing clinical values using an imputer fitted on the training fold
+    before calling this constructor. It does not fit or apply an imputer itself.
+    See ``examples/synthetic_fusion.py`` for an example. W3 is excluded.
+    """
 
     w4 = validate_probabilities(w4_probabilities)
     w5 = validate_probabilities(w5_probabilities)

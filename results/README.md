@@ -29,7 +29,7 @@ patient rows, probabilities, split membership, imaging, masks, or feature matric
   no comparison survived either nine-test adjustment.
 - The external cohort contained only known HCC, so reported values are sensitivities.
 - Missing external sex with fold-local median imputation yielded 0.806; encoded sex=0 yielded
-  0.019; 82/103 labels differed. Both are model-defined because external sex was unavailable.
+  0.019; 82/103 labels differed. Both are model-defined because external sex was not available in the analysis artifacts.
 - Condition C is an internal diagnostic refit using an externally defined availability subset.
 - Crop-retention findings apply only to C2 and show that a subset of lesions was truncated.
 

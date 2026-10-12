@@ -1,4 +1,4 @@
-"""Verified historical radiomics specification checks."""
+"""Checks for the study's historical radiomics specification."""
 
 from __future__ import annotations
 

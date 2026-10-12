@@ -20,7 +20,8 @@ assigned to one cause.
 | Full fusion, missing sex with fold-local median | 83/103 | 0.806 |
 | Full fusion, encoded sex=0 sensitivity | 2/103 | 0.019 |
 
-External age and sex were unavailable. The corrected primary scenario passed both as missing and
+External age and sex were not available in the artifacts used for this analysis. The corrected
+primary scenario passed both as missing and
 used each internally fitted model’s training-fold median; all sex medians were 1. The sex-zero
 scenario was evaluated separately. Predicted HCC/ICC/cHCC-CCA counts were 83/7/13 and 2/68/33,
 respectively, and 82/103 hard labels differed. Neither scenario represents observed sex.

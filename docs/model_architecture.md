@@ -1,6 +1,6 @@
 # Model architecture
 
-## Locked conventions
+## Study conventions
 
 - Class order: HCC, ICC, cHCC-CCA.
 - Phase order: P, C1, C2, C3.

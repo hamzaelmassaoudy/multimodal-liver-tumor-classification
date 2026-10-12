@@ -38,7 +38,7 @@ non-male-to-zero full-fusion AUC 0.950 is retained only in the sensitivity artif
 ## Statistical provenance
 
 Corrected DeLong values were computed from aligned authentic 56-patient prediction artifacts after
-the approved missing-sex correction. Adjustments used the exact corrected p-value family, not
+the missing-sex correction. Adjustments used the exact corrected p-value family, not
 four-decimal display values. No comparison remained significant after either adjustment.
 
 The five paired-fold t-test and exact Wilcoxon values are aggregate outputs from the corrected
