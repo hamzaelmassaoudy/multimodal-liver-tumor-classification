@@ -10,24 +10,41 @@ permissions:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    name: Python ${{ matrix.python }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: "3.10"
+          - os: ubuntu-latest
+            python: "3.12"
+          - os: windows-latest
+            python: "3.12"
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: ${{ matrix.python }}
           cache: pip
       - name: Install package and test tools
         run: python -m pip install -e ".[test]"
       - name: Lint
-        run: python -m ruff check src scripts tests
+        run: python -m ruff check src scripts examples tests
       - name: Check formatting
-        run: python -m ruff format --check src scripts tests
+        run: python -m ruff format --check src scripts examples tests
       - name: Run unit tests
         run: python -m pytest -q
       - name: Run public-clone smoke test
         run: python scripts/smoke_test.py
+      - name: Run synthetic fusion example
+        run: python examples/synthetic_fusion.py
+      - name: Check aggregate statistics
+        run: |
+          python scripts/validate_aggregate_results.py
+          python scripts/recalculate_delong_summary.py results/aggregate/delong_summary.csv
       - name: Validate public release
         run: python scripts/validate_release.py

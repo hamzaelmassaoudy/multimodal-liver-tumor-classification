@@ -1,0 +1,9 @@
+# Public-tools check environment: Python 3.12 on Windows.
+# These constraints do not reconstruct the historical imaging workflow.
+numpy==2.2.6
+pandas==2.3.3
+scikit-learn==1.9.1
+scipy==1.18.1
+PyYAML==6.0.3
+pytest==8.4.2
+ruff==0.17.0

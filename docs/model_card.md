@@ -46,8 +46,9 @@ was 0.804 and macro-F1 was 0.805. Historical full-fusion AUC 0.950 is a sensitiv
 
 W3 and W4 HCC sensitivities were 0.049 and 0.000. Missing external sex with fold-local median
 imputation yielded full-fusion sensitivity 0.806, whereas encoded sex=0 yielded 0.019; 82/103
-labels changed. Both are model-defined because external sex was unavailable. C2 fallback was used
-for 102/103 patients. Radiomics controls showed strong dependence on imputation; Condition C was
+labels changed. Both are model-defined because external sex was not available in the analysis
+artifacts. C2 fallback was used for 102/103 patients. Radiomics controls showed strong dependence
+on imputation; Condition C was
 an internal diagnostic refit rather than frozen external validation.
 
 ## Limitations and risks
@@ -59,7 +60,7 @@ an internal diagnostic refit rather than frozen external validation.
 - CV and stacking estimates may be optimistic because of checkpoint and class-weight decisions.
 - Internal and external adapters differed materially, and no external patient had all four phases.
 - Missing checkpoints prevent exact all-fold CNN inference reconstruction.
-- External age and sex were unavailable and the external cohort contained only HCC.
+- External age and sex were unavailable in the analysis artifacts, and the cohort contained only HCC.
 
 Independent validation, bias analysis, calibration assessment, and clinical governance are
 required before any translational use. See [scientific scope](scientific_scope.md),

@@ -18,7 +18,7 @@ resampling was performed. No additional internal resampling beyond the source re
 
 ## Fixed-crop retention
 
-| C2 metric | Verified result |
+| C2 metric | Result |
 |---|---:|
 | Exact retention | 124/278 (44.6%) |
 | Some tumor loss | 154/278 (55.4%) |

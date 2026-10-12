@@ -42,18 +42,24 @@ all-fold CNN inference or exact end-to-end reconstruction.
 
 ## Corrected analysis boundary
 
-The approved correction refitted only internal clinical and fusion logistic regressions after
+The missing-sex correction refitted only internal clinical and fusion logistic regressions after
 retaining three unresolved sex entries as missing. It did not retrain W3, W4, W5, any CNN,
-radiomics extractor, or LightGBM model. The external evaluation performed no fitting or tuning.
+radiomics extractor, or LightGBM model. The primary and frozen external pathways performed no
+fitting or tuning. Condition C
+separately refitted radiomics classifiers on internal development data using an externally
+defined, label-free feature-availability subset; see the [external controls](external_stress_test.md).
 
-C2 fallback is now supported by a verified aggregate: 102/103 external patients used it. The
+The released adapter audit records C2 fallback in 102/103 external patients. The
 nonfallback group contains one patient, so no comparative effect is inferred.
 
 ## Cross-validation limitations
 
 CNN checkpoints were selected using outer validation folds that also produced OOF predictions.
-CNN class weights used labels across all 222 development patients. These choices can make CV and
-stacking estimates optimistic; they did not involve the 56-patient independent evaluation set.
+CNN class weights used labels across all 222 development patients. In addition, the upstream
+OOF models were not refitted inside each downstream stacking-validation split. These dependencies
+can make CV and stacking estimates optimistic. An unbiased estimate of the full fitting procedure
+would require nesting upstream fitting and model selection within each evaluation split. The
+56-patient held-out evaluation set did not enter these development procedures.
 
 ## Configuration
 

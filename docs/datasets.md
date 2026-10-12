@@ -21,6 +21,14 @@ The external source was [HCC-TACE-Seg at The Cancer Imaging Archive](https://www
 
 This cohort supported an HCC-only stress test. It did not support external discrimination among HCC, ICC, and cHCC-CCA, so external multiclass AUC is neither defined nor reported.
 
+TCIA also lists a separate clinical XLSX download, including demographic data, on the
+[collection page](https://www.cancerimagingarchive.net/collection/hcc-tace-seg/).
+Age and sex were not available in the retained artifacts used for this study's external
+analysis. That statement concerns the analysis inputs, rather than the source collection
+as a whole. The released scenarios do not establish whether the workbook can be linked
+completely to the 103 retained cases. A future analysis would need to verify that linkage
+and record its coverage before evaluating observed clinical covariates.
+
 ## Data responsibility
 
 This repository contains no raw or processed patient imaging, masks, DICOM or NIfTI volumes, clinical rows, patient-level predictions, or split files. Public availability at the source does not authorize redistribution here. Users are responsible for source access, data governance, de-identification, local storage, and compliance with applicable terms.
