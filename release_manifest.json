@@ -11,16 +11,16 @@
     "results/aggregate/internal_sex_provenance.csv": "76f9b16206d88b8e2c65258d440769ce80cff73f5708aa8883239362a86a963c",
     "results/aggregate/internal_sex_sensitivity.csv": "8e52dd89e912c3dc2479f5f2256a84672e7df335ffdaf4dbc253eb6fe9901bb6",
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
-    "results/aggregate/reproducibility_status.json": "c6d242aa04e6cd5e3a072a8578f19d298d7697d67863c1c3fe06b125f6b5bb4f"
+    "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "2f6ed712c249fc055b00ef9da68f3408af18f9f5",
+  "commit_hash": "9e6245b3a0541713e8e0bfbf286d38a14e2eba20",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "2f6ed712c249fc055b00ef9da68f3408af18f9f5",
+  "content_commit": "9e6245b3a0541713e8e0bfbf286d38a14e2eba20",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
-  "largest_public_file_bytes": 137230,
+  "largest_public_file_bytes": 1239871,
   "license": "MIT",
-  "notebook_count": 14,
+  "notebook_count": 27,
   "notebook_outputs_cleared": true,
   "public_files": [
     {
@@ -49,11 +49,11 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 1166
+      "size_bytes": 3394
     },
     {
       "path": "CITATION.cff",
-      "size_bytes": 522
+      "size_bytes": 532
     },
     {
       "path": "CONTRIBUTING.md",
@@ -65,7 +65,7 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 6145
+      "size_bytes": 6734
     },
     {
       "path": "SECURITY.md",
@@ -97,7 +97,7 @@
     },
     {
       "path": "docs/README.md",
-      "size_bytes": 2245
+      "size_bytes": 2969
     },
     {
       "path": "docs/artifact_contracts.md",
@@ -105,43 +105,51 @@
     },
     {
       "path": "docs/datasets.md",
-      "size_bytes": 2586
+      "size_bytes": 3176
     },
     {
       "path": "docs/environment.md",
-      "size_bytes": 1862
+      "size_bytes": 2346
     },
     {
       "path": "docs/external_stress_test.md",
-      "size_bytes": 3171
+      "size_bytes": 3383
+    },
+    {
+      "path": "docs/external_validation_mct_ltdiag.md",
+      "size_bytes": 5091
     },
     {
       "path": "docs/fusion_definition.md",
-      "size_bytes": 2366
+      "size_bytes": 2578
     },
     {
       "path": "docs/manuscript_repository_alignment.md",
-      "size_bytes": 3183
+      "size_bytes": 3677
     },
     {
       "path": "docs/model_architecture.md",
-      "size_bytes": 1737
+      "size_bytes": 2255
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 3570
+      "size_bytes": 4314
+    },
+    {
+      "path": "docs/plc_cect_dataset_audit.md",
+      "size_bytes": 6175
     },
     {
       "path": "docs/preprocessing.md",
-      "size_bytes": 2594
+      "size_bytes": 2754
     },
     {
       "path": "docs/privacy_and_data_boundary.md",
-      "size_bytes": 1917
+      "size_bytes": 2022
     },
     {
       "path": "docs/quickstart.md",
-      "size_bytes": 3696
+      "size_bytes": 3748
     },
     {
       "path": "docs/repository_scope.md",
@@ -149,15 +157,23 @@
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 3387
+      "size_bytes": 4281
     },
     {
       "path": "docs/results_provenance.md",
-      "size_bytes": 3604
+      "size_bytes": 4071
+    },
+    {
+      "path": "docs/revision_2026-10.md",
+      "size_bytes": 7441
+    },
+    {
+      "path": "docs/revision_notebooks.md",
+      "size_bytes": 6013
     },
     {
       "path": "docs/scientific_scope.md",
-      "size_bytes": 1819
+      "size_bytes": 2599
     },
     {
       "path": "examples/synthetic_fusion.py",
@@ -173,11 +189,11 @@
     },
     {
       "path": "notebooks/02_internal_models/03_single_phase_cnn.ipynb",
-      "size_bytes": 10611
+      "size_bytes": 10648
     },
     {
       "path": "notebooks/02_internal_models/04_multiphase_cnn.ipynb",
-      "size_bytes": 11178
+      "size_bytes": 11273
     },
     {
       "path": "notebooks/02_internal_models/05_radiomics_lightgbm.ipynb",
@@ -209,7 +225,7 @@
     },
     {
       "path": "notebooks/04_external_stress_test/12_external_frozen_inference.ipynb",
-      "size_bytes": 9912
+      "size_bytes": 10190
     },
     {
       "path": "notebooks/04_external_stress_test/13_radiomics_imputation_controls.ipynb",
@@ -217,15 +233,67 @@
     },
     {
       "path": "notebooks/05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb",
-      "size_bytes": 8088
+      "size_bytes": 8049
+    },
+    {
+      "path": "notebooks/06_revision_internal_models_and_statistics/15_reproduce_submitted_results_and_noshape_radiomics.ipynb",
+      "size_bytes": 46882
+    },
+    {
+      "path": "notebooks/06_revision_internal_models_and_statistics/16_missing_phases_and_phase_dropout_cnn.ipynb",
+      "size_bytes": 39205
+    },
+    {
+      "path": "notebooks/06_revision_internal_models_and_statistics/22_truncation_size_statistics_calibration.ipynb",
+      "size_bytes": 37215
+    },
+    {
+      "path": "notebooks/06_revision_internal_models_and_statistics/23_repeated_cross_validation.ipynb",
+      "size_bytes": 27971
+    },
+    {
+      "path": "notebooks/06_revision_internal_models_and_statistics/25_adaptive_crop_cnn.ipynb",
+      "size_bytes": 113407
+    },
+    {
+      "path": "notebooks/07_revision_external_validation_and_mitigation/17_hcc_tace_seg_repaired_pipeline.ipynb",
+      "size_bytes": 41645
+    },
+    {
+      "path": "notebooks/07_revision_external_validation_and_mitigation/18_mct_ltdiag_download.ipynb",
+      "size_bytes": 37197
+    },
+    {
+      "path": "notebooks/07_revision_external_validation_and_mitigation/19_mct_ltdiag_external_validation.ipynb",
+      "size_bytes": 56167
+    },
+    {
+      "path": "notebooks/07_revision_external_validation_and_mitigation/20_hcc_tace_seg_axis_corrected.ipynb",
+      "size_bytes": 54845
+    },
+    {
+      "path": "notebooks/07_revision_external_validation_and_mitigation/21_mct_ltdiag_all_203_and_radiomics_mitigation.ipynb",
+      "size_bytes": 88479
+    },
+    {
+      "path": "notebooks/07_revision_external_validation_and_mitigation/24_cnn_mitigation_and_models_without_noncontrast.ipynb",
+      "size_bytes": 87475
+    },
+    {
+      "path": "notebooks/08_revision_dataset_audit_and_explainability/26_dataset_audit_and_counterfactual_test.ipynb",
+      "size_bytes": 49508
+    },
+    {
+      "path": "notebooks/08_revision_dataset_audit_and_explainability/27_gradcam_attribution_and_examples.ipynb",
+      "size_bytes": 22954
     },
     {
       "path": "notebooks/README.md",
-      "size_bytes": 3555
+      "size_bytes": 4941
     },
     {
       "path": "pyproject.toml",
-      "size_bytes": 1668
+      "size_bytes": 1747
     },
     {
       "path": "requirements.txt",
@@ -233,7 +301,7 @@
     },
     {
       "path": "results/README.md",
-      "size_bytes": 3301
+      "size_bytes": 3728
     },
     {
       "path": "results/aggregate/c2_crop_retention.csv",
@@ -281,7 +349,7 @@
     },
     {
       "path": "results/aggregate/reproducibility_status.json",
-      "size_bytes": 745
+      "size_bytes": 779
     },
     {
       "path": "results/figures/README.md",
@@ -298,6 +366,138 @@
     {
       "path": "results/figures/internal_performance.png",
       "size_bytes": 137230
+    },
+    {
+      "path": "results/revision_2026-10/README.md",
+      "size_bytes": 6249
+    },
+    {
+      "path": "results/revision_2026-10/acquisition_only_discrimination.csv",
+      "size_bytes": 352
+    },
+    {
+      "path": "results/revision_2026-10/adaptive_crop_external.csv",
+      "size_bytes": 590
+    },
+    {
+      "path": "results/revision_2026-10/adaptive_crop_internal.csv",
+      "size_bytes": 1844
+    },
+    {
+      "path": "results/revision_2026-10/adaptive_crop_paired_differences.csv",
+      "size_bytes": 521
+    },
+    {
+      "path": "results/revision_2026-10/adaptive_crop_size_strata.csv",
+      "size_bytes": 1582
+    },
+    {
+      "path": "results/revision_2026-10/attention_enrichment_summary.csv",
+      "size_bytes": 1265
+    },
+    {
+      "path": "results/revision_2026-10/attention_phase_share_summary.csv",
+      "size_bytes": 324
+    },
+    {
+      "path": "results/revision_2026-10/calibration.csv",
+      "size_bytes": 2644
+    },
+    {
+      "path": "results/revision_2026-10/counterfactual_effects.csv",
+      "size_bytes": 2917
+    },
+    {
+      "path": "results/revision_2026-10/counterfactual_predicted_classes.csv",
+      "size_bytes": 2796
+    },
+    {
+      "path": "results/revision_2026-10/crop_truncation_by_class_phase.csv",
+      "size_bytes": 635
+    },
+    {
+      "path": "results/revision_2026-10/dataset_audit_by_class.csv",
+      "size_bytes": 3030
+    },
+    {
+      "path": "results/revision_2026-10/external_hcc_tace_seg.csv",
+      "size_bytes": 17474
+    },
+    {
+      "path": "results/revision_2026-10/external_mct_ltdiag.csv",
+      "size_bytes": 8063
+    },
+    {
+      "path": "results/revision_2026-10/external_mct_ltdiag_mitigation.csv",
+      "size_bytes": 5491
+    },
+    {
+      "path": "results/revision_2026-10/external_mct_ltdiag_mitigation_comparisons.csv",
+      "size_bytes": 5075
+    },
+    {
+      "path": "results/revision_2026-10/figures/figure1_study_design.png",
+      "size_bytes": 1185052
+    },
+    {
+      "path": "results/revision_2026-10/figures/figure3_internal_performance.png",
+      "size_bytes": 698367
+    },
+    {
+      "path": "results/revision_2026-10/figures/figure4_size_truncation.png",
+      "size_bytes": 552512
+    },
+    {
+      "path": "results/revision_2026-10/figures/figure5_dataset_artifacts.png",
+      "size_bytes": 593703
+    },
+    {
+      "path": "results/revision_2026-10/figures/figure7_external_validation.png",
+      "size_bytes": 1239871
+    },
+    {
+      "path": "results/revision_2026-10/internal_comparisons.csv",
+      "size_bytes": 924
+    },
+    {
+      "path": "results/revision_2026-10/internal_fusion_missing_phase_patterns.csv",
+      "size_bytes": 5427
+    },
+    {
+      "path": "results/revision_2026-10/internal_missing_phase_patterns.csv",
+      "size_bytes": 2330
+    },
+    {
+      "path": "results/revision_2026-10/internal_models.csv",
+      "size_bytes": 1125
+    },
+    {
+      "path": "results/revision_2026-10/internal_optimism.csv",
+      "size_bytes": 270
+    },
+    {
+      "path": "results/revision_2026-10/internal_per_class.csv",
+      "size_bytes": 1329
+    },
+    {
+      "path": "results/revision_2026-10/internal_repeated_cv_per_fold.csv",
+      "size_bytes": 2984
+    },
+    {
+      "path": "results/revision_2026-10/internal_repeated_cv_summary.csv",
+      "size_bytes": 527
+    },
+    {
+      "path": "results/revision_2026-10/performance_by_tumor_inside_liver_mask.csv",
+      "size_bytes": 1852
+    },
+    {
+      "path": "results/revision_2026-10/tumor_inside_liver_mask_by_class_phase.csv",
+      "size_bytes": 597
+    },
+    {
+      "path": "results/revision_2026-10/tumor_size_strata_out_of_fold.csv",
+      "size_bytes": 3894
     },
     {
       "path": "scripts/analyze_external_sex_sensitivity.py",
@@ -322,6 +522,22 @@
     {
       "path": "scripts/recalculate_internal_metrics.py",
       "size_bytes": 1568
+    },
+    {
+      "path": "scripts/revision/census_tumor_inside_liver_mask.py",
+      "size_bytes": 3104
+    },
+    {
+      "path": "scripts/revision/export_revision_aggregates.py",
+      "size_bytes": 22691
+    },
+    {
+      "path": "scripts/revision/make_revision_figures.py",
+      "size_bytes": 65197
+    },
+    {
+      "path": "scripts/revision/summarize_tumor_inside_liver_mask.py",
+      "size_bytes": 4926
     },
     {
       "path": "scripts/smoke_test.py",
@@ -373,7 +589,7 @@
     },
     {
       "path": "tests/test_config.py",
-      "size_bytes": 2245
+      "size_bytes": 2630
     },
     {
       "path": "tests/test_external.py",
@@ -393,20 +609,24 @@
     },
     {
       "path": "tests/test_release_safety.py",
-      "size_bytes": 1430
+      "size_bytes": 2131
     },
     {
       "path": "tests/test_result_integrity.py",
       "size_bytes": 5063
     },
     {
+      "path": "tests/test_revision_results.py",
+      "size_bytes": 3941
+    },
+    {
       "path": "tests/test_synthetic_example.py",
       "size_bytes": 1430
     }
   ],
-  "repository_version": "1.1.0",
+  "repository_version": "2.0.0",
   "test_status": {
     "passed": true,
-    "tests_passed": 34
+    "tests_passed": 41
   }
 }
