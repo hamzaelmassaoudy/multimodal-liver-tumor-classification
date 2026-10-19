@@ -1,0 +1,4 @@
+model,reference,mct_difference,mct_boot_low,mct_boot_high,mct_delong_p,internal_test_difference,internal_boot_low,internal_boot_high
+CNN adaptive_CNN,CNN phase_dropout_CNN,0.00398058,-0.0780897,0.0875151,0.927449,-0.0467645,-0.109382,0.000185706
+cnn_plus_radiomics: adaptive_CNN,cnn_plus_radiomics: phase_dropout_CNN,0.0102913,-0.056319,0.0782978,0.773825,-0.00454879,-0.0227357,0.0101959
+full_fusion: adaptive_CNN,full_fusion: phase_dropout_CNN,-0.00873786,-0.0501921,0.0336106,0.693229,-0.0128697,-0.0331568,0.00362409

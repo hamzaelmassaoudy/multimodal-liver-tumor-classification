@@ -35,7 +35,16 @@ The clinical baseline used age and sex. Corrected primary models retained unreso
 and used fold-local median imputation. Full fusion used W4 and W5 probability triplets plus age and
 sex. W3 was excluded. See [fusion definition](fusion_definition.md).
 
-## Retained-artifact limitation
+## Revised models (v2.0.0)
 
-W3 fold 1 and W4 fold 0 checkpoints were not retained. Saved predictions support aggregate metric
-reanalysis, but exact all-fold CNN inference cannot be reconstructed.
+The October 2026 revision kept the W4 architecture and input but retrained it with phase
+dropout (random phases zeroed during training), an inner validation split for checkpoint
+choice, and per-fold class weights. This phase-dropout CNN is the main CNN of the revision.
+Radiomics dropped the 56 shape features (372 kept), and CNN + radiomics (six probabilities)
+became the primary model. See the [revision overview](revision_2026-10.md).
+
+## Checkpoints
+
+All five fold checkpoints of W3 and W4 are retained privately and are not distributed. The
+v1.1.0 statement that W3 fold 1 and W4 fold 0 were not retained was wrong; the revision
+reproduced the saved predictions from these checkpoints.

@@ -1,0 +1,127 @@
+model,variant,subset,n,hcc_correct,hcc_sensitivity,ci_low,ci_high,pred_HCC,pred_ICC,pred_CHCC,mean_p_HCC,analysis
+single_phase_CNN,historical_W150C50,clean_89,89,5,0.0561798,0.0184908,0.126253,5,73,11,0.130786,pipeline corrections
+single_phase_CNN,historical_W150C50,all_103,103,5,0.0485437,0.0159476,0.109656,5,86,12,0.12734,pipeline corrections
+single_phase_CNN,corrected_-200_200,clean_89,89,3,0.0337079,0.00700606,0.0953616,3,74,12,0.127768,pipeline corrections
+single_phase_CNN,corrected_-200_200,all_103,103,3,0.0291262,0.00604728,0.0827649,3,86,14,0.124198,pipeline corrections
+single_phase_CNN,axis_fixed_iso1mm,clean_89,89,4,0.0449438,0.0123796,0.111092,4,68,17,0.101836,pipeline corrections
+single_phase_CNN,axis_fixed_iso1mm,all_103,103,8,0.0776699,0.0341286,0.147314,8,77,18,0.138815,pipeline corrections
+single_phase_CNN,axis_fixed_E6rules,clean_89,89,59,0.662921,0.554923,0.759735,59,19,11,0.561097,pipeline corrections
+single_phase_CNN,axis_fixed_E6rules,all_103,103,65,0.631068,0.530335,0.724054,65,26,12,0.550605,pipeline corrections
+original_CNN,historical_W150C50,clean_89,89,0,0,0,0.0406009,0,56,33,0.0439298,pipeline corrections
+original_CNN,historical_W150C50,all_103,103,0,0,0,0.0351806,0,67,36,0.0484667,pipeline corrections
+original_CNN,corrected_-200_200,clean_89,89,0,0,0,0.0406009,0,55,34,0.042262,pipeline corrections
+original_CNN,corrected_-200_200,all_103,103,0,0,0,0.0351806,0,66,37,0.0473208,pipeline corrections
+original_CNN,axis_fixed_iso1mm,clean_89,89,0,0,0,0.0406009,0,53,36,0.0404496,pipeline corrections
+original_CNN,axis_fixed_iso1mm,all_103,103,0,0,0,0.0351806,0,64,39,0.0473746,pipeline corrections
+original_CNN,axis_fixed_E6rules,clean_89,89,9,0.101124,0.0472929,0.183302,9,34,46,0.165542,pipeline corrections
+original_CNN,axis_fixed_E6rules,all_103,103,9,0.0873786,0.0407364,0.159399,9,43,51,0.158692,pipeline corrections
+phase_dropout_CNN,historical_W150C50,clean_89,89,1,0.011236,0.000284429,0.0610183,1,84,4,0.119656,pipeline corrections
+phase_dropout_CNN,historical_W150C50,all_103,103,1,0.00970874,0.000245774,0.0529083,1,98,4,0.116602,pipeline corrections
+phase_dropout_CNN,corrected_-200_200,clean_89,89,1,0.011236,0.000284429,0.0610183,1,85,3,0.115751,pipeline corrections
+phase_dropout_CNN,corrected_-200_200,all_103,103,1,0.00970874,0.000245774,0.0529083,1,99,3,0.113138,pipeline corrections
+phase_dropout_CNN,axis_fixed_iso1mm,clean_89,89,0,0,0,0.0406009,0,86,3,0.101827,pipeline corrections
+phase_dropout_CNN,axis_fixed_iso1mm,all_103,103,1,0.00970874,0.000245774,0.0529083,1,99,3,0.114108,pipeline corrections
+phase_dropout_CNN,axis_fixed_E6rules,clean_89,89,47,0.52809,0.419372,0.634886,47,32,10,0.46319,pipeline corrections
+phase_dropout_CNN,axis_fixed_E6rules,all_103,103,51,0.495146,0.395139,0.595439,51,41,11,0.440989,pipeline corrections
+radiomics_noshape,corrected_-200_200,clean_89,89,85,0.955056,0.888908,0.98762,85,0,4,0.726237,pipeline corrections
+radiomics_noshape,corrected_-200_200,all_103,103,99,0.961165,0.903546,0.989319,99,0,4,0.733959,pipeline corrections
+radiomics_noshape,axis_fixed_iso1mm,clean_89,89,85,0.955056,0.888908,0.98762,85,0,4,0.72623,pipeline corrections
+radiomics_noshape,axis_fixed_iso1mm,all_103,103,99,0.961165,0.903546,0.989319,99,0,4,0.733948,pipeline corrections
+radiomics_noshape,axis_fixed_E6rules,clean_89,89,84,0.94382,0.873747,0.981509,84,1,4,0.694626,pipeline corrections
+radiomics_noshape,axis_fixed_E6rules,all_103,103,98,0.951456,0.890344,0.984052,98,1,4,0.706262,pipeline corrections
+cnn_plus_radiomics [original_CNN],corrected_-200_200,clean_89,89,50,0.561798,0.452541,0.666825,50,36,3,0.447317,pipeline corrections
+cnn_plus_radiomics [original_CNN],corrected_-200_200,all_103,103,57,0.553398,0.452207,0.651438,57,43,3,0.449074,pipeline corrections
+full_fusion [original_CNN] {observed_TCIA},corrected_-200_200,clean_89,89,45,0.505618,0.397516,0.613335,45,41,3,0.461373,pipeline corrections
+full_fusion [original_CNN] {observed_TCIA},corrected_-200_200,all_103,103,57,0.553398,0.452207,0.651438,57,43,3,0.483611,pipeline corrections
+full_fusion [original_CNN] {both_missing_fold_median},corrected_-200_200,clean_89,89,80,0.898876,0.816698,0.952707,80,7,2,0.632473,pipeline corrections
+full_fusion [original_CNN] {both_missing_fold_median},corrected_-200_200,all_103,103,93,0.902913,0.828694,0.952454,93,8,2,0.637984,pipeline corrections
+cnn_plus_radiomics [phase_dropout_CNN],corrected_-200_200,clean_89,89,11,0.123596,0.0633435,0.210394,11,77,1,0.321607,pipeline corrections
+cnn_plus_radiomics [phase_dropout_CNN],corrected_-200_200,all_103,103,11,0.106796,0.0545316,0.183057,11,91,1,0.315629,pipeline corrections
+full_fusion [phase_dropout_CNN] {observed_TCIA},corrected_-200_200,clean_89,89,27,0.303371,0.210349,0.409916,27,62,0,0.323954,pipeline corrections
+full_fusion [phase_dropout_CNN] {observed_TCIA},corrected_-200_200,all_103,103,29,0.281553,0.197347,0.378728,29,74,0,0.33313,pipeline corrections
+full_fusion [phase_dropout_CNN] {both_missing_fold_median},corrected_-200_200,clean_89,89,56,0.629213,0.520298,0.72927,56,33,0,0.490785,pipeline corrections
+full_fusion [phase_dropout_CNN] {both_missing_fold_median},corrected_-200_200,all_103,103,62,0.601942,0.500756,0.697107,62,41,0,0.486167,pipeline corrections
+cnn_plus_radiomics [original_CNN],axis_fixed_iso1mm,clean_89,89,52,0.58427,0.474913,0.687856,52,33,4,0.446982,pipeline corrections
+cnn_plus_radiomics [original_CNN],axis_fixed_iso1mm,all_103,103,61,0.592233,0.490973,0.688047,61,38,4,0.451103,pipeline corrections
+full_fusion [original_CNN] {observed_TCIA},axis_fixed_iso1mm,clean_89,89,46,0.516854,0.408419,0.624136,46,41,2,0.462683,pipeline corrections
+full_fusion [original_CNN] {observed_TCIA},axis_fixed_iso1mm,all_103,103,59,0.572816,0.471517,0.669816,59,42,2,0.486652,pipeline corrections
+full_fusion [original_CNN] {both_missing_fold_median},axis_fixed_iso1mm,clean_89,89,82,0.921348,0.844641,0.967793,82,5,2,0.633351,pipeline corrections
+full_fusion [original_CNN] {both_missing_fold_median},axis_fixed_iso1mm,all_103,103,96,0.932039,0.864978,0.972241,96,5,2,0.640707,pipeline corrections
+cnn_plus_radiomics [phase_dropout_CNN],axis_fixed_iso1mm,clean_89,89,7,0.0786517,0.0322071,0.155359,7,79,3,0.308594,pipeline corrections
+cnn_plus_radiomics [phase_dropout_CNN],axis_fixed_iso1mm,all_103,103,10,0.0970874,0.0475464,0.171306,10,90,3,0.322401,pipeline corrections
+full_fusion [phase_dropout_CNN] {observed_TCIA},axis_fixed_iso1mm,clean_89,89,30,0.337079,0.240265,0.445077,30,57,2,0.322647,pipeline corrections
+full_fusion [phase_dropout_CNN] {observed_TCIA},axis_fixed_iso1mm,all_103,103,40,0.38835,0.293872,0.489422,40,61,2,0.349844,pipeline corrections
+full_fusion [phase_dropout_CNN] {both_missing_fold_median},axis_fixed_iso1mm,clean_89,89,52,0.58427,0.474913,0.687856,52,34,3,0.483189,pipeline corrections
+full_fusion [phase_dropout_CNN] {both_missing_fold_median},axis_fixed_iso1mm,all_103,103,64,0.621359,0.520437,0.71511,64,36,3,0.499403,pipeline corrections
+cnn_plus_radiomics [original_CNN],axis_fixed_E6rules,clean_89,89,70,0.786517,0.686868,0.866303,70,13,6,0.562389,pipeline corrections
+cnn_plus_radiomics [original_CNN],axis_fixed_E6rules,all_103,103,79,0.76699,0.673424,0.844643,79,17,7,0.555959,pipeline corrections
+full_fusion [original_CNN] {observed_TCIA},axis_fixed_E6rules,clean_89,89,58,0.651685,0.543323,0.749639,58,29,2,0.568703,pipeline corrections
+full_fusion [original_CNN] {observed_TCIA},axis_fixed_E6rules,all_103,103,71,0.68932,0.59057,0.776852,71,30,2,0.582834,pipeline corrections
+full_fusion [original_CNN] {both_missing_fold_median},axis_fixed_E6rules,clean_89,89,83,0.932584,0.85902,0.974859,83,4,2,0.703098,pipeline corrections
+full_fusion [original_CNN] {both_missing_fold_median},axis_fixed_E6rules,all_103,103,96,0.932039,0.864978,0.972241,96,4,3,0.703137,pipeline corrections
+cnn_plus_radiomics [phase_dropout_CNN],axis_fixed_E6rules,clean_89,89,67,0.752809,0.650008,0.838148,67,17,5,0.668369,pipeline corrections
+cnn_plus_radiomics [phase_dropout_CNN],axis_fixed_E6rules,all_103,103,73,0.708738,0.610992,0.7941,73,25,5,0.648656,pipeline corrections
+full_fusion [phase_dropout_CNN] {observed_TCIA},axis_fixed_E6rules,clean_89,89,66,0.741573,0.63788,0.828596,66,19,4,0.634853,pipeline corrections
+full_fusion [phase_dropout_CNN] {observed_TCIA},axis_fixed_E6rules,all_103,103,76,0.737864,0.641977,0.81961,76,23,4,0.633534,pipeline corrections
+full_fusion [phase_dropout_CNN] {both_missing_fold_median},axis_fixed_E6rules,clean_89,89,84,0.94382,0.873747,0.981509,84,1,4,0.773157,pipeline corrections
+full_fusion [phase_dropout_CNN] {both_missing_fold_median},axis_fixed_E6rules,all_103,103,97,0.941748,0.877513,0.978325,97,2,4,0.760429,pipeline corrections
+radiomics_noshape_MEDIANS_ONLY_control,corrected_-200_200,clean_89,89,0,0,0,0.0406009,0,0,89,0.387724,medians-only imputation control
+radiomics_noshape_MEDIANS_ONLY_control,corrected_-200_200,all_103,103,0,0,0,0.0351806,0,0,103,0.387724,medians-only imputation control
+CNN phase_dropout_CNN,axis_fixed_E6rules,clean_89,89,47,0.52809,0.419372,0.634886,,32,10,,mitigation (primary corrected geometry)
+CNN phase_dropout_CNN,axis_fixed_E6rules,all_103,103,51,0.495146,0.395139,0.595439,,41,11,,mitigation (primary corrected geometry)
+CNN DR_CNN,axis_fixed_E6rules,clean_89,89,55,0.617978,0.50887,0.719,,21,13,,mitigation (primary corrected geometry)
+CNN DR_CNN,axis_fixed_E6rules,all_103,103,60,0.582524,0.481226,0.67895,,29,14,,mitigation (primary corrected geometry)
+CNN noP_CNN,axis_fixed_E6rules,clean_89,89,59,0.662921,0.554923,0.759735,,23,7,,mitigation (primary corrected geometry)
+CNN noP_CNN,axis_fixed_E6rules,all_103,103,63,0.61165,0.510578,0.706128,,32,8,,mitigation (primary corrected geometry)
+CNN phase_dropout_CNN + harmonisation,axis_fixed_E6rules,clean_89,89,49,0.550562,0.441433,0.65623,,29,11,,mitigation (primary corrected geometry)
+CNN phase_dropout_CNN + harmonisation,axis_fixed_E6rules,all_103,103,53,0.514563,0.414019,0.614248,,38,12,,mitigation (primary corrected geometry)
+CNN DR_CNN + harmonisation,axis_fixed_E6rules,clean_89,89,56,0.629213,0.520298,0.72927,,21,12,,mitigation (primary corrected geometry)
+CNN DR_CNN + harmonisation,axis_fixed_E6rules,all_103,103,61,0.592233,0.490973,0.688047,,29,13,,mitigation (primary corrected geometry)
+radiomics radiomics_noshape,axis_fixed_E6rules,clean_89,89,84,0.94382,0.873747,0.981509,,1,4,,mitigation (primary corrected geometry)
+radiomics radiomics_noshape,axis_fixed_E6rules,all_103,103,98,0.951456,0.890344,0.984052,,1,4,,mitigation (primary corrected geometry)
+radiomics radiomics_noP,axis_fixed_E6rules,clean_89,89,79,0.88764,0.803059,0.944786,,0,10,,mitigation (primary corrected geometry)
+radiomics radiomics_noP,axis_fixed_E6rules,all_103,103,93,0.902913,0.828694,0.952454,,0,10,,mitigation (primary corrected geometry)
+radiomics radiomics_robust_ComBat,axis_fixed_E6rules,clean_89,89,82,0.921348,0.844641,0.967793,,6,1,,mitigation (primary corrected geometry)
+radiomics radiomics_robust_ComBat,axis_fixed_E6rules,all_103,103,96,0.932039,0.864978,0.972241,,6,1,,mitigation (primary corrected geometry)
+radiomics radiomics_robust,axis_fixed_E6rules,clean_89,89,82,0.921348,0.844641,0.967793,,6,1,,mitigation (primary corrected geometry)
+radiomics radiomics_robust,axis_fixed_E6rules,all_103,103,96,0.932039,0.864978,0.972241,,6,1,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: [ref] phase_dropout_CNN + radiomics_noshape,axis_fixed_E6rules,clean_89,89,67,0.752809,0.650008,0.838148,,17,5,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: [ref] phase_dropout_CNN + radiomics_noshape,axis_fixed_E6rules,all_103,103,73,0.708738,0.610992,0.7941,,25,5,,mitigation (primary corrected geometry)
+full_fusion: [ref] phase_dropout_CNN + radiomics_noshape,axis_fixed_E6rules,clean_89,89,66,0.741573,0.63788,0.828596,,19,4,,mitigation (primary corrected geometry)
+full_fusion: [ref] phase_dropout_CNN + radiomics_noshape,axis_fixed_E6rules,all_103,103,76,0.737864,0.641977,0.81961,,23,4,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8b: phase_dropout_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,clean_89,89,67,0.752809,0.650008,0.838148,,16,6,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8b: phase_dropout_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,all_103,103,74,0.718447,0.621272,0.802653,,23,6,,mitigation (primary corrected geometry)
+full_fusion: E8b: phase_dropout_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,clean_89,89,66,0.741573,0.63788,0.828596,,19,4,,mitigation (primary corrected geometry)
+full_fusion: E8b: phase_dropout_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,all_103,103,77,0.747573,0.652406,0.82801,,22,4,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8b: DR_CNN + radiomics_noshape,axis_fixed_E6rules,clean_89,89,80,0.898876,0.816698,0.952707,,4,5,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8b: DR_CNN + radiomics_noshape,axis_fixed_E6rules,all_103,103,91,0.883495,0.805331,0.938329,,7,5,,mitigation (primary corrected geometry)
+full_fusion: E8b: DR_CNN + radiomics_noshape,axis_fixed_E6rules,clean_89,89,71,0.797753,0.699328,0.875506,,15,3,,mitigation (primary corrected geometry)
+full_fusion: E8b: DR_CNN + radiomics_noshape,axis_fixed_E6rules,all_103,103,85,0.825243,0.737943,0.893012,,15,3,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8b: DR_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,clean_89,89,79,0.88764,0.803059,0.944786,,4,6,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8b: DR_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,all_103,103,90,0.873786,0.793845,0.931052,,7,6,,mitigation (primary corrected geometry)
+full_fusion: E8b: DR_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,clean_89,89,73,0.820225,0.724537,0.893606,,13,3,,mitigation (primary corrected geometry)
+full_fusion: E8b: DR_CNN + harmonisation + radiomics_noshape,axis_fixed_E6rules,all_103,103,87,0.84466,0.760029,0.908523,,13,3,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E9: noP_CNN + radiomics_noP,axis_fixed_E6rules,clean_89,89,73,0.820225,0.724537,0.893606,,10,6,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E9: noP_CNN + radiomics_noP,axis_fixed_E6rules,all_103,103,79,0.76699,0.673424,0.844643,,18,6,,mitigation (primary corrected geometry)
+full_fusion: E9: noP_CNN + radiomics_noP,axis_fixed_E6rules,clean_89,89,53,0.595506,0.486178,0.698292,,29,7,,mitigation (primary corrected geometry)
+full_fusion: E9: noP_CNN + radiomics_noP,axis_fixed_E6rules,all_103,103,62,0.601942,0.500756,0.697107,,34,7,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8c (pre-specified): DR_CNN + radiomics_robust_ComBat,axis_fixed_E6rules,clean_89,89,67,0.752809,0.650008,0.838148,,18,4,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8c (pre-specified): DR_CNN + radiomics_robust_ComBat,axis_fixed_E6rules,all_103,103,72,0.699029,0.600758,0.785499,,26,5,,mitigation (primary corrected geometry)
+full_fusion: E8c (pre-specified): DR_CNN + radiomics_robust_ComBat,axis_fixed_E6rules,clean_89,89,61,0.685393,0.578302,0.779742,,27,1,,mitigation (primary corrected geometry)
+full_fusion: E8c (pre-specified): DR_CNN + radiomics_robust_ComBat,axis_fixed_E6rules,all_103,103,70,0.679612,0.580426,0.768159,,32,1,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8c (post hoc): DR_CNN + radiomics_robust,axis_fixed_E6rules,clean_89,89,67,0.752809,0.650008,0.838148,,18,4,,mitigation (primary corrected geometry)
+cnn_plus_radiomics: E8c (post hoc): DR_CNN + radiomics_robust,axis_fixed_E6rules,all_103,103,72,0.699029,0.600758,0.785499,,26,5,,mitigation (primary corrected geometry)
+full_fusion: E8c (post hoc): DR_CNN + radiomics_robust,axis_fixed_E6rules,clean_89,89,61,0.685393,0.578302,0.779742,,27,1,,mitigation (primary corrected geometry)
+full_fusion: E8c (post hoc): DR_CNN + radiomics_robust,axis_fixed_E6rules,all_103,103,70,0.679612,0.580426,0.768159,,32,1,,mitigation (primary corrected geometry)
+CNN adaptive_CNN,axis_fixed_E6rules,clean_89,89,58,0.651685,,,,,,,adaptive crop (primary corrected geometry)
+CNN adaptive_CNN,axis_fixed_E6rules,all_103,103,62,0.601942,,,,,,,adaptive crop (primary corrected geometry)
+CNN phase_dropout_CNN,axis_fixed_E6rules,clean_89,89,47,0.52809,,,,,,,adaptive crop (primary corrected geometry)
+CNN phase_dropout_CNN,axis_fixed_E6rules,all_103,103,51,0.495146,,,,,,,adaptive crop (primary corrected geometry)
+cnn_plus_radiomics: adaptive_CNN,axis_fixed_E6rules,clean_89,89,84,0.94382,,,,,,,adaptive crop (primary corrected geometry)
+cnn_plus_radiomics: adaptive_CNN,axis_fixed_E6rules,all_103,103,96,0.932039,,,,,,,adaptive crop (primary corrected geometry)
+full_fusion: adaptive_CNN,axis_fixed_E6rules,clean_89,89,75,0.842697,,,,,,,adaptive crop (primary corrected geometry)
+full_fusion: adaptive_CNN,axis_fixed_E6rules,all_103,103,89,0.864078,,,,,,,adaptive crop (primary corrected geometry)
+cnn_plus_radiomics: phase_dropout_CNN,axis_fixed_E6rules,clean_89,89,67,0.752809,,,,,,,adaptive crop (primary corrected geometry)
+cnn_plus_radiomics: phase_dropout_CNN,axis_fixed_E6rules,all_103,103,73,0.708738,,,,,,,adaptive crop (primary corrected geometry)
+full_fusion: phase_dropout_CNN,axis_fixed_E6rules,clean_89,89,66,0.741573,,,,,,,adaptive crop (primary corrected geometry)
+full_fusion: phase_dropout_CNN,axis_fixed_E6rules,all_103,103,76,0.737864,,,,,,,adaptive crop (primary corrected geometry)

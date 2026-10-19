@@ -1,0 +1,37 @@
+model,test,scans,patients,predicted_HCC,predicted_ICC,predicted_cHCC_CCA
+CNN,HCC scans to ICC-like slice density,unchanged,94,79,9,6
+CNN,HCC scans to ICC-like slice density,smoothing control,94,68,14,12
+CNN,HCC scans to ICC-like slice density,counterfactual,94,18,65,11
+CNN,ICC scans to HCC-like slice density,unchanged,99,14,83,2
+CNN,ICC scans to HCC-like slice density,smoothing control,99,4,91,4
+CNN,ICC scans to HCC-like slice density,counterfactual,99,31,50,18
+CNN,non-contrast artifact injected (HCC and ICC),unchanged,193,93,92,8
+CNN,non-contrast artifact injected (HCC and ICC),smoothing control,193,79,100,14
+CNN,non-contrast artifact injected (HCC and ICC),counterfactual,193,70,55,68
+CNN,non-contrast artifact repaired (cHCC-CCA),unchanged,85,12,5,68
+CNN,non-contrast artifact repaired (cHCC-CCA),smoothing control,85,10,7,68
+CNN,non-contrast artifact repaired (cHCC-CCA),counterfactual,85,23,50,12
+radiomics,HCC scans to ICC-like slice density,unchanged,94,72,9,13
+radiomics,HCC scans to ICC-like slice density,smoothing control,94,66,15,13
+radiomics,HCC scans to ICC-like slice density,counterfactual,94,56,21,17
+radiomics,ICC scans to HCC-like slice density,unchanged,99,9,77,13
+radiomics,ICC scans to HCC-like slice density,smoothing control,99,5,80,14
+radiomics,ICC scans to HCC-like slice density,counterfactual,99,14,67,18
+radiomics,non-contrast artifact injected (HCC and ICC),unchanged,193,81,86,26
+radiomics,non-contrast artifact injected (HCC and ICC),smoothing control,193,61,83,49
+radiomics,non-contrast artifact injected (HCC and ICC),counterfactual,193,77,70,46
+radiomics,non-contrast artifact repaired (cHCC-CCA),unchanged,85,3,13,69
+radiomics,non-contrast artifact repaired (cHCC-CCA),smoothing control,85,4,11,70
+radiomics,non-contrast artifact repaired (cHCC-CCA),counterfactual,85,5,24,56
+CNN + radiomics,HCC scans to ICC-like slice density,unchanged,94,81,4,9
+CNN + radiomics,HCC scans to ICC-like slice density,smoothing control,94,79,6,9
+CNN + radiomics,HCC scans to ICC-like slice density,counterfactual,94,26,62,6
+CNN + radiomics,ICC scans to HCC-like slice density,unchanged,99,8,89,2
+CNN + radiomics,ICC scans to HCC-like slice density,smoothing control,99,4,92,3
+CNN + radiomics,ICC scans to HCC-like slice density,counterfactual,99,20,60,19
+CNN + radiomics,non-contrast artifact injected (HCC and ICC),unchanged,193,89,93,11
+CNN + radiomics,non-contrast artifact injected (HCC and ICC),smoothing control,193,73,102,18
+CNN + radiomics,non-contrast artifact injected (HCC and ICC),counterfactual,193,73,53,67
+CNN + radiomics,non-contrast artifact repaired (cHCC-CCA),unchanged,85,9,6,70
+CNN + radiomics,non-contrast artifact repaired (cHCC-CCA),smoothing control,85,8,7,70
+CNN + radiomics,non-contrast artifact repaired (cHCC-CCA),counterfactual,85,13,38,34

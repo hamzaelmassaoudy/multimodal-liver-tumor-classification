@@ -1,0 +1,25 @@
+model,class,metric,value,ci_low,ci_high
+CNN,HCC,sensitivity,0.894737,0.668623,0.986988
+CNN,HCC,specificity,0.756757,0.588008,0.882275
+CNN,ICC,sensitivity,0.75,0.508954,0.913429
+CNN,ICC,specificity,0.916667,0.77531,0.982474
+CNN,cHCC-CCA,sensitivity,0.705882,0.440417,0.896864
+CNN,cHCC-CCA,specificity,1,0.909749,1
+radiomics,HCC,sensitivity,0.789474,0.544347,0.939475
+radiomics,HCC,specificity,0.918919,0.780904,0.982956
+radiomics,ICC,sensitivity,0.65,0.407811,0.846091
+radiomics,ICC,specificity,0.861111,0.705025,0.953322
+radiomics,cHCC-CCA,sensitivity,0.882353,0.635591,0.985421
+radiomics,cHCC-CCA,specificity,0.871795,0.725701,0.957032
+CNN + radiomics,HCC,sensitivity,0.789474,0.544347,0.939475
+CNN + radiomics,HCC,specificity,0.810811,0.648448,0.920379
+CNN + radiomics,ICC,sensitivity,0.8,0.563386,0.942666
+CNN + radiomics,ICC,specificity,0.916667,0.77531,0.982474
+CNN + radiomics,cHCC-CCA,sensitivity,0.764706,0.501007,0.931892
+CNN + radiomics,cHCC-CCA,specificity,0.948718,0.826755,0.993728
+full fusion,HCC,sensitivity,0.842105,0.604215,0.966174
+full fusion,HCC,specificity,0.810811,0.648448,0.920379
+full fusion,ICC,sensitivity,0.75,0.508954,0.913429
+full fusion,ICC,specificity,0.944444,0.813363,0.9932
+full fusion,cHCC-CCA,sensitivity,0.764706,0.501007,0.931892
+full fusion,cHCC-CCA,specificity,0.923077,0.791298,0.983847

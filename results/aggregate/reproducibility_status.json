@@ -10,10 +10,9 @@
   "exact_end_to_end_reconstruction": false,
   "patient_level_artifacts_public": false,
   "limitations": [
-    "W3 fold 1 checkpoint was not retained",
-    "W4 fold 0 checkpoint was not retained",
-    "Original internal source geometry and spacing were not retained",
-    "Historical phase-specific crop coordinates were not retained",
+    "Fold checkpoints are retained privately and are not distributed",
+    "The released PLC-CECT files store a nominal 1 mm spacing, so physical geometry is unavailable",
+    "Historical crop coordinates were not saved; the revision recomputed identical crops",
     "Patient-level derived artifacts are intentionally excluded"
   ]
 }

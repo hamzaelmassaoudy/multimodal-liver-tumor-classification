@@ -1,0 +1,7 @@
+model,auc,delong_low,delong_high,hcc_sensitivity,icc_specificity,auc_large_tumours_side_above_96,n_large
+CNN adaptive_CNN,0.53165,0.451599,0.611702,0.873786,0.07,0.497847,143
+CNN phase_dropout_CNN,0.52767,0.447796,0.607544,0.718447,0.02,0.48317,143
+cnn_plus_radiomics: adaptive_CNN,0.588544,0.509997,0.66709,0.660194,0.06,0.599217,143
+full_fusion: adaptive_CNN,0.681359,0.60845,0.754269,0.699029,0.08,0.679256,143
+cnn_plus_radiomics: phase_dropout_CNN,0.578252,0.499709,0.656796,0.524272,0.02,0.571037,143
+full_fusion: phase_dropout_CNN,0.690097,0.617454,0.76274,0.533981,0.05,0.676517,143

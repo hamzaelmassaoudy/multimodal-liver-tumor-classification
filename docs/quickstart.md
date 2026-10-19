@@ -94,8 +94,9 @@ Install `python -m pip install -e ".[workflow]"` only for notebooks that need im
 or model libraries. Obtain datasets from their providers, configure private paths as
 specified in the [dataset guide](datasets.md), then follow the
 [notebook sequence](../notebooks/README.md). Patient-linked outputs belong outside Git.
-Two missing historical CNN checkpoints prevent exact all-fold inference even after
-installing the imaging dependencies. See [reproducibility](reproducibility.md).
+CNN inference also needs the private fold checkpoints, which are not distributed. See
+[reproducibility](reproducibility.md). The revision scripts in `scripts/revision` need
+`python -m pip install -e ".[revision]"`.
 
 ## Common setup errors
 

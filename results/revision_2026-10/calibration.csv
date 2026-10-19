@@ -1,0 +1,29 @@
+model,cohort,target,multiclass_brier,brier,intercept,slope
+phase_dropout_CNN,internal_test_56,HCC_vs_rest,0.29623,0.124148,-0.439885,0.969727
+phase_dropout_CNN,internal_test_56,ICC_vs_rest,0.29623,0.0818524,0.246073,1.30751
+phase_dropout_CNN,internal_test_56,CHCC_vs_rest,0.29623,0.0902297,0.277995,1.16815
+phase_dropout_CNN,MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.344265,-1.51965,0.0796594
+radiomics_noshape,internal_test_56,HCC_vs_rest,0.358274,0.130721,-0.0795114,0.548535
+radiomics_noshape,internal_test_56,ICC_vs_rest,0.358274,0.15818,0.058951,0.434829
+radiomics_noshape,internal_test_56,CHCC_vs_rest,0.358274,0.069373,0.0164661,1.02038
+radiomics_noshape,MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.298295,-1.18694,0.25719
+cnn_plus_radiomics [phase_dropout_CNN],internal_test_56,HCC_vs_rest,0.265732,0.117177,-0.50162,0.824214
+cnn_plus_radiomics [phase_dropout_CNN],internal_test_56,ICC_vs_rest,0.265732,0.0832986,0.350205,1.02165
+cnn_plus_radiomics [phase_dropout_CNN],internal_test_56,CHCC_vs_rest,0.265732,0.0652568,0.215776,1.11614
+cnn_plus_radiomics [phase_dropout_CNN],MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.37067,-2.02284,0.292906
+full_fusion [phase_dropout_CNN],internal_test_56,HCC_vs_rest,0.291558,0.128115,-0.838996,0.756031
+full_fusion [phase_dropout_CNN],internal_test_56,ICC_vs_rest,0.291558,0.0964995,0.820001,0.856356
+full_fusion [phase_dropout_CNN],internal_test_56,CHCC_vs_rest,0.291558,0.0669433,0.222652,1.2562
+full_fusion [phase_dropout_CNN],MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.31587,-1.97058,0.481743
+original_CNN,internal_test_56,HCC_vs_rest,0.299657,0.114883,-0.0069995,0.844328
+original_CNN,internal_test_56,ICC_vs_rest,0.299657,0.0789506,0.0566687,1.1151
+original_CNN,internal_test_56,CHCC_vs_rest,0.299657,0.105823,-0.0454967,0.778296
+original_CNN,MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.307685,-0.874513,0.0684828
+cnn_plus_radiomics [original_CNN],internal_test_56,HCC_vs_rest,0.284753,0.120143,-0.505193,0.755867
+cnn_plus_radiomics [original_CNN],internal_test_56,ICC_vs_rest,0.284753,0.0813307,0.319295,0.98914
+cnn_plus_radiomics [original_CNN],internal_test_56,CHCC_vs_rest,0.284753,0.0832792,0.22227,0.907961
+cnn_plus_radiomics [original_CNN],MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.363247,-2.06114,0.234871
+full_fusion [original_CNN],internal_test_56,HCC_vs_rest,0.314302,0.134431,-0.842642,0.681127
+full_fusion [original_CNN],internal_test_56,ICC_vs_rest,0.314302,0.0960586,0.833452,0.87173
+full_fusion [original_CNN],internal_test_56,CHCC_vs_rest,0.314302,0.0838128,0.153177,0.94279
+full_fusion [original_CNN],MCT_LTDiag_203,HCC_vs_ICC (renormalised),,0.313844,-1.94233,0.416069

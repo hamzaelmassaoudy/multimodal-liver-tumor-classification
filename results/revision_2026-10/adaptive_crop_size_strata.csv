@@ -1,0 +1,19 @@
+model,third,n,oof_macro_auc,oof_accuracy,recall_HCC,recall_ICC,recall_CHCC
+CNN adaptive_CNN [complete],small,74,0.915696,0.743243,0.785714,0.774194,0.689655
+CNN adaptive_CNN [complete],medium,74,0.878746,0.756757,0.7,0.757576,0.809524
+CNN adaptive_CNN [complete],large,74,0.839884,0.675676,0.756098,0.733333,0.444444
+CNN phase_dropout_CNN [complete],small,74,0.926524,0.810811,0.785714,0.903226,0.724138
+CNN phase_dropout_CNN [complete],medium,74,0.957383,0.837838,0.8,0.818182,0.904762
+CNN phase_dropout_CNN [complete],large,74,0.942621,0.864865,0.853659,0.866667,0.888889
+cnn_plus_radiomics: adaptive_CNN,small,74,0.934884,0.797297,0.5,0.870968,0.862069
+cnn_plus_radiomics: adaptive_CNN,medium,74,0.906081,0.797297,0.75,0.787879,0.857143
+cnn_plus_radiomics: adaptive_CNN,large,74,0.925767,0.864865,0.926829,0.866667,0.722222
+full_fusion: adaptive_CNN,small,74,0.937689,0.797297,0.571429,0.870968,0.827586
+full_fusion: adaptive_CNN,medium,74,0.9159,0.837838,0.75,0.848485,0.904762
+full_fusion: adaptive_CNN,large,74,0.935885,0.878378,0.95122,0.866667,0.722222
+cnn_plus_radiomics: phase_dropout_CNN,small,74,0.938537,0.864865,0.857143,0.935484,0.793103
+cnn_plus_radiomics: phase_dropout_CNN,medium,74,0.948057,0.851351,0.7,0.909091,0.904762
+cnn_plus_radiomics: phase_dropout_CNN,large,74,0.96354,0.932432,0.97561,0.933333,0.833333
+full_fusion: phase_dropout_CNN,small,74,0.946973,0.864865,0.857143,0.903226,0.827586
+full_fusion: phase_dropout_CNN,medium,74,0.958428,0.837838,0.7,0.878788,0.904762
+full_fusion: phase_dropout_CNN,large,74,0.973939,0.905405,0.926829,0.933333,0.833333

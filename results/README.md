@@ -3,7 +3,12 @@
 This directory publishes privacy-safe cohort-level results. It contains no patient identifiers,
 patient rows, probabilities, split membership, imaging, masks, or feature matrices.
 
-## Released files
+| Folder | Analysis |
+|---|---|
+| [`revision_2026-10`](revision_2026-10/README.md) | October 2026 revision (v2.0.0): 27 tables and 5 figures — the current results |
+| [`aggregate`](aggregate) and [`figures`](figures/README.md) | Analysis as submitted (v1.1.0), unchanged |
+
+## v1.1.0 files (submitted analysis)
 
 | File | Contents |
 |---|---|
@@ -18,9 +23,9 @@ patient rows, probabilities, split membership, imaging, masks, or feature matric
 | [`aggregate/external_adapter_qc.csv`](aggregate/external_adapter_qc.csv) | External phase-coverage and C2 fallback aggregate counts. |
 | [`aggregate/radiomics_imputation_controls.csv`](aggregate/radiomics_imputation_controls.csv) | External radiomics feature-handling controls. |
 | [`aggregate/c2_crop_retention.csv`](aggregate/c2_crop_retention.csv) | C2-only crop-retention summary across 278 internal patients. |
-| [`aggregate/reproducibility_status.json`](aggregate/reproducibility_status.json) | Supported analyses and retained-artifact limits. |
+| [`aggregate/reproducibility_status.json`](aggregate/reproducibility_status.json) | Supported analyses and reconstruction limits. |
 
-## Key interpretation constraints
+## Key interpretation constraints (v1.1.0)
 
 - Corrected full-fusion held-out macro-AUC was 0.945 (95% CI 0.890–0.984), with
   45/56 correct, accuracy 0.804, and macro-F1 0.805.
@@ -32,6 +37,8 @@ patient rows, probabilities, split membership, imaging, masks, or feature matric
   0.019; 82/103 labels differed. Both are model-defined because external sex was not available in the analysis artifacts.
 - Condition C is an internal diagnostic refit using an externally defined availability subset.
 - Crop-retention findings apply only to C2 and show that a subset of lesions was truncated.
+- The revision superseded these models and the external analysis; see the
+  [revision overview](../docs/revision_2026-10.md).
 
 ## Validation
 

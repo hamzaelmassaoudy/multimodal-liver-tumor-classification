@@ -1,0 +1,6 @@
+analysis,auc,post_hoc
+"slice counts only, 3 classes, held-out (logistic)",0.852975,True
+"slice counts only, 3 classes, held-out (random forest)",0.872379,True
+"slice counts only, HCC vs ICC, out-of-fold",0.922025,True
+"CNN + radiomics, HCC vs ICC, out-of-fold",0.962869,True
+"CNN + radiomics, HCC vs ICC, ambiguous slice counts (n = 76)",0.954007,True

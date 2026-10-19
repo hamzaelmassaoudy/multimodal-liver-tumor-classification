@@ -1,35 +1,48 @@
 # Scientific scope
 
-## Research question
+## Research questions
 
-The study evaluates multimodal classification of HCC, ICC, and cHCC-CCA on multiphase CT and
-then subjects the system to an HCC-only external transportability stress test.
+The revised study (v2.0.0) asks three questions:
 
-## Internal design
+1. How well do a 3D CNN, radiomics, and their late fusion distinguish HCC, ICC, and cHCC-CCA on
+   PLC-CECT under robust internal evaluation, and do age and sex add value?
+2. Does PLC-CECT contain class-dependent acquisition artifacts, and do the models use them?
+3. Do the models transfer to another hospital, and which factors explain the external result?
 
-PLC-CECT V4 contributed 278 patients: 94 HCC, 99 ICC, and 85 cHCC-CCA. A patient-level
-split assigned 222 patients to development and 56 to independent evaluation. Development used
-five stratified folds. Sex provenance was 185 male, 90 female, and three unresolved entries.
+## Design
 
-The corrected primary analysis retained unresolved sex as missing and used training-fold median
-imputation. Evaluated configurations were the clinical baseline, W3, W4, W5, CNN-plus-radiomics,
-exact eight-feature full fusion, and a development-only tumor-size baseline.
+- **Internal:** PLC-CECT V4, 278 patients (94 HCC, 99 ICC, 85 cHCC-CCA); 222 development patients
+  in five stratified folds and 56 held-out patients never used for fitting or tuning; five repeats
+  of five-fold cross-validation with the whole pipeline retrained.
+- **Dataset audit:** a file-level census of all 1,112 scans and a counterfactual slice-resampling
+  test with matched smoothing controls.
+- **External validation:** MCT-LTDiag (103 HCC, 100 ICC) with observed age and sex; frozen models,
+  no fitting, threshold tuning, or recalibration on external data.
+- **Stress test:** HCC-TACE-Seg (HCC only), traced through each pipeline correction.
 
-Corrected full fusion achieved CV macro-AUC `0.955 ± 0.033` and held-out macro-AUC 0.945
-(95% CI 0.890–0.984). Historical full-fusion AUC 0.950 is a sensitivity result.
-
-## External scope
-
-HCC-TACE-Seg supplied 103 known-HCC patients. This supports HCC sensitivity under changed
-acquisition and adapter conditions, not multiclass external validation. Missing external sex with
-fold-local median yielded 0.806 and encoded sex=0 yielded 0.019; both are model-defined.
+Each analysis was planned in a dated analysis log before it was run; post hoc analyses are labelled
+as such. The [revision overview](revision_2026-10.md) gives the results.
 
 ## Appropriate interpretation
 
-The internal results support proof-of-concept discrimination within the evaluated cohorts. No
-multiplicity-adjusted DeLong advantage was established. External findings demonstrate sensitivity
-to domain shift, phase availability, adapter differences, feature overlap, and unavailable clinical
-variables. They do not establish clinical readiness or robust transportability.
+- Internal discrimination is high (CNN + radiomics held-out macro-AUC 0.952), but it is partly
+  inflated by dataset artifacts; no per-class advantage survived multiplicity adjustment.
+- The CNN uses a non-contrast reconstruction artifact of the cHCC-CCA scans, and slice counts alone
+  predict the class.
+- Externally, the imaging models separated HCC from ICC barely better than chance, calibration
+  failed, and no mitigation strategy changed this.
+- cHCC-CCA could not be validated externally because no public external cohort contains it.
 
-See [preprocessing](preprocessing.md), [fusion definition](fusion_definition.md),
-[external stress test](external_stress_test.md), and [model card](model_card.md).
+The results do not establish clinical readiness or transportability. Their value lies in showing
+how internal metrics on a public dataset can mislead, and how a file-level audit and a direct
+counterfactual test can reveal this.
+
+## Submitted analysis (v1.1.0)
+
+The submitted study evaluated full fusion as the primary model (held-out macro-AUC 0.945,
+95% CI 0.890–0.984) and an HCC-only external stress test. Its scope, definitions, and results are
+kept in [analysis alignment](manuscript_repository_alignment.md),
+[external stress test](external_stress_test.md), and [results provenance](results_provenance.md).
+
+See [preprocessing](preprocessing.md), [model card](model_card.md), and
+[dataset audit](plc_cect_dataset_audit.md).

@@ -2,6 +2,7 @@ from pathlib import Path
 
 import yaml
 
+import liver_tumor_pipeline
 from liver_tumor_pipeline.config import load_config, require_path
 from liver_tumor_pipeline.radiomics import validate_radiomics_config
 
@@ -42,11 +43,19 @@ def test_citation_metadata_is_complete_and_does_not_invent_identifiers():
     with (ROOT / "CITATION.cff").open(encoding="utf-8") as stream:
         citation = yaml.safe_load(stream)
     assert citation["cff-version"] == "1.2.0"
-    assert citation["version"] == "1.1.0"
+    assert citation["version"] == "2.0.0"
     names = [(author["given-names"], author["family-names"]) for author in citation["authors"]]
     assert names == [("Xuezhi", "Wen"), ("Hamza", "El Massaoudy")]
     assert citation["license"] == "MIT"
     assert "doi" not in citation
+
+
+def test_package_and_citation_versions_agree():
+    with (ROOT / "CITATION.cff").open(encoding="utf-8") as stream:
+        citation = yaml.safe_load(stream)
+    pyproject = (ROOT / "pyproject.toml").read_text(encoding="utf-8")
+    assert f'version = "{citation["version"]}"' in pyproject
+    assert liver_tumor_pipeline.__version__ == citation["version"]
 
 
 def test_mit_license_is_complete():

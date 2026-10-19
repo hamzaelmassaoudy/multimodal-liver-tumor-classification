@@ -1,5 +1,9 @@
 # Manuscript and repository alignment
 
+> **Version note.** This page describes the analysis as submitted (v1.1.0). The October 2026
+> revision changed the main models and added external validation; see the
+> [revision overview](revision_2026-10.md).
+
 This page records the analysis definitions and aggregate values distributed with the study
 release. It describes the repository contents; citation metadata are in [CITATION.cff](../CITATION.cff).
 
@@ -43,6 +47,9 @@ HCC-TACE-Seg supplied an HCC-only stress test of 103 patients. Missing external 
 corrected fusion model’s fold-local median yielded sensitivity 0.806 (83/103; CI 0.728–0.883).
 Encoded sex=0 yielded 0.019 (2/103; CI 0–0.049), and 82/103 hard labels differed. Both values
 are model-defined because external age and sex were not available in the analysis artifacts.
+The revision linked the TCIA clinical file (age and sex observed for 103 of 103) and found an
+axis-order error in this external pipeline; see
+[external validation](external_validation_mct_ltdiag.md).
 
 C2 fallback occurred for 102/103 patients, preventing a meaningful fallback comparison. Strict
 radiomics Condition C was an internal diagnostic refit using an externally defined availability
@@ -50,6 +57,7 @@ subset, not frozen external validation. No verified external CNN-plus-radiomics 
 
 ## Reconstruction limits
 
-Aggregate reanalysis is supported. Exact all-fold reconstruction is limited by missing W3 fold 1
-and W4 fold 0 checkpoints, unavailable source geometry and phase-specific crop coordinates, and
-intentional nonpublication of patient-level artifacts.
+Aggregate reanalysis is supported. Exact reconstruction from a public clone is limited by the
+private checkpoints, the missing physical geometry of the released files, and the intentional
+nonpublication of patient-level artifacts. (v1.1.0 also listed missing W3 fold 1 and W4 fold 0
+checkpoints; all folds were in fact retained.)

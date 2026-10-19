@@ -1,0 +1,25 @@
+cohort,model,group,n,n_HCC/ICC/cHCC,macro_auc,hcc_vs_icc_auc,accuracy
+internal_oof,CNN,all,222,75/79/68,0.942553,0.956709,0.837838
+internal_oof,CNN,C2 share >= 0.9,139,52/37/50,0.948063,0.961019,0.827338
+internal_oof,CNN,C2 share < 0.9,83,23/42/18,0.934465,0.940476,0.855422
+internal_oof,Radiomics,all,222,75/79/68,0.91854,0.943629,0.788288
+internal_oof,Radiomics,C2 share >= 0.9,139,52/37/50,0.936532,0.977651,0.798561
+internal_oof,Radiomics,C2 share < 0.9,83,23/42/18,0.876609,0.877847,0.771084
+internal_oof,CNN + radiomics,all,222,75/79/68,0.954605,0.962869,0.882883
+internal_oof,CNN + radiomics,C2 share >= 0.9,139,52/37/50,0.966991,0.966216,0.884892
+internal_oof,CNN + radiomics,C2 share < 0.9,83,23/42/18,0.923947,0.942029,0.879518
+internal_oof,Full fusion,all,222,75/79/68,0.961436,0.976371,0.869369
+internal_oof,Full fusion,C2 share >= 0.9,139,52/37/50,0.975389,0.989085,0.892086
+internal_oof,Full fusion,C2 share < 0.9,83,23/42/18,0.92892,0.944099,0.831325
+internal_test,CNN,all,56,19/20/17,0.919178,0.961842,0.785714
+internal_test,CNN,C2 share >= 0.9,37,13/10/14,0.918369,0.976923,0.783784
+internal_test,CNN,C2 share < 0.9,19,6/10/3,0.919231,0.941667,0.789474
+internal_test,Radiomics,all,56,19/20/17,0.902333,0.863158,0.767857
+internal_test,Radiomics,C2 share >= 0.9,37,13/10/14,0.884481,0.853846,0.72973
+internal_test,Radiomics,C2 share < 0.9,19,6/10/3,0.920798,0.85,0.842105
+internal_test,CNN + radiomics,all,56,19/20/17,0.952114,0.947368,0.785714
+internal_test,CNN + radiomics,C2 share >= 0.9,37,13/10/14,0.948622,0.938462,0.756757
+internal_test,CNN + radiomics,C2 share < 0.9,19,6/10/3,0.976638,0.966667,0.842105
+internal_test,Full fusion,all,56,19/20/17,0.9514,0.942105,0.785714
+internal_test,Full fusion,C2 share >= 0.9,37,13/10/14,0.953433,0.938462,0.756757
+internal_test,Full fusion,C2 share < 0.9,19,6/10/3,0.95584,0.933333,0.842105

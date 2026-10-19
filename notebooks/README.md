@@ -1,14 +1,17 @@
-# Canonical notebook sequence
+# Notebooks
 
-These 14 notebooks document the study workflow and aggregate analyses. Every committed notebook
-has no outputs, execution counts, attachments, patient data, or machine-specific paths.
+The 27 notebooks document the original study workflow (01–14) and the October 2026 revision
+analyses (15–27). Every committed notebook has no outputs, execution counts, attachments, patient
+data, or machine-specific paths.
+
+Create ignored `configs/paths.yaml` from `configs/paths.example.yaml` only when user-obtained data
+or authorized local artifacts are available. Patient-linked outputs must remain outside Git.
+
+## Original workflow (01–14)
 
 Internal preprocessing independently centers P, C1, C2, and C3 crops and performs no explicit
 interphase registration. The corrected primary clinical/fusion analysis retains unresolved sex as
 missing and uses fold-local medians. The historical non-male-to-zero rule is sensitivity-only.
-
-Create ignored `configs/paths.yaml` from `configs/paths.example.yaml` only when user-obtained data
-or authorized local artifacts are available. Patient-linked outputs must remain outside Git.
 
 | Order | Notebook | Classification |
 |---:|---|---|
@@ -23,18 +26,35 @@ or authorized local artifacts are available. Patient-linked outputs must remain 
 | 9 | [External tumor-mask preprocessing](04_external_stress_test/09_external_tumor_mask_preprocessing.ipynb) | Public dataset plus operator-controlled private review |
 | 10 | [External mask-density QC](04_external_stress_test/10_external_mask_density_qc.ipynb) | Historical workflow requiring private images and masks |
 | 11 | [External liver-mask adapter](04_external_stress_test/11_external_liver_mask_adapter.ipynb) | Historical per-case method interface |
-| 12 | [External frozen inference](04_external_stress_test/12_external_frozen_inference.ipynb) | Public aggregate reanalysis; complete historical CNN inference unavailable |
+| 12 | [External frozen inference](04_external_stress_test/12_external_frozen_inference.ipynb) | Public aggregate reanalysis; CNN inference requires private checkpoints |
 | 13 | [Radiomics imputation controls](04_external_stress_test/13_radiomics_imputation_controls.ipynb) | Public aggregate reanalysis; private artifacts required for rerun |
 | 14 | [Explainability and aggregate figures](05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb) | Public aggregate figure generation; private artifacts required for case-level explainability |
 
+## Revision analyses (15–27)
+
+These notebooks produced every result of the [revision](../docs/revision_2026-10.md). Each analysis
+notebook stops unless it first reproduces the saved results it builds on; the download notebook (18)
+checks every file against its published checksum instead. The
+[revision notebook guide](../docs/revision_notebooks.md) describes each notebook and its
+environment variables.
+
+| Folder | Notebooks |
+|---|---|
+| [`06_revision_internal_models_and_statistics`](06_revision_internal_models_and_statistics) | 15 reproduction and radiomics without shape · 16 missing phases and phase-dropout CNN · 22 truncation, size, calibration, statistics · 23 repeated cross-validation · 25 adaptive-crop CNN |
+| [`07_revision_external_validation_and_mitigation`](07_revision_external_validation_and_mitigation) | 17 HCC-TACE-Seg repaired · 18 MCT-LTDiag download · 19 MCT-LTDiag validation · 20 HCC-TACE-Seg axis corrected · 21 all 203 patients and radiomics mitigation · 24 CNN mitigation and models without non-contrast |
+| [`08_revision_dataset_audit_and_explainability`](08_revision_dataset_audit_and_explainability) | 26 dataset audit and counterfactual test · 27 Grad-CAM attribution |
+
+Numbers follow the order in which the analyses ran.
+
 ## Boundaries
 
-- W3 fold 1 and W4 fold 0 checkpoints were not retained.
-- Source geometry, spacing, and phase-specific crop coordinates were not retained.
-- Public C2 crop-retention findings apply only to C2.
-- W5 is crop-restricted radiomics and its shape outputs are not verified physical-unit measures.
-- Exact full fusion contains W4 and W5 probability triplets, age, and sex; W3 is excluded.
-- External values are HCC sensitivities under model-defined unavailable-covariate scenarios.
+- Fold checkpoints of all CNNs are retained privately and are not distributed. (v1.1.0 stated
+  that W3 fold 1 and W4 fold 0 were not retained; that was wrong.)
+- The released PLC-CECT files carry no physical spacing; radiomics shape features were therefore
+  removed in the revision.
+- External values in notebooks 07–13 are HCC sensitivities of the submitted analysis; the
+  revised external analysis is in notebooks 17–21 and 24.
+- Exact full fusion contains CNN and radiomics probability triplets, age, and sex; W3 is excluded.
 
 See [reproducibility](../docs/reproducibility.md) and
 [artifact contracts](../docs/artifact_contracts.md).

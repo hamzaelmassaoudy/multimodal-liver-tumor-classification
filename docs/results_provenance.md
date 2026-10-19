@@ -1,5 +1,13 @@
 # Results provenance
 
+## Revision tables (v2.0.0)
+
+Files under [`results/revision_2026-10`](../results/revision_2026-10/README.md) were exported
+from the private revision run outputs by
+[`export_revision_aggregates.py`](../scripts/revision/export_revision_aggregates.py), which
+refuses patient-identifier columns. Their values match the revised manuscript. The rest of this
+page describes the v1.1.0 tables, which are unchanged.
+
 ## Public aggregate artifacts
 
 Files under [`results/aggregate`](../results/aggregate/) contain cohort-level values only. They
@@ -50,7 +58,8 @@ internal refit. Their small sample size makes them exploratory.
 - Metric recalculation from prediction rows requires authorized local patient-level artifacts.
 - The C2 audit and external scenario aggregation require authorized local inputs and emit only
   aggregate summaries.
-- Exact all-fold CNN inference is unavailable because two historical checkpoints were not retained.
+- CNN inference requires the private fold checkpoints, which are not distributed. (v1.1.0 stated
+  that two checkpoints were not retained; all were retained.)
 
 See [artifact contracts](artifact_contracts.md), [reproducibility](reproducibility.md), and
 [`results/README.md`](../results/README.md).

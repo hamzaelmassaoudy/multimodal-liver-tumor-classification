@@ -40,5 +40,15 @@ include CNN training, full imaging preprocessing, or clinical validation.
 Exact historical versions were not preserved for every imaging and modeling component.
 The `workflow` extra supplies dependency ranges for inspecting and running supported
 notebooks with authorized local inputs. It is not a historical lock file, and newly
-installed versions may produce different numerical outputs. Missing checkpoints,
-geometry, and crop coordinates impose additional [reconstruction limits](reproducibility.md).
+installed versions may produce different numerical outputs. Private checkpoints and the
+missing physical geometry impose additional [reconstruction limits](reproducibility.md).
+
+## Revision environment
+
+The revision notebooks ran on Google Colab with Python 3.13, PyTorch 2.11, MONAI 1.6.1,
+PyRadiomics 3.1.1, LightGBM 4.6.0, and scikit-learn 1.6.1, with an NVIDIA A100 or L4 GPU for
+the CNN analyses.
+
+The revision scripts need the `revision` extra (`python -m pip install -e ".[revision]"`).
+With matplotlib 3.9.2, `make_revision_figures.py` reproduces the published figures pixel for
+pixel; other matplotlib versions can differ slightly in font rendering.

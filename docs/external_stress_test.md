@@ -1,5 +1,9 @@
 # External HCC-only transportability stress test
 
+> **Version note.** This page describes the analysis as submitted (v1.1.0). The October 2026
+> revision changed the main models and added external validation; see the
+> [revision overview](revision_2026-10.md).
+
 ## Scope
 
 The external analysis used 103 retained HCC-TACE-Seg patients, all known HCC. No patient had all

@@ -1,0 +1,25 @@
+model,test,subset,n,expected_sign,mean_shift_vs_smoothing_control,ci_low,ci_high,smoothing_control_mean_abs_change,smoothing_control_ok,meets_rule
+CNN,slice density: HCC scans made ICC-like,all 278,94,1,0.924277,0.814117,1.0317,0.116811,False,True
+CNN,slice density: HCC scans made ICC-like,held-out 56,19,1,0.967108,0.758432,1.17862,0.128137,False,True
+CNN,slice density: ICC scans made HCC-like,all 278,99,-1,-0.574732,-0.6644,-0.486079,0.120027,False,True
+CNN,slice density: ICC scans made HCC-like,held-out 56,20,-1,-0.584713,-0.758504,-0.426089,0.135421,False,True
+CNN,"non-contrast artefact injected (HCC, ICC)",all 278,193,1,0.253744,0.208608,0.295506,0.0360031,True,True
+CNN,"non-contrast artefact injected (HCC, ICC)",held-out 56,39,1,0.305418,0.218413,0.395114,0.0390914,True,True
+CNN,non-contrast artefact repaired (cHCC-CCA),all 278,85,-1,-0.501519,-0.584271,-0.423485,0.0201808,True,True
+CNN,non-contrast artefact repaired (cHCC-CCA),held-out 56,17,-1,-0.502592,-0.672543,-0.330142,0.0137524,True,True
+radiomics,slice density: HCC scans made ICC-like,all 278,94,1,0.234874,0.144823,0.322993,0.146807,False,True
+radiomics,slice density: HCC scans made ICC-like,held-out 56,19,1,0.223301,0.108776,0.346553,0.0926236,False,True
+radiomics,slice density: ICC scans made HCC-like,all 278,99,-1,-0.2512,-0.354256,-0.150448,0.219321,False,True
+radiomics,slice density: ICC scans made HCC-like,held-out 56,20,-1,-0.197129,-0.391533,-0.0242398,0.252327,False,True
+radiomics,"non-contrast artefact injected (HCC, ICC)",all 278,193,1,-0.0203338,-0.0551643,0.0127716,0.151192,False,False
+radiomics,"non-contrast artefact injected (HCC, ICC)",held-out 56,39,1,0.0147771,-0.0648295,0.0965538,0.145964,False,False
+radiomics,non-contrast artefact repaired (cHCC-CCA),all 278,85,-1,-0.158787,-0.22325,-0.0965105,0.0385842,True,True
+radiomics,non-contrast artefact repaired (cHCC-CCA),held-out 56,17,-1,-0.145108,-0.239281,-0.0666439,0.0548817,False,True
+CNN + radiomics,slice density: HCC scans made ICC-like,all 278,94,1,0.824807,0.717946,0.934523,0.0924631,False,True
+CNN + radiomics,slice density: HCC scans made ICC-like,held-out 56,19,1,0.900481,0.70867,1.08818,0.0731673,False,True
+CNN + radiomics,slice density: ICC scans made HCC-like,all 278,99,-1,-0.48849,-0.590391,-0.389837,0.140216,False,True
+CNN + radiomics,slice density: ICC scans made HCC-like,held-out 56,20,-1,-0.490054,-0.691804,-0.309406,0.199014,False,True
+CNN + radiomics,"non-contrast artefact injected (HCC, ICC)",all 278,193,1,0.190461,0.149205,0.234095,0.0646984,False,True
+CNN + radiomics,"non-contrast artefact injected (HCC, ICC)",held-out 56,39,1,0.216414,0.122344,0.314554,0.0557508,False,True
+CNN + radiomics,non-contrast artefact repaired (cHCC-CCA),all 278,85,-1,-0.41321,-0.482858,-0.33509,0.0237486,True,True
+CNN + radiomics,non-contrast artefact repaired (cHCC-CCA),held-out 56,17,-1,-0.467799,-0.624865,-0.318007,0.0150563,True,True

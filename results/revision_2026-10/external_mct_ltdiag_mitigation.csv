@@ -1,0 +1,36 @@
+model,n,auc,auc_delong_low,auc_delong_high,auc_boot_low,auc_boot_high,hcc_sensitivity,icc_specificity,HCC_pred_HCC,HCC_pred_ICC,HCC_pred_CHCC,ICC_pred_HCC,ICC_pred_ICC,ICC_pred_CHCC,source,delong_low,delong_high,boot_low,boot_high
+radiomics_noshape,203,0.654854,0.579122,0.730586,0.579506,0.727142,0.213592,0.1,22,5,76,12,10,78,radiomics mitigation,,,,
+radiomics_noshape_ComBat,203,0.550388,0.470788,0.629989,0.470483,0.62848,0.504854,0.27,52,19,32,51,27,22,radiomics mitigation,,,,
+radiomics_robust,203,0.690583,0.61658,0.764585,0.611831,0.762346,0.223301,0.2,23,10,70,15,20,65,radiomics mitigation,,,,
+radiomics_robust_ComBat,203,0.618932,0.54161,0.696254,0.544342,0.693052,0.407767,0.44,42,26,35,34,44,22,radiomics mitigation,,,,
+cnn_plus_radiomics [phase_dropout_CNN] + radiomics_noshape,203,0.578252,0.499709,0.656796,0.496777,0.656474,0.524272,0.02,54,2,47,48,2,50,radiomics mitigation,,,,
+cnn_plus_radiomics [phase_dropout_CNN] + radiomics_noshape_ComBat,203,0.548544,0.468775,0.628312,0.464936,0.625097,0.679612,0.04,70,3,30,69,4,27,radiomics mitigation,,,,
+cnn_plus_radiomics [phase_dropout_CNN] + radiomics_robust,203,0.606505,0.528351,0.684659,0.52637,0.681527,0.378641,0.01,39,2,62,35,1,64,radiomics mitigation,,,,
+cnn_plus_radiomics [phase_dropout_CNN] + radiomics_robust_ComBat,203,0.58233,0.503803,0.660857,0.505288,0.658066,0.582524,0.04,60,2,41,54,4,42,radiomics mitigation,,,,
+full_fusion [phase_dropout_CNN] + radiomics_noshape,203,0.690097,0.617454,0.76274,0.616765,0.760255,0.533981,0.05,55,2,46,39,5,56,radiomics mitigation,,,,
+full_fusion [phase_dropout_CNN] + radiomics_noshape_ComBat,203,0.651456,0.575361,0.727552,0.575024,0.723051,0.68932,0.09,71,5,27,62,9,29,radiomics mitigation,,,,
+full_fusion [phase_dropout_CNN] + radiomics_robust,203,0.694757,0.621931,0.767584,0.617356,0.763257,0.446602,0.1,46,3,54,28,10,62,radiomics mitigation,,,,
+full_fusion [phase_dropout_CNN] + radiomics_robust_ComBat,203,0.672621,0.597683,0.74756,0.596849,0.744523,0.631068,0.11,65,4,34,48,11,41,radiomics mitigation,,,,
+CNN phase_dropout_CNN,,0.52767,,,,,0.718447,0.02,,,,,,,CNN mitigation and no non-contrast,0.447796,0.607544,0.449717,0.604073
+CNN DR_CNN,,0.544757,,,,,0.834951,0.01,,,,,,,CNN mitigation and no non-contrast,0.465121,0.624394,0.466311,0.62077
+CNN noP_CNN,,0.569903,,,,,0.902913,0.13,,,,,,,CNN mitigation and no non-contrast,0.490458,0.649348,0.488517,0.64501
+CNN phase_dropout_CNN + harmonisation,,0.53466,,,,,0.718447,0.01,,,,,,,CNN mitigation and no non-contrast,0.454781,0.61454,0.455354,0.612829
+CNN DR_CNN + harmonisation,,0.549029,,,,,0.815534,0.01,,,,,,,CNN mitigation and no non-contrast,0.469417,0.628641,0.471655,0.62867
+radiomics radiomics_noshape,,0.654854,,,,,0.213592,0.1,,,,,,,CNN mitigation and no non-contrast,0.579122,0.730586,0.580078,0.728575
+radiomics radiomics_noP,,0.712621,,,,,0.116505,0.1,,,,,,,CNN mitigation and no non-contrast,0.640934,0.784309,0.638108,0.783876
+radiomics radiomics_robust_ComBat,,0.618932,,,,,0.407767,0.44,,,,,,,CNN mitigation and no non-contrast,0.54161,0.696254,0.544637,0.691232
+radiomics radiomics_robust,,0.690583,,,,,0.223301,0.2,,,,,,,CNN mitigation and no non-contrast,0.61658,0.764585,0.611334,0.760897
+cnn_plus_radiomics: [ref] phase_dropout_CNN + radiomics_noshape,,0.578252,,,,,0.524272,0.02,,,,,,,CNN mitigation and no non-contrast,0.499709,0.656796,0.498731,0.655347
+full_fusion: [ref] phase_dropout_CNN + radiomics_noshape,,0.690097,,,,,0.533981,0.05,,,,,,,CNN mitigation and no non-contrast,0.617454,0.76274,0.614856,0.760183
+cnn_plus_radiomics: E8b: phase_dropout_CNN + harmonisation + radiomics_noshape,,0.600194,,,,,0.553398,0.02,,,,,,,CNN mitigation and no non-contrast,0.522488,0.677901,0.521865,0.675897
+full_fusion: E8b: phase_dropout_CNN + harmonisation + radiomics_noshape,,0.697767,,,,,0.601942,0.04,,,,,,,CNN mitigation and no non-contrast,0.625893,0.76964,0.625434,0.767059
+cnn_plus_radiomics: E8b: DR_CNN + radiomics_noshape,,0.613204,,,,,0.446602,0.03,,,,,,,CNN mitigation and no non-contrast,0.535996,0.690412,0.536963,0.688063
+full_fusion: E8b: DR_CNN + radiomics_noshape,,0.705146,,,,,0.524272,0.04,,,,,,,CNN mitigation and no non-contrast,0.633778,0.776513,0.632689,0.774284
+cnn_plus_radiomics: E8b: DR_CNN + harmonisation + radiomics_noshape,,0.622233,,,,,0.427184,0.03,,,,,,,CNN mitigation and no non-contrast,0.54545,0.699016,0.547313,0.69612
+full_fusion: E8b: DR_CNN + harmonisation + radiomics_noshape,,0.711262,,,,,0.504854,0.04,,,,,,,CNN mitigation and no non-contrast,0.640511,0.782013,0.63752,0.778757
+cnn_plus_radiomics: E9: noP_CNN + radiomics_noP,,0.665728,,,,,0.300971,0.06,,,,,,,CNN mitigation and no non-contrast,0.59016,0.741296,0.585955,0.739899
+full_fusion: E9: noP_CNN + radiomics_noP,,0.716796,,,,,0.533981,0.2,,,,,,,CNN mitigation and no non-contrast,0.645407,0.788185,0.643854,0.787775
+cnn_plus_radiomics: E8c (pre-specified): DR_CNN + radiomics_robust_ComBat,,0.600583,,,,,0.524272,0.09,,,,,,,CNN mitigation and no non-contrast,0.522763,0.678402,0.530679,0.675642
+full_fusion: E8c (pre-specified): DR_CNN + radiomics_robust_ComBat,,0.674757,,,,,0.582524,0.23,,,,,,,CNN mitigation and no non-contrast,0.600041,0.749473,0.5992,0.751372
+cnn_plus_radiomics: E8c (post hoc): DR_CNN + radiomics_robust,,0.634854,,,,,0.330097,0.05,,,,,,,CNN mitigation and no non-contrast,0.557783,0.711926,0.557909,0.708767
+full_fusion: E8c (post hoc): DR_CNN + radiomics_robust,,0.696214,,,,,0.330097,0.1,,,,,,,CNN mitigation and no non-contrast,0.623804,0.768623,0.623296,0.767426

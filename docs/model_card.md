@@ -1,67 +1,74 @@
 # Model card
 
-## Study system
+This card describes the models of the October 2026 revision (v2.0.0). The submitted models
+(v1.1.0) are summarized at the end.
 
-The system classifies HCC, ICC, and cHCC-CCA on multiphase contrast-enhanced CT. It combines
-multiphase CNN probabilities, crop-restricted radiomics-LightGBM probabilities, age, and sex
-through late fusion. W3 is a single-phase comparator.
+## System
+
+The system classifies HCC, ICC, and cHCC-CCA on four-phase contrast-enhanced CT (non-contrast P,
+arterial C1, portal-venous C2, delayed C3). Each phase is multiplied by its liver mask and cropped
+to 96³ voxels around that phase's tumor.
+
+| Component | Definition |
+|---|---|
+| Phase-dropout CNN (main) | Randomly initialized MONAI 3D ResNet-18, input `4 x 96 x 96 x 96`; random phases zeroed during training; checkpoint chosen on an inner validation split; per-fold class weights; five fold models |
+| Radiomics | 372 intratumoral PyRadiomics features without shape features (107 per phase minus 56 shape features); per-fold variance and correlation filtering and top-30 ANOVA-F selection; LightGBM; five fold models |
+| **CNN + radiomics (primary)** | Logistic late fusion of the six out-of-fold probabilities |
+| Full fusion | CNN + radiomics plus age and sex (eight inputs) |
 
 ## Intended use
 
 - Retrospective research on primary liver tumor classification.
-- Aggregate analysis of the reported internal evaluation.
-- Methodological inspection of lesion-centered multiphase modeling and transportability stress.
+- Methodological study of dataset artifacts and external transportability.
 
 ## Out-of-scope use
 
-The system is not a medical device and is not intended for diagnosis, triage, treatment selection,
-prognosis, or autonomous clinical decision-making. The external cohort does not validate
-discrimination among all three tumor classes.
+The models are not medical devices and must not be used for diagnosis, triage, treatment
+selection, prognosis, or any clinical decision. They did not transport to an external hospital,
+and the three-class task has no external validation.
 
-## Inputs and branches
+## Training and evaluation data
 
-- W3: C2-only `1 x 96 x 96 x 96` input to a randomly initialized MONAI 3D ResNet-18.
-- W4: P/C1/C2/C3 `4 x 96 x 96 x 96` input to a randomly initialized MONAI 3D ResNet-18.
-- W5: 428 candidate crop-restricted PyRadiomics features and fold-specific LightGBM.
-- Full fusion: W4 and W5 probability triplets, age, and sex, using multinomial logistic regression.
+PLC-CECT V4 (one hospital): 278 patients (94 HCC, 99 ICC, 85 cHCC-CCA), split into 222
+development patients (five stratified folds) and 56 held-out patients. External validation:
+MCT-LTDiag (103 HCC, 100 ICC). Stress test: HCC-TACE-Seg (89 HCC without mixed-scan inputs).
 
-Each W4 phase was independently centered on its own tumor-mask centroid. No explicit interphase
-registration was performed. Cached W5 arrays lacked source spacing and geometry; shape outputs
-are not verified physical-unit measurements.
+## Performance
 
-## Evaluation data
+| Model | PLC-CECT held-out macro-AUC (95% CI) | 5 × 5 repeated CV | MCT-LTDiag HCC-vs-ICC AUC (95% CI) |
+|---|---:|---:|---:|
+| Phase-dropout CNN | 0.919 (0.849–0.973) | 0.918 ± 0.018 | 0.528 (0.448–0.607) |
+| Radiomics | 0.902 (0.826–0.960) | 0.918 ± 0.005 | 0.655 (0.579–0.731) |
+| **CNN + radiomics** | **0.952 (0.906–0.985)** | **0.942 ± 0.011** | **0.578 (0.500–0.657)** |
+| Full fusion | 0.951 (0.903–0.984) | 0.947 ± 0.011 | 0.690 (0.617–0.763); sex alone 0.663 |
 
-PLC-CECT V4 contributed 278 patients: 94 HCC, 99 ICC, and 85 cHCC-CCA. Development used
-222 patients in five folds; 56 patients formed an independent evaluation cohort. Sex provenance
-was 185 male, 90 female, and 3 unresolved. HCC-TACE-Seg supplied 103 known-HCC patients.
+Internally, CNN + radiomics had calibration slopes of 0.82–1.12. On MCT-LTDiag, calibration failed
+for every model (intercepts −0.87 to −2.06), the models rarely predicted ICC, and many patients
+were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
+[revision overview](revision_2026-10.md) and [external validation](external_validation_mct_ltdiag.md).
 
-## Corrected internal performance
+## Known failure modes and risks
 
-Unresolved sex was treated as missing with fold-local median imputation. Held-out macro-AUCs were
-0.614 for the clinical baseline, 0.860 for W3, 0.906 for W4, 0.938 for W5, 0.930 for
-CNN-plus-radiomics, and 0.945 for full fusion. The full-fusion CI was 0.890–0.984; accuracy
-was 0.804 and macro-F1 was 0.805. Historical full-fusion AUC 0.950 is a sensitivity result.
+- **Dataset shortcuts.** PLC-CECT acquisition differs by class. The CNN uses a non-contrast
+  reconstruction artifact of the cHCC-CCA scans, and slice counts alone predict the class
+  (held-out macro-AUC 0.853–0.872). Internal performance is therefore partly inflated by dataset
+  artifacts ([dataset audit](plc_cect_dataset_audit.md)).
+- **Masked tumor tissue.** In 52 of 99 ICC patients, less than 90% of the tumor lies inside the
+  released liver mask, so part of the tumor is blanked in the model input.
+- **Fixed crop.** The 96³ crop kept less than 90% of the portal-venous tumor in 37 of 94 HCC
+  patients; an adaptive crop did not help.
+- **Clinical inputs.** Age and sex added nothing internally; externally, full fusion's advantage
+  came from sex, and on HCC-TACE-Seg its output depended strongly on how age and sex were supplied.
+- **Missing phases.** Models need all four phases; phase dropout reduces but does not remove the
+  dependence.
+- **Small held-out set.** With 56 patients, confidence intervals are wide.
 
-## External behavior
+Clinical development would require multicenter data with all three tumor classes, acquisition
+recorded and balanced by class, complete clinical variables, and prospective evaluation.
 
-W3 and W4 HCC sensitivities were 0.049 and 0.000. Missing external sex with fold-local median
-imputation yielded full-fusion sensitivity 0.806, whereas encoded sex=0 yielded 0.019; 82/103
-labels changed. Both are model-defined because external sex was not available in the analysis
-artifacts. C2 fallback was used for 102/103 patients. Radiomics controls showed strong dependence
-on imputation; Condition C was
-an internal diagnostic refit rather than frozen external validation.
+## Submitted models (v1.1.0)
 
-## Limitations and risks
-
-- Independent phase centering does not guarantee anatomical correspondence across channels.
-- Fixed crops truncated some tumors; verified C2 minimum retention was 15.64%.
-- C2 retention values cannot be generalized numerically to other phases.
-- Historical radiomics shape outputs use crop-grid/unit-spacing geometry.
-- CV and stacking estimates may be optimistic because of checkpoint and class-weight decisions.
-- Internal and external adapters differed materially, and no external patient had all four phases.
-- Missing checkpoints prevent exact all-fold CNN inference reconstruction.
-- External age and sex were unavailable in the analysis artifacts, and the cohort contained only HCC.
-
-Independent validation, bias analysis, calibration assessment, and clinical governance are
-required before any translational use. See [scientific scope](scientific_scope.md),
-[external stress test](external_stress_test.md), and [reproducibility](reproducibility.md).
+The submitted system used the W4 multiphase CNN (outer-fold checkpoint selection), W5 radiomics
+with shape features, and full fusion as the primary model (held-out macro-AUC 0.945, 95% CI
+0.890–0.984). Its definitions and results are kept in [model architecture](model_architecture.md),
+[results provenance](results_provenance.md), and [`results/aggregate`](../results/aggregate/).

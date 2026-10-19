@@ -31,9 +31,11 @@ resampling was performed. No additional internal resampling beyond the source re
 | Minimum retention | 15.64% |
 | Volume-weighted retention | 61.46% |
 
-These values apply only to C2. Original geometry and phase-specific crop coordinates required for
-equivalent P, C1, and C3 audits were not retained. W5 is therefore described as crop-restricted
-tumor radiomics, not guaranteed complete-lesion radiomics.
+These values apply only to C2. W5 is therefore described as crop-restricted tumor radiomics, not
+guaranteed complete-lesion radiomics. The October 2026 revision recomputed the crops from the
+released dataset (identical to the original crops for 278 of 278 patients) and measured
+retention in every phase; see
+[`crop_truncation_by_class_phase.csv`](../results/revision_2026-10/crop_truncation_by_class_phase.csv).
 
 ## Historical radiomics geometry
 

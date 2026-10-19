@@ -11,7 +11,8 @@ The following must remain outside the repository:
 - Raw or processed CT, DICOM, NIfTI, NPZ, or mask files.
 - Patient identifiers, clinical rows, dates, accession numbers, hospital identifiers, or DICOM UIDs.
 - Patient-level split membership, labels, predictions, probabilities, crop-retention records, or feature matrices.
-- Historical checkpoints or derived artifacts that are unavailable or not approved for public distribution.
+- Model checkpoints and other derived artifacts not approved for public distribution.
+- Figures showing patient images (manuscript Figures 2, 6, and 8 of the revision).
 
 Public source datasets must be obtained from their custodians. Their availability does not grant this project permission to redistribute them.
 
@@ -21,7 +22,8 @@ Private locations are resolved through environment variables referenced by [`con
 
 ## Aggregate-only reporting
 
-The C2 retention audit, internal metric utility, and external sex-scenario utility can consume authorized local inputs. Their publishable products are aggregate summaries only. Before sharing any new output, verify that it contains no identifiers, filenames, small-cell row detail, or patient-level values.
+The C2 retention audit, internal metric utility, external sex-scenario utility, and the revision
+scripts in `scripts/revision` can consume authorized local inputs. Their publishable products are aggregate summaries only. Before sharing any new output, verify that it contains no identifiers, filenames, small-cell row detail, or patient-level values.
 
 ## Security reporting
 

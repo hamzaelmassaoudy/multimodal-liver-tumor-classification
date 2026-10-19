@@ -31,6 +31,19 @@ def test_canonical_notebook_sequence_is_complete():
         "12_external_frozen_inference.ipynb",
         "13_radiomics_imputation_controls.ipynb",
         "14_explainability_and_aggregate_figures.ipynb",
+        "15_reproduce_submitted_results_and_noshape_radiomics.ipynb",
+        "16_missing_phases_and_phase_dropout_cnn.ipynb",
+        "17_hcc_tace_seg_repaired_pipeline.ipynb",
+        "18_mct_ltdiag_download.ipynb",
+        "19_mct_ltdiag_external_validation.ipynb",
+        "20_hcc_tace_seg_axis_corrected.ipynb",
+        "21_mct_ltdiag_all_203_and_radiomics_mitigation.ipynb",
+        "22_truncation_size_statistics_calibration.ipynb",
+        "23_repeated_cross_validation.ipynb",
+        "24_cnn_mitigation_and_models_without_noncontrast.ipynb",
+        "25_adaptive_crop_cnn.ipynb",
+        "26_dataset_audit_and_counterfactual_test.ipynb",
+        "27_gradcam_attribution_and_examples.ipynb",
     }
     actual = {path.name for path in (ROOT / "notebooks").rglob("*.ipynb")}
     assert actual == expected

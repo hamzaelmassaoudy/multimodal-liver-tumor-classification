@@ -1,5 +1,9 @@
 # Late-fusion definition
 
+> **Version note.** This page describes the analysis as submitted (v1.1.0). The October 2026
+> revision changed the main models and added external validation; see the
+> [revision overview](revision_2026-10.md).
+
 ## Class and column order
 
 Every probability triplet is ordered HCC, ICC, cHCC-CCA. Some retained files use `CHCC` as the

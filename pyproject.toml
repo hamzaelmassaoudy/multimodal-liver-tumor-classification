@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "liver-tumor-pipeline"
-version = "1.1.0"
+version = "2.0.0"
 description = "Auditable analysis utilities for multiphase CT liver-tumor classification"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -43,6 +43,11 @@ workflow = [
   "scipy>=1.10,<2",
   "SimpleITK>=2.3,<3",
   "torch>=2,<3",
+]
+revision = [
+  "matplotlib>=3.7,<4",
+  "nibabel>=5,<6",
+  "pyarrow>=14,<23",
 ]
 test = [
   "pytest>=8,<9",

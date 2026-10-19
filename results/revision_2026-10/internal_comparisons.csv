@@ -1,0 +1,8 @@
+comparison,heldout_difference,ci_low,ci_high,bootstrap_p,smallest_bh_delong_p,smallest_bh_delong_class,delong_tests_adjusted,repeated_cv_oof_difference,repeated_cv_heldout_difference,repeats_first_higher_oof,repeats_first_higher_heldout
+full fusion - CNN + radiomics,-0.000714483,-0.0164533,0.0155289,0.882,0.739311,cHCC-CCA,18,0.00555097,-0.00287949,5,0
+CNN + radiomics - radiomics,0.0497809,0.00804193,0.101627,0.014,0.12699,ICC,18,0.0232182,0.0290628,5,5
+CNN + radiomics - CNN,0.0329359,-0.00176456,0.0735899,0.071,0.245939,cHCC-CCA,18,0.023254,0.030291,5,5
+full fusion - radiomics,0.0490664,0.00499649,0.102019,0.029,0.12699,ICC,18,,,,
+full fusion - CNN,0.0322214,-0.00679466,0.0839023,0.134,0.342865,cHCC-CCA,18,,,,
+CNN - radiomics,0.016845,-0.0533482,0.0950548,0.624,0.245939,ICC,18,-3.5771e-05,-0.00122819,2,1
+"full fusion - CNN + radiomics (pre-specified, original CNN)",-0.0056389,-0.0242553,0.0128405,0.498,,,,,,,
