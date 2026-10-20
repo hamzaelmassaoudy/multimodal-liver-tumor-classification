@@ -1,5 +1,21 @@
 # Changelog
 
+## 2.1.3 — 2026-10-20
+
+Figures brought to the figure rules of the journal. No analysis, table, or value changed.
+
+### Changed
+
+- Every figure is drawn at the printed width of 16.5 cm with black labels of 8–11 pt in sentence
+  case and italic *p*. `make_revision_figures.py` checks these rules on each figure and stops with a
+  list of the labels that break them. Each figure is also written as a 600 dpi TIFF.
+- Figure 1 redesigned: cohorts and data partition, model pipeline, and evaluation. The manuscript
+  version shows the CT crops and radiomic features of one patient and is not published, like Figures
+  2, 6, and 8. The copy published here (`--figures design_public`) has schematic tiles and a
+  schematic feature strip instead.
+- Figures 3, 4, 5, and 7: same data and values; titles, labels, and legends shortened or moved so that
+  they fit the printed width at 8 pt, and the value labels of Figure 3A give the point estimates only.
+
 ## 2.1.2 — 2026-10-20
 
 Reproducibility documentation only; no code, result, or figure changed.

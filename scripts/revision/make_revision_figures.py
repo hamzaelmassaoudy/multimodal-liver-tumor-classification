@@ -12,9 +12,9 @@ Example::
         --project-root "$PRIVATE_ARTIFACT_ROOT/liver_project" \
         --output "$PRIVATE_ARTIFACT_ROOT/figures" --figures design internal size artifacts external
 
-Each figure is written as PNG and PDF. The repository publishes PNG copies of Figures 1, 3, 4, 5,
-and 7 in ``results/revision_2026-10/figures``; Figures 2, 6, and 8 show patient images and stay
-private.
+Each figure is written as PNG, PDF, and TIFF (600 dpi). The repository publishes PNG copies of
+Figures 1, 3, 4, 5, and 7 in ``results/revision_2026-10/figures``; Figures 2, 6, and 8 show
+patient images and stay private.
 """
 
 import argparse
@@ -48,7 +48,7 @@ PARSER.add_argument(
     "--figures",
     nargs="+",
     default=["design", "internal", "size", "artifacts", "external"],
-    help="design examples internal size artifacts counterfactual external gradcam tace",
+    help="figures to draw (keys of FIGURES; design_public is the repository copy of Figure 1)",
 )
 ARGS = PARSER.parse_args()
 LP = ARGS.project_root
@@ -73,7 +73,8 @@ def f(run, name, **kw):
 
 
 # ---- style (reference palette of the dataviz method; light surface; print) ----
-INK, INK2, MUTED, GRID, BASE = "#0b0b0b", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
+INK, INK2, MUTED, GRID, BASE = "#000000", "#52514e", "#898781", "#e1e0d9", "#c3c2b7"
+TEXT = "#000000"  # journal rule: every label is black
 S1, S2, S3, S4 = "#2a78d6", "#eb6834", "#1baf7a", "#eda100"  # categorical slots 1-4 (validated)
 CLASS_COL = {"HCC": S1, "ICC": S2, "cHCC-CCA": S3}
 BLUES = ["#ffffff", "#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5", "#256abf", "#184f95", "#0d366b"]
@@ -81,18 +82,25 @@ plt.rcParams.update(
     {
         "font.family": "sans-serif",
         "font.sans-serif": ["Arial", "Liberation Sans", "DejaVu Sans"],
-        "font.size": 7.5,
-        "axes.titlesize": 8,
-        "axes.labelsize": 7.5,
-        "xtick.labelsize": 7,
-        "ytick.labelsize": 7,
-        "legend.fontsize": 7,
+        "font.size": 8,
+        "axes.titlesize": 9,
+        "axes.labelsize": 8,
+        "xtick.labelsize": 8,
+        "ytick.labelsize": 8,
+        "legend.fontsize": 8,
         "axes.edgecolor": BASE,
         "axes.linewidth": 0.8,
         "xtick.color": INK2,
         "ytick.color": INK2,
-        "axes.labelcolor": INK,
-        "text.color": INK,
+        "xtick.labelcolor": TEXT,
+        "ytick.labelcolor": TEXT,
+        "axes.labelcolor": TEXT,
+        "text.color": TEXT,
+        "legend.labelcolor": TEXT,
+        "mathtext.fontset": "custom",
+        "mathtext.rm": "Arial",
+        "mathtext.it": "Arial:italic",
+        "mathtext.bf": "Arial:bold",
         "axes.spines.top": False,
         "axes.spines.right": False,
         "xtick.major.size": 2.5,
@@ -107,10 +115,12 @@ plt.rcParams.update(
     }
 )
 MM = 1 / 25.4
+WIDTH = 165  # mm; the manuscript inserts every figure 16.5 cm wide (JIMH maximum 16.51 cm x 20 cm)
+PAD = 0.02  # inches of white margin kept around the trimmed figure
 
 
 def panel(ax, letter, title):
-    ax.set_title(title, loc="left", fontsize=8, color=INK, pad=6)
+    ax.set_title(title, loc="left", fontsize=9, color=TEXT, pad=6)
     ax.text(
         -0.02,
         1.02,
@@ -141,10 +151,118 @@ def save(fig, name):
         else OUT.parent / "2_Not_used_or_superseded"
     )
     dest.mkdir(parents=True, exist_ok=True)
+    fit_width(fig)
+    from matplotlib.text import Text
+
+    for txt in fig.findobj(Text):  # journal rule: every label is black
+        if txt.get_text().strip():
+            txt.set_color(TEXT)
+    journal_check(fig, name)
     for ext in ("png", "pdf"):
-        fig.savefig(dest / f"{name}.{ext}", dpi=600, bbox_inches="tight")
+        fig.savefig(dest / f"{name}.{ext}", dpi=600, bbox_inches="tight", pad_inches=PAD)
+    # TIFF for the journal upload: RGB without alpha, 600 dpi (JIMH prefers .tif at 500+ dpi)
+    fig.savefig(
+        dest / f"{name}.tif",
+        dpi=600,
+        bbox_inches="tight",
+        pad_inches=PAD,
+        pil_kwargs={"compression": "tiff_lzw"},
+    )
+    from PIL import Image
+
+    with Image.open(dest / f"{name}.tif") as im:
+        if im.mode != "RGB":
+            im.convert("RGB").save(dest / f"{name}.tif", compression="tiff_lzw", dpi=(600, 600))
     plt.close(fig)
     print("saved", name)
+
+
+def fit_width(fig):
+    """Resize the figure so that its tight bounding box is exactly WIDTH mm wide.
+
+    Font sizes in the code are then the printed sizes: text keeps its point size and the axes take
+    the remaining width.
+    """
+    target = WIDTH / 25.4 - 2 * PAD
+    if getattr(fig, "journal_fixed", False):
+        return
+    engine = fig.get_layout_engine()
+    if engine is not None and "Constrained" in type(engine).__name__:
+        # constrained layout fills the figure; anything wider than the page is an overflow to fix
+        fig.set_size_inches(WIDTH / 25.4 - 2 * PAD, fig.get_size_inches()[1])
+        fig.canvas.draw()
+        width = fig.get_tightbbox(fig.canvas.get_renderer()).width
+        if width > target + 0.02:
+            from matplotlib.text import Text
+
+            r = fig.canvas.get_renderer()
+            fw = fig.bbox.width
+            out = [
+                f"{x.get_text()[:30]!r} ({x.get_window_extent(r).x0 / fig.dpi * 25.4:.0f}–"
+                f"{x.get_window_extent(r).x1 / fig.dpi * 25.4:.0f} mm)"
+                for x in fig.findobj(Text)
+                if x.get_text().strip()
+                and (x.get_window_extent(r).x0 < -0.5 or x.get_window_extent(r).x1 > fw + 0.5)
+            ]
+            raise SystemExit(
+                f"fit_width: content is {(width - target) * 25.4:.1f} mm wider than the page: "
+                + "; ".join(out)
+            )
+        return
+    for _ in range(10):
+        fig.canvas.draw()
+        width = fig.get_tightbbox(fig.canvas.get_renderer()).width
+        if abs(width - target) < 0.003:
+            return
+        w, h = fig.get_size_inches()
+        if w + (target - width) < 0.5 * target:
+            raise SystemExit(
+                "fit_width: labels outside the panels are wider than the page; shorten them"
+            )
+        fig.set_size_inches(w + (target - width), h)
+
+
+LOWER_OK = ("cHCC-CCA", "cHCC", "p(", "n ", "n=", "mm", "vs")
+
+
+def journal_check(fig, name):
+    """Check the JIMH figure rules at the printed size (16.5 cm wide).
+
+    Every label is at least 8 pt and at most 11 pt (the main text), black, and starts with a capital
+    letter (defined lowercase terms excepted); p values are italic; the figure is no taller than
+    20 cm. Raises with a list of every violation.
+    """
+    import re as _re
+
+    from matplotlib.colors import to_hex
+    from matplotlib.text import Text
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    tight = fig.get_tightbbox(renderer)
+    scale = (WIDTH / 25.4) / (tight.width + 2 * PAD)  # printed size / drawn size
+    bad = []
+    if (tight.height + 2 * PAD) * scale > 200 / 25.4 + 1e-6:
+        bad.append(f"height {(tight.height + 2 * PAD) * scale * 25.4:.0f} mm > 200 mm")
+    for t in fig.findobj(Text):
+        s = t.get_text()
+        if not s.strip() or not t.get_visible():
+            continue
+        ext = t.get_window_extent(renderer)
+        if ext.width == 0 or ext.height == 0:
+            continue
+        size = t.get_fontsize() * scale
+        if size < 7.95 or size > 11.05:
+            bad.append(f"size {size:.1f} pt: {s[:40]!r}")
+        if to_hex(t.get_color()) != "#000000":
+            bad.append(f"colour {to_hex(t.get_color())}: {s[:40]!r}")
+        first = _re.sub(r"\$[^$]*\$", "P", s.split("\n")[0]).lstrip(" ([|·•")
+        if first and first[0].isalpha() and first[0].islower() and not first.startswith(LOWER_OK):
+            bad.append(f"lowercase start: {first[:40]!r}")
+        if _re.search(r"(?<![\w$(])p\s*[=<>]", _re.sub(r"\$[^$]*\$", "", s)):
+            bad.append(f"p value not italic: {s[:40]!r}")
+    if bad:
+        raise SystemExit(f"{name}: {len(bad)} journal-rule violations\n  " + "\n  ".join(bad))
 
 
 def macro_auc(y, p):
@@ -190,9 +308,11 @@ def figure_internal():
     fig, axes = plt.subplots(
         2,
         2,
-        figsize=(174 * MM, 132 * MM),
-        gridspec_kw={"hspace": 0.62, "wspace": 0.95, "width_ratios": [1.15, 1]},
+        figsize=(WIDTH * MM, 150 * MM),
+        layout="constrained",
+        gridspec_kw={"width_ratios": [1.1, 1]},
     )
+    fig.get_layout_engine().set(w_pad=0.04, h_pad=0.06, wspace=0.04, hspace=0.08)
 
     # A: held-out macro-AUC with / without the non-contrast phase
     ax = axes[0, 0]
@@ -209,12 +329,12 @@ def figure_internal():
                 est, y + dy, "o", ms=5, mfc=col if filled else "white", mec=col, mew=1.4, zorder=3
             )
             ax.text(
-                1.005,
+                1.01,
                 y + dy,
-                f"{est:.3f} ({lo:.3f}–{hi:.3f})",
+                f"{est:.3f}",
                 transform=ax.get_yaxis_transform(),
                 va="center",
-                fontsize=6.5,
+                fontsize=8,
                 color=INK2,
             )
     ax.set_yticks(range(len(rows)))
@@ -237,10 +357,9 @@ def figure_internal():
             ),
         ],
         loc="lower left",
-        bbox_to_anchor=(0, 1.06),
-        ncol=2,
+        bbox_to_anchor=(0, 1.04),
+        ncol=1,
         handlelength=1.6,
-        columnspacing=1.0,
         borderaxespad=0,
     )
     panel(ax, "A", "")
@@ -278,7 +397,7 @@ def figure_internal():
             f"{mu:.3f} ± {sd:.3f}",
             transform=ax.get_yaxis_transform(),
             va="center",
-            fontsize=6.5,
+            fontsize=8,
             color=INK2,
         )
     ax.set_yticks(range(len(order)))
@@ -286,7 +405,7 @@ def figure_internal():
     ax.set_xlim(0.8, 1.0)
     ax.set_xlabel("Macro-AUC per fold (25 folds; bar = mean)")
     grid_x(ax)
-    panel(ax, "B", "Repeated cross-validation, 5 × 5 folds (222)")
+    panel(ax, "B", "Repeated CV, 5 × 5 folds")
 
     # C: confusion matrix of CNN + radiomics on the held-out set
     ax = axes[1, 0]
@@ -303,7 +422,7 @@ def figure_internal():
     cm = np.array([[int(((y == i) & (pred == j)).sum()) for j in range(3)] for i in range(3)])
     from matplotlib.colors import LinearSegmentedColormap
 
-    ax.imshow(cm, cmap=LinearSegmentedColormap.from_list("b", BLUES[:6]), vmin=0, vmax=cm.max())
+    ax.imshow(cm, cmap=LinearSegmentedColormap.from_list("b", BLUES[:4]), vmin=0, vmax=cm.max())
     for i in range(3):
         for j in range(3):
             ax.text(
@@ -313,7 +432,7 @@ def figure_internal():
                 ha="center",
                 va="center",
                 fontsize=8,
-                color="white" if cm[i, j] > cm.max() * 0.55 else INK,
+                color=TEXT,
             )
     ax.set_xticks(range(3))
     ax.set_xticklabels(CLASSES)
@@ -324,7 +443,7 @@ def figure_internal():
     ax.tick_params(length=0)
     for s in ax.spines.values():
         s.set_visible(False)
-    panel(ax, "C", f"CNN + radiomics, held-out set ({int(np.trace(cm))}/56 correct)")
+    panel(ax, "C", f"CNN + radiomics, held-out ({int(np.trace(cm))}/56 correct)")
 
     # D: missing-phase patterns, original vs phase-dropout CNN
     ax = axes[1, 1]
@@ -358,8 +477,8 @@ def figure_internal():
             Line2D([], [], color=S1, marker="o", lw=0, ms=5, label="Phase-dropout CNN (main)"),
         ],
         loc="lower left",
-        bbox_to_anchor=(0, 1.06),
-        ncol=2,
+        bbox_to_anchor=(0, 1.04),
+        ncol=1,
         handletextpad=0.3,
         columnspacing=1.0,
         borderaxespad=0,
@@ -379,11 +498,13 @@ def figure_artefacts():
     mct["n_slices"] = mct["size"].map(lambda s: json.loads(s)[2])
     mct["dz"] = mct["spacing"].map(lambda s: json.loads(s)[2])
     mct["cls"] = np.where(mct["patient_id"].str.contains("b"), "HCC", "ICC")
-    fig, axes = plt.subplots(
-        2,
-        2,
-        figsize=(174 * MM, 122 * MM),
-        gridspec_kw={"hspace": 0.6, "wspace": 0.42, "width_ratios": [1.55, 1]},
+    fig = plt.figure(figsize=(WIDTH * MM, 140 * MM), layout="constrained")
+    sf_top, sf_bot = fig.subfigures(2, 1, height_ratios=[1, 1.1])
+    axes = np.array(
+        [
+            sf_top.subplots(1, 2, gridspec_kw={"width_ratios": [1.6, 1]}),
+            sf_bot.subplots(1, 2, gridspec_kw={"width_ratios": [1.45, 1]}),
+        ]
     )
 
     # A: slices per phase by class (internal)
@@ -408,19 +529,20 @@ def figure_artefacts():
     ax.set_yticks([20, 50, 100, 200, 300])
     ax.set_yticklabels(["20", "50", "100", "200", "300"])
     ax.set_xticks(range(4))
-    ax.set_xticklabels([p[1] for p in phases])
+    ax.set_xticklabels(["Non-\ncontrast", "Arterial", "Portal\nvenous", "Delayed"])
     ax.set_ylabel("Slices per scan")
     grid_y(ax)
     ax.legend(
         handles=[plt.Rectangle((0, 0), 1, 1, color=CLASS_COL[c]) for c in CLASSES],
         labels=CLASSES,
         loc="upper center",
-        bbox_to_anchor=(0.5, -0.17),
+        bbox_to_anchor=(0.5, -0.25),
         ncol=3,
         handlelength=1.0,
         borderaxespad=0,
         columnspacing=1.2,
     )
+    fig.get_layout_engine().set(w_pad=0.04, h_pad=0.06, wspace=0.06, hspace=0.1)
     panel(ax, "A", "PLC-CECT (internal), 278 patients")
 
     # B: MCT-LTDiag slices by class
@@ -448,18 +570,7 @@ def figure_artefacts():
     ax.set_xticklabels(["HCC", "ICC"])
     ax.set_ylabel("Slices per scan")
     grid_y(ax)
-    thick = ", ".join(f"{v:g} mm" for v in sorted(mct["dz"].round(2).unique()))
-    ax.text(
-        0.5,
-        0.97,
-        f"slice thickness {thick}\nslice count alone: AUC {a:.2f}",
-        transform=ax.transAxes,
-        ha="center",
-        va="top",
-        fontsize=6.5,
-        color=INK2,
-    )
-    panel(ax, "B", "MCT-LTDiag (external), 203 patients")
+    panel(ax, "B", "MCT-LTDiag (203)")
 
     # C: what acquisition alone predicts (post hoc)
     ax = axes[1, 0]
@@ -497,24 +608,23 @@ def figure_artefacts():
     mid = (s_only > np.quantile(s_only, 0.25)) & (s_only < np.quantile(s_only, 0.75))
     items = [
         (
-            "Slice counts only — 3 classes, held-out\n(logistic / random forest)",
+            "Slice counts, 3 classes, held-out\n(logistic / random forest)",
             [held["logistic"], held["random forest"]],
             MUTED,
         ),
         (
-            "CNN + radiomics — 3 classes, held-out",
+            "CNN + radiomics, 3 classes, held-out",
             [m47.loc["cnn_plus_radiomics [phase_dropout_CNN]", "test_macro_auc"]],
             S1,
         ),
-        ("Slice counts only — HCC vs ICC, out-of-fold", [roc_auc_score(yh, s_only)], MUTED),
-        ("CNN + radiomics — HCC vs ICC, out-of-fold", [roc_auc_score(yh, sh)], S1),
+        ("Slice counts, HCC vs ICC, out-of-fold", [roc_auc_score(yh, s_only)], MUTED),
+        ("CNN + radiomics, HCC vs ICC, out-of-fold", [roc_auc_score(yh, sh)], S1),
         (
-            "CNN + radiomics — HCC vs ICC where slice\n"
-            f"counts are ambiguous (n = {int(mid.sum())})",
+            f"CNN + radiomics, HCC vs ICC,\nambiguous slice counts (n = {int(mid.sum())})",
             [roc_auc_score(yh[mid], sh[mid])],
             S1,
         ),
-        ("Slice count only — MCT-LTDiag HCC vs ICC", [a], MUTED),
+        ("Slice counts, MCT-LTDiag, HCC vs ICC", [a], MUTED),
     ]
     print(
         "  post hoc numbers (Figure dataset artefacts, panel C):",
@@ -530,15 +640,15 @@ def figure_artefacts():
             yy,
             " / ".join(f"{v:.2f}" for v in vals),
             va="center",
-            fontsize=6.5,
+            fontsize=8,
             color=INK2,
         )
     ax.set_yticks(range(len(items)))
-    ax.set_yticklabels([it[0] for it in items][::-1], fontsize=6.5)
+    ax.set_yticklabels([it[0] for it in items][::-1], fontsize=8)
     ax.set_xlim(0.5, 1.04)
     ax.set_xlabel("AUC (macro-AUC for 3 classes)")
     grid_x(ax)
-    panel(ax, "C", "Acquisition alone predicts the class internally (post hoc)")
+    panel(ax, "C", "Acquisition alone predicts the class (post hoc)")
 
     # D: removing the non-contrast phase hurts cHCC-CCA, not HCC vs ICC (post hoc, out-of-fold)
     ax = axes[1, 1]
@@ -583,7 +693,7 @@ def figure_artefacts():
     ax.set_yticks(range(len(pairs)))
     ax.set_yticklabels([p[0] for p in pairs][::-1])
     ax.set_xlim(0.72, 1.0)
-    ax.set_xlabel("Out-of-fold AUC: all phases → without non-contrast")
+    ax.set_xlabel("Out-of-fold AUC; arrow:\nnon-contrast removed")
     grid_x(ax)
     ax.legend(
         handles=[
@@ -591,8 +701,8 @@ def figure_artefacts():
             Line2D([], [], color=S3, marker="o", lw=1.3, ms=4.5, label="cHCC-CCA vs rest"),
         ],
         loc="lower left",
-        bbox_to_anchor=(0, 1.06),
-        ncol=2,
+        bbox_to_anchor=(0, 1.04),
+        ncol=1,
         handlelength=1.6,
         borderaxespad=0,
     )
@@ -607,10 +717,9 @@ def figure_size():
     tr = f("E47", "E4a_truncation_per_patient_phase.csv", dtype={"patient_id": str})
     st = f("E47", "E4b_internal_by_size_and_truncation.csv")
     e4d = sorted(p for p in REV.glob("E4d_*") if (p / "summary.json").exists())
-    fig = plt.figure(figsize=(174 * MM, (130 if e4d else 64) * MM))
-    gs = fig.add_gridspec(
-        2 if e4d else 1, 2, hspace=0.75, wspace=0.42, height_ratios=[1, 0.8] if e4d else [1]
-    )
+    fig = plt.figure(figsize=(WIDTH * MM, (140 if e4d else 70) * MM), layout="constrained")
+    fig.get_layout_engine().set(w_pad=0.04, h_pad=0.06, wspace=0.06, hspace=0.08)
+    gs = fig.add_gridspec(2 if e4d else 1, 2, height_ratios=[1, 0.8] if e4d else [1])
     axes = [fig.add_subplot(gs[0, 0]), fig.add_subplot(gs[0, 1])] + (
         [fig.add_subplot(gs[1, :])] if e4d else []
     )
@@ -624,14 +733,14 @@ def figure_size():
         ax.scatter(
             j + rng.uniform(-0.2, 0.2, len(v)), v, s=7, color=CLASS_COL[c], alpha=0.6, linewidths=0
         )
-        ax.text(j, 1.05, f"{(v < 0.9).sum()}/{len(v)}", ha="center", fontsize=6.5, color=INK2)
+        ax.text(j, 1.05, f"{(v < 0.9).sum()}/{len(v)}", ha="center", fontsize=8, color=INK2)
     ax.axhline(0.9, color=MUTED, lw=0.8, ls=(0, (3, 2)))
     ax.set_xticks(range(3))
     ax.set_xticklabels(CLASSES)
     ax.set_ylim(0, 1.12)
     ax.set_ylabel("Tumor fraction inside the 96³ crop")
     grid_y(ax)
-    panel(ax, "A", "Crop truncation, portal venous (numbers: < 90% in crop)")
+    panel(ax, "A", "Crop truncation (portal venous)")
     ax = axes[1]
     order = [("small", "Small"), ("medium", "Medium"), ("large", "Large")]
     for key, name, col in [
@@ -738,9 +847,11 @@ def figure_size():
 def figure_external():
     p80 = f("E8a", "E8_0_E6_203_predictions.csv", dtype={"patient_id": str})
     p80 = p80[p80["variant"] == "primary"]
-    fig = plt.figure(figsize=(174 * MM, 165 * MM))
-    gs = fig.add_gridspec(2, 2, height_ratios=[1, 1.45], hspace=0.45, wspace=1.05)
-    ax = fig.add_subplot(gs[0, 0])
+    fig = plt.figure(figsize=(WIDTH * MM, 195 * MM), layout="constrained")
+    fig.get_layout_engine().set(w_pad=0.04, h_pad=0.06, wspace=0.08, hspace=0.06)
+    sf_top, sf_bot = fig.subfigures(2, 1, height_ratios=[1, 1.2])
+    gs_top = sf_top.add_gridspec(1, 2)
+    ax = sf_top.add_subplot(gs_top[0, 0])
     for key, name, col in [
         ("phase_dropout_CNN", "CNN", S1),
         ("radiomics_noshape", "Radiomics", S2),
@@ -777,21 +888,22 @@ def figure_external():
     ax.set_ylim(0, 1)
     ax.legend(
         loc="upper left",
-        bbox_to_anchor=(1.03, 1.0),
+        bbox_to_anchor=(0.0, -0.27),
         title="AUC",
-        title_fontsize=7,
+        title_fontsize=8,
         handlelength=1.4,
         alignment="left",
         borderaxespad=0,
+        labelspacing=0.3,
     )
     panel(ax, "A", "MCT-LTDiag, 103 HCC vs 100 ICC")
 
-    ax = fig.add_subplot(gs[0, 1])
+    ax = sf_top.add_subplot(gs_top[0, 1])
     rel = f("E47", "E7c_reliability_tables.csv")
     cal = f("E47", "E7c_calibration.csv")
     key = "cnn_plus_radiomics [phase_dropout_CNN]"
     for cohort, target, col, name in [
-        ("internal_test_56", "HCC_vs_rest", S1, "Internal held-out (HCC vs rest)"),
+        ("internal_test_56", "HCC_vs_rest", S1, "Held-out (HCC vs rest)"),
         ("MCT_LTDiag_203", "HCC_vs_ICC (renormalised)", S2, "MCT-LTDiag (HCC vs ICC)"),
     ]:
         d = rel[
@@ -810,7 +922,9 @@ def figure_external():
             color=col,
             lw=1.6,
             ms=4.5,
-            label=f"{name}\nintercept {c['intercept']:.2f}, slope {c['slope']:.2f}",
+            label=f"{name}\nIntercept {c['intercept']:.2f}, slope {c['slope']:.2f}".replace(
+                "t -", "t −"
+            ),
         )
     ax.plot([0, 1], [0, 1], color=MUTED, lw=0.8, ls=(0, (3, 2)))
     ax.set_xlabel("Predicted probability of HCC")
@@ -820,15 +934,15 @@ def figure_external():
     ax.set_ylim(0, 1)
     ax.legend(
         loc="upper left",
-        bbox_to_anchor=(1.03, 1.0),
+        bbox_to_anchor=(0.0, -0.27),
         handlelength=1.4,
-        fontsize=6.3,
+        fontsize=8,
         borderaxespad=0,
-        labelspacing=1.0,
+        labelspacing=0.6,
     )
     panel(ax, "B", "Calibration, CNN + radiomics")
 
-    ax = fig.add_subplot(gs[1, :])
+    ax = sf_bot.add_subplot()
     r8 = f("E8b", "E8b_E9_mct203_results.csv").set_index("model")
     r8a = f("E8a", "E8a_mct203_results.csv").set_index("model")
     # The CNN reference is the Table 5 value (E8.0, 203 patients). E8b recomputed the same model's
@@ -909,10 +1023,10 @@ def figure_external():
     for _gi, (gname, items) in enumerate(groups):
         y += 1  # the group heading gets its own row
         ax.text(
-            0.302,
+            0.3,
             -y,
             gname,
-            fontsize=7.2,
+            fontsize=8,
             fontweight="bold",
             color=INK,
             va="center",
@@ -932,27 +1046,21 @@ def figure_external():
             col = S1 if ref else INK2
             ax.plot([lo, hi], [-y, -y], color=col, lw=1.5, solid_capstyle="round")
             ax.plot(est, -y, "o", ms=4.8, color=col, zorder=3)
-            ax.text(
-                0.905, -y, f"{est:.3f} ({lo:.3f}–{hi:.3f})", va="center", fontsize=6.4, color=INK2
-            )
+            ax.text(0.81, -y, f"{est:.3f} ({lo:.3f}–{hi:.3f})", va="center", fontsize=8, color=TEXT)
             ticks.append(-y)
             labels.append(lab)
         y += 0.4
     ax.axvline(0.5, color=MUTED, lw=0.8, ls=(0, (3, 2)))
     ax.set_yticks(ticks)
-    ax.set_yticklabels(labels, fontsize=6.6)
-    ax.set_xlim(0.3, 1.0)
+    ax.set_yticklabels(labels, fontsize=8)
+    ax.set_xlim(0.3, 1.02)
+    ax.set_xticks([0.3, 0.4, 0.5, 0.6, 0.7, 0.8])
     ax.set_ylim(-(y + 0.3), -0.4)
     ax.set_xlabel("MCT-LTDiag HCC-vs-ICC AUC (DeLong 95% CI); every variant evaluated once")
     grid_x(ax)
     ax.spines["left"].set_visible(False)
     ax.tick_params(axis="y", length=0)
-    panel(
-        ax,
-        "C",
-        "Mitigation attempts: none improves external discrimination significantly "
-        "(smallest BH-adjusted p = 0.29)",
-    )
+    panel(ax, "C", "Mitigation strategies: none improved external discrimination significantly")
     save(fig, "Figure7_external_MCT")
 
 
@@ -1011,334 +1119,496 @@ def figure_tace():
         "(see MCT-LTDiag).",
         transform=ax.transAxes,
         ha="right",
-        fontsize=6.4,
+        fontsize=8,
         color=MUTED,
     )
     save(fig, "Figure_HCC_TACE_Seg")
 
 
 # =================================================================================================
-# Figure 1 — study design, drawn to match the Methods (replaces the submitted Figures 1, 2 and 4)
+# Figure 1 — study design (cohorts, pipeline with the real inputs of one patient, evaluation)
 # =================================================================================================
-from matplotlib.patches import FancyArrowPatch, FancyBboxPatch  # noqa: E402
+from matplotlib.patches import (  # noqa: E402
+    Arc,
+    Circle,
+    Ellipse,
+    FancyArrowPatch,
+    FancyBboxPatch,
+    Polygon,
+    Rectangle,
+)
 
-TINT_INT, TINT_EXT, TINT_M = "#e9f1fb", "#fdefe7", "#f3f2ee"
-
-
-def _box(ax, x, y, w, h, lines, fc, ec=BASE, title_col=INK, fs=6.4):
-    ax.add_patch(
-        FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0,rounding_size=1.4", fc=fc, ec=ec, lw=0.7)
-    )
-    yy = y + 2.6
-    for i, ln in enumerate(lines):
-        bold = i == 0
-        ax.text(
-            x + 1.8,
-            yy,
-            ln,
-            fontsize=fs + (0.3 if bold else 0),
-            fontweight="bold" if bold else "normal",
-            color=title_col if bold else INK2,
-            va="top",
-            ha="left",
-        )
-        yy += 3.35 if bold else 3.05
+CARD, CARD2 = "#f6f5f2", "#e9e8e2"
 
 
-def _arrow(ax, x0, y0, x1, y1, col=MUTED):
-    ax.add_patch(
-        FancyArrowPatch(
-            (x0, y0),
-            (x1, y1),
-            arrowstyle="-|>",
-            mutation_scale=7,
-            lw=0.9,
-            color=col,
-            shrinkA=0,
-            shrinkB=0,
-        )
-    )
+def figure_design(public=False):
+    """Draw Figure 1 in millimetres at the printed width.
 
-
-def _path_arrow(ax, pts, col=MUTED):
-    xs, ys = zip(*pts, strict=False)
-    ax.plot(xs[:-1] + (xs[-1],), ys[:-1] + (ys[-1],), color=col, lw=0.9, solid_capstyle="butt")
-    _arrow(ax, xs[-2], ys[-2], xs[-1], ys[-1], col)
-
-
-def figure_design():
-    W, H = 174, 99
+    Every label is black and at least 8 pt, and colour encodes the tumor class only. The CT tiles
+    and the feature strip are the real inputs of the Figure 2 cHCC-CCA patient.
+    """
+    W, H = WIDTH - 2 * PAD * 25.4, 170
     fig = plt.figure(figsize=(W * MM, H * MM))
+    fig.journal_fixed = True  # drawn at the printed size; fit_width leaves it alone
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, W)
     ax.set_ylim(H, 0)
     ax.axis("off")
-    cols = [
-        (1.5, 43, "1  Cohorts"),
-        (48.5, 38, "2  Preprocessing"),
-        (90.5, 41, "3  Models"),
-        (135.5, 37.5, "4  Evaluation"),
+
+    def txt(x, y, s, size=8, weight="normal", ha="left", va="center", **kw):
+        ax.text(x, y, s, fontsize=size, fontweight=weight, ha=ha, va=va, color=TEXT, **kw)
+
+    def card(x, y, w, h, fill=CARD, edge=None, lw=0.0, r=1.4):
+        ax.add_patch(
+            FancyBboxPatch(
+                (x, y),
+                w,
+                h,
+                boxstyle=f"round,pad=0,rounding_size={r}",
+                fc=fill,
+                ec=edge or "none",
+                lw=lw,
+            )
+        )
+
+    def tag(x, y, s):  # right-aligned role tag
+        ax.text(
+            x,
+            y,
+            s,
+            fontsize=8,
+            ha="right",
+            va="center",
+            color=TEXT,
+            bbox={
+                "boxstyle": "round,pad=0.25,rounding_size=0.8",
+                "fc": "white",
+                "ec": INK2,
+                "lw": 0.6,
+            },
+        )
+
+    def arrow(x0, y0, x1, y1, ls="-", conn="arc3"):
+        ax.add_patch(
+            FancyArrowPatch(
+                (x0, y0),
+                (x1, y1),
+                arrowstyle="-|>",
+                mutation_scale=6,
+                lw=0.8,
+                color=INK2,
+                linestyle=ls,
+                connectionstyle=conn,
+                shrinkA=0,
+                shrinkB=0,
+                zorder=4,
+            )
+        )
+
+    def classbar(x, y, counts, scale, h=4.4):  # stacked class bar, labels inside in black
+        cx = x
+        for n, c, name in zip(counts, [S1, S2, S3], CLASSES, strict=True):
+            if n == 0:
+                continue
+            ax.add_patch(
+                FancyBboxPatch(
+                    (cx, y),
+                    n * scale - 0.5,
+                    h,
+                    boxstyle="round,pad=0,rounding_size=0.5",
+                    fc=c,
+                    ec="none",
+                )
+            )
+            txt(cx + 1.2, y + h / 2, f"{n} {name}")
+            cx += n * scale
+
+    def prob(x, y, w, h, heights):  # schematic class probabilities
+        bw = w / 3.6
+        for i, (hh, c) in enumerate(zip(heights, [S1, S2, S3], strict=True)):
+            bx = x + i * (bw + (w - 3 * bw) / 2)
+            ax.add_patch(
+                FancyBboxPatch(
+                    (bx, y + h * (1 - hh)),
+                    bw,
+                    h * hh,
+                    boxstyle="round,pad=0,rounding_size=0.35",
+                    fc=c,
+                    ec="none",
+                )
+            )
+        ax.plot([x - 0.3, x + w + 0.3], [y + h, y + h], color=BASE, lw=0.6)
+
+    def lock(x, y, r=0.85):
+        ax.add_patch(
+            Arc((x, y - 0.5), 2.2 * r, 2.6 * r, theta1=180, theta2=360, ec=INK2, lw=0.8, zorder=6)
+        )
+        ax.add_patch(
+            FancyBboxPatch(
+                (x - 1.4 * r, y - 0.5),
+                2.8 * r,
+                2.0 * r,
+                boxstyle="round,pad=0,rounding_size=0.3",
+                fc=INK2,
+                ec="none",
+                zorder=6,
+            )
+        )
+
+    # ---------------------------------------------------------- A: cohorts and data partition
+    txt(0.5, 4, "A", size=10, weight="bold")
+    txt(5, 4, "Cohorts and data partition", size=9, weight="bold")
+    for k, (name, c) in enumerate(zip(CLASSES, [S1, S2, S3], strict=True)):
+        kx = [116.0, 129.0, 141.5][k]
+        ax.add_patch(
+            FancyBboxPatch(
+                (kx, 2.6), 2.8, 2.8, boxstyle="round,pad=0,rounding_size=0.4", fc=c, ec="none"
+            )
+        )
+        txt(kx + 3.8, 4, name)
+    sc = 74 / 278  # mm per patient, the same for every cohort
+    card(0.5, 8, 80, 45.5)
+    txt(3, 12.5, "PLC-CECT", size=9, weight="bold")
+    tag(78.5, 12.5, "Development")
+    txt(3, 17.5, "Chongqing Yubei District People's Hospital")
+    txt(3, 21.5, "2015–2022 · 278 patients · four phases")
+    classbar(3, 24.2, [94, 99, 85], sc)
+    card(3, 33, 42, 18, fill="white")
+    card(47.5, 33, 31, 18, fill="white")
+    arrow(24, 28.8, 24, 32.8)
+    arrow(63, 28.8, 63, 32.8)
+    txt(5, 37, "Development (222)", size=8.5, weight="bold")
+    for k in range(5):
+        ax.add_patch(
+            FancyBboxPatch(
+                (5 + k * 4.4, 40.6),
+                3.9,
+                2.8,
+                boxstyle="round,pad=0,rounding_size=0.4",
+                fc=INK2 if k == 4 else BASE,
+                ec="none",
+            )
+        )
+    txt(28, 42, "5 folds")
+    txt(5, 47.5, "Fitting; 5 × 5 repeated CV")
+    txt(49.5, 37, "Held-out (56)", size=8.5, weight="bold")
+    xb = 49.5
+    for n, c in zip([19, 20, 17], [S1, S2, S3], strict=True):
+        ax.add_patch(
+            FancyBboxPatch(
+                (xb, 40.6),
+                n * 26.5 / 56 - 0.5,
+                2.8,
+                boxstyle="round,pad=0,rounding_size=0.4",
+                fc=c,
+                ec="none",
+            )
+        )
+        xb += n * 26.5 / 56
+    txt(49.5, 47.9, "Never used for\nfitting or tuning", linespacing=1.15)
+    ax.plot([83.2, 83.2], [9, 52.5], color=BASE, lw=0.7, ls=(0, (2, 2)))
+    ax.add_patch(Circle((83.2, 30.5), 3.0, fc="white", ec=BASE, lw=0.7, zorder=5))
+    lock(83.2, 30.6)
+    arrow(80.7, 18.5, 85.8, 18.5)
+    arrow(80.7, 42, 85.8, 42)
+    card(86, 8, W - 86.5, 21.5)
+    txt(88.5, 12.5, "MCT-LTDiag", size=9, weight="bold")
+    tag(W - 2.5, 12.5, "External validation")
+    txt(88.5, 17.3, "Peking Union Medical College Hospital")
+    txt(88.5, 21.2, "2014–2024 · 203 patients · 5 mm slices")
+    classbar(88.5, 23.6, [103, 100, 0], sc)
+    txt(W - 2.5, 25.8, "HCC vs ICC", ha="right")
+    card(86, 31.5, W - 86.5, 22)
+    txt(88.5, 36, "HCC-TACE-Seg", size=9, weight="bold")
+    tag(W - 2.5, 36, "Stress test")
+    txt(88.5, 40.8, "MD Anderson Cancer Center, USA")
+    txt(88.5, 44.7, "2002–2012 · 89 HCC (103 in total)")
+    classbar(88.5, 47.2, [89, 0, 0], sc)
+    txt(W - 2.5, 49.4, "HCC sensitivity only", ha="right")
+
+    # ------------------------------------------------------------------ B: model pipeline
+    txt(0.5, 59.5, "B", size=10, weight="bold")
+    txt(5, 59.5, "Model pipeline (fitted on the development folds only)", size=9, weight="bold")
+    if not public:
+        ex = np.load(REV / RUN["F2"] / "F2_examples.npz")
+        meta = {m["tag"]: m for m in json.loads((REV / RUN["F2"] / "F2_examples.json").read_text())}
+        ct, tm = ex["fig2_internal_CHCC_ct"], ex["fig2_internal_CHCC_tm"]
+    ts = 14.5
+    for i, name in enumerate(["NC", "AP", "PV", "DP"]):
+        r, c = divmod(i, 2)
+        x0, y0 = 0.5 + c * (ts + 2.5), 67 + r * (ts + 4.5)
+        if public:  # schematic tile: grey square with a tumor outline
+            fc = ["#8f8e89", "#a7a6a0", "#b9b8b2", "#a9a8a2"][i]
+            ax.add_patch(Rectangle((x0, y0), ts, ts, fc=fc, ec="none"))
+            ax.add_patch(
+                Ellipse((x0 + ts / 2, y0 + ts / 2), ts * 0.62, ts * 0.5, fc="none", ec=S4, lw=0.6)
+            )
+        else:
+            ax.imshow(
+                ct[i],
+                cmap="gray",
+                vmin=0,
+                vmax=255,
+                extent=(x0, x0 + ts, y0 + ts, y0),
+                interpolation="nearest",
+            )
+            g = (np.arange(ct.shape[1]) + 0.5) / ct.shape[1] * ts
+            ax.contour(
+                x0 + g, y0 + g, tm[i].astype(float), levels=[0.5], colors=[S4], linewidths=0.6
+            )
+        txt(x0 + ts / 2, y0 - 1.9, name, ha="center")
+    txt(0.5, 104.5, "Liver-masked")
+    txt(0.5, 108.3, "96³ crops")
+    arrow(33.2, 84, 36.8, 75.5, conn="arc3,rad=-0.25")
+    arrow(33.2, 84, 36.8, 99.5, conn="arc3,rad=0.25")
+    # CNN branch
+    card(37.5, 63, 81, 24)
+    txt(40, 66.8, "CNN", size=8.5, weight="bold")
+    for k in range(4):
+        ox, oy = 40.0 + k * 1.1, 70.0 + k * 1.0
+        ax.add_patch(
+            Rectangle(
+                (ox, oy),
+                7.0,
+                7.0,
+                fc=["#3a3a38", "#545450", "#6e6e69", "#898781"][k],
+                ec="white",
+                lw=0.5,
+                zorder=3 + k,
+            )
+        )
+    txt(44.5, 83.5, "4 × 96³", ha="center")
+    arrow(49.6, 75.5, 52.4, 75.5)
+    for k, kept in enumerate([True, False, True, False]):
+        bx = 53.2 + k * 3.3
+        ax.add_patch(
+            FancyBboxPatch(
+                (bx, 72.5),
+                2.8,
+                6.0,
+                boxstyle="round,pad=0,rounding_size=0.4",
+                fc="#6e6e69" if kept else "white",
+                ec="none" if kept else INK2,
+                lw=0.4,
+            )
+        )
+        if not kept:
+            ax.plot([bx + 0.5, bx + 2.3], [73.3, 77.7], color=INK2, lw=0.5)
+            ax.plot([bx + 0.5, bx + 2.3], [77.7, 73.3], color=INK2, lw=0.5)
+    txt(59.0, 69.6, "Phase dropout", ha="center")
+    arrow(66.8, 75.5, 69.6, 75.5)
+    for bx, bh, bw, bd in [
+        (70.4, 10.0, 2.0, 3.0),
+        (74.6, 8.6, 2.2, 3.4),
+        (79.1, 7.2, 2.6, 3.8),
+        (84.0, 5.8, 3.0, 4.2),
+        (89.4, 4.4, 3.4, 4.6),
+    ]:
+        y_ = 75.5 - bh / 2 + 0.6
+        dx, dy = bd * 0.6, -bd * 0.45
+        ax.add_patch(
+            Polygon(
+                [(bx, y_), (bx + bw, y_), (bx + bw + dx, y_ + dy), (bx + dx, y_ + dy)],
+                closed=True,
+                fc="#ecebe6",
+                ec=INK2,
+                lw=0.35,
+            )
+        )
+        ax.add_patch(
+            Polygon(
+                [
+                    (bx + bw, y_),
+                    (bx + bw + dx, y_ + dy),
+                    (bx + bw + dx, y_ + bh + dy),
+                    (bx + bw, y_ + bh),
+                ],
+                closed=True,
+                fc="#c3c2b7",
+                ec=INK2,
+                lw=0.35,
+            )
+        )
+        ax.add_patch(Rectangle((bx, y_), bw, bh, fc="#d9d8d2", ec=INK2, lw=0.35))
+    txt(82.5, 83.5, "3D ResNet-18", ha="center")
+    arrow(97.0, 75.5, 100.4, 75.5)
+    prob(101.5, 71.0, 8.0, 7.5, (0.25, 0.15, 0.6))
+    # radiomics branch
+    card(37.5, 89.5, 81, 23)
+    txt(40, 93.3, "Radiomics", size=8.5, weight="bold")
+    if public:
+        ax.add_patch(Ellipse((44.5, 101.5), 8.0, 6.4, fc="#b9b8b2", ec=S4, lw=0.6, zorder=3))
+    else:
+        m2 = tm[2].astype(bool)
+        roi = np.where(m2, ct[2], 0).astype(float)
+        ys, xs = np.nonzero(m2)
+        y0_, y1_ = max(ys.min() - 3, 0), min(ys.max() + 4, ct.shape[1])
+        x0_, x1_ = max(xs.min() - 3, 0), min(xs.max() + 4, ct.shape[2])
+        sub = roi[y0_:y1_, x0_:x1_]
+        s_ = 9.0 / max(sub.shape)
+        hh, ww = sub.shape[0] * s_, sub.shape[1] * s_
+        ax.imshow(
+            sub,
+            cmap="gray",
+            vmin=0,
+            vmax=255,
+            extent=(40.0, 40.0 + ww, 97.0 + hh, 97.0),
+            interpolation="nearest",
+            zorder=3,
+        )
+        ax.contour(
+            40.0 + (np.arange(sub.shape[1]) + 0.5) * s_,
+            97.0 + (np.arange(sub.shape[0]) + 0.5) * s_,
+            m2[y0_:y1_, x0_:x1_].astype(float),
+            levels=[0.5],
+            colors=[S4],
+            linewidths=0.6,
+            zorder=4,
+        )
+    txt(44.5, 109, "Tumor mask", ha="center")
+    arrow(50.4, 101.5, 53.2, 101.5)
+    if public:  # schematic strip: seeded noise, not patient values
+        zz = np.clip(np.random.default_rng(0).normal(0.0, 1.0, (4, 93)), -2.5, 2.5)
+    else:
+        feats = pd.read_parquet(LP / "radiomics" / "radiomics_features.parquet")
+        feats["patient_id"] = feats["patient_id"].astype(str)
+        pid = meta["fig2_internal_CHCC"]["patient_id"]
+        rows = []
+        for ph in ["P", "C1", "C2", "C3"]:
+            cols = [
+                col
+                for col in feats.columns
+                if col.startswith(ph + "_original_") and "_shape_" not in col
+            ]
+            z = (feats[cols] - feats[cols].mean()) / feats[cols].std(ddof=0).replace(0, 1)
+            rows.append(z.loc[feats["patient_id"] == pid, cols].to_numpy(dtype=float)[0])
+        zz = np.clip(np.nan_to_num(np.vstack(rows)), -2.5, 2.5)
+    ax.imshow(
+        zz,
+        cmap="Greys",
+        vmin=-2.5,
+        vmax=2.5,
+        extent=(54.0, 80.0, 105.0, 98.0),
+        interpolation="nearest",
+        aspect="auto",
+        zorder=3,
+    )
+    ax.add_patch(Rectangle((54.0, 98.0), 26.0, 7.0, fc="none", ec=INK2, lw=0.35, zorder=4))
+    txt(67.0, 109, "372 features", ha="center")
+    arrow(80.8, 101.5, 83.6, 101.5)
+    ax.add_patch(
+        Polygon(
+            [(84.2, 97.6), (92.0, 99.8), (92.0, 103.2), (84.2, 105.4)],
+            closed=True,
+            fc="#d9d8d2",
+            ec=INK2,
+            lw=0.35,
+        )
+    )
+    txt(88.1, 95.2, "Top 30", ha="center")
+    arrow(92.6, 101.5, 94.6, 101.5)
+    for k in range(3):
+        bx, by = 95.2 + k * 2.6, 98.6
+        for (xa, ya), (xb_, yb) in [
+            ((1.0, 0), (0.4, 2.4)),
+            ((1.0, 0), (1.6, 2.4)),
+            ((0.4, 2.4), (0.1, 4.6)),
+            ((0.4, 2.4), (0.8, 4.6)),
+        ]:
+            ax.plot([bx + xa, bx + xb_], [by + ya, by + yb], color=INK2, lw=0.4)
+        for px, py in [(1.0, 0), (0.4, 2.4), (1.6, 2.4), (0.1, 4.6), (0.8, 4.6)]:
+            ax.add_patch(Circle((bx + px, by + py), 0.42, fc="#6e6e69", ec="none"))
+    txt(98.6, 109, "LightGBM", ha="center")
+    arrow(102.6, 101.5, 105.0, 101.5)
+    prob(106.0, 97.0, 8.0, 7.5, (0.3, 0.2, 0.5))
+    # late fusion
+    card(121, 63, W - 121.5, 49.5, fill="white", edge=BASE, lw=0.6)
+    txt(123.5, 66.8, "Late fusion", size=8.5, weight="bold")
+    nx, ny = 131.5, 87.0
+    arrow(110.6, 74.0, nx - 2.9, ny - 1.6, conn="arc3,rad=-0.2")
+    arrow(115.0, 101.5, nx - 2.9, ny + 1.6, conn="arc3,rad=0.2")
+    card(124.5, 70.5, 14.0, 5.6, fill=CARD2, r=1.0)
+    txt(131.5, 73.3, "Age, sex", ha="center")
+    arrow(131.5, 76.4, 131.5, ny - 3.4, ls=(0, (2, 1.5)))
+    ax.add_patch(Circle((nx, ny), 3.2, fc=INK2, ec="none", zorder=5))
+    xx = np.linspace(-1.9, 1.9, 40)
+    ax.plot(nx + xx, ny + 1.2 - 2.4 / (1 + np.exp(-3.2 * xx)), color="white", lw=0.9, zorder=6)
+    txt(nx + 4.0, ny - 1.6, "Logistic\nregression", ha="left", va="bottom", linespacing=1.15)
+    arrow(nx + 3.5, ny, 143.0, ny)
+    prob(144.0, 79.5, 15.0, 10.0, (0.2, 0.12, 0.68))
+    txt(151.5, 93.2, "Probabilities", ha="center")
+    txt(123.5, 104.0, "CNN + radiomics (primary)")
+    txt(123.5, 108.0, "Full fusion: + age, sex")
+
+    # ------------------------------------------------------------------ C: evaluation
+    txt(0.5, 119, "C", size=10, weight="bold")
+    txt(5, 119, "Evaluation", size=9, weight="bold")
+    cw = (W - 1 - 2 * 2.5) / 3
+    cards = [
+        (
+            "Internal performance",
+            "56 held-out; development CV",
+            [
+                "Macro-AUC, bootstrap CI",
+                "DeLong tests, BH-adjusted",
+                "Calibration, Brier score",
+                "5 × 5 repeated CV",
+                "Size thirds; missing phases",
+            ],
+        ),
+        (
+            "Dataset audit",
+            "All 1,112 PLC-CECT scans",
+            [
+                "File and mask census",
+                "Slice-thickness estimate",
+                "Models without non-contrast",
+                "Counterfactual resampling",
+                "Grad-CAM measures",
+            ],
+        ),
+        (
+            "External evaluation",
+            "Frozen models, used once",
+            [
+                "Inputs matched to training",
+                "MCT-LTDiag: AUC, calibration",
+                "Mitigation strategies",
+                "HCC-TACE-Seg: HCC sensitivity",
+            ],
+        ),
     ]
-    for x, w, t in cols:
-        ax.text(x, 3.2, t, fontsize=7.6, fontweight="bold", va="center", color=INK)
-        ax.plot([x, x + w], [6.2, 6.2], color=BASE, lw=0.8)
-    # 1 cohorts
-    _box(
-        ax,
-        1.5,
-        9,
-        43,
-        19,
-        [
-            "PLC-CECT (internal; one hospital)",
-            "278: 94 HCC, 99 ICC, 85 cHCC-CCA",
-            "non-contrast, arterial, portal venous",
-            "and delayed CT (public, 0–255)",
-            "age and sex",
-        ],
-        TINT_INT,
-        S1,
-    )
-    _box(
-        ax,
-        1.5,
-        30.5,
-        22.5,
-        12.5,
-        ["Development 222", "5 folds; 5 × 5", "repeated CV"],
-        TINT_INT,
-        S1,
-    )
-    _box(
-        ax,
-        26,
-        30.5,
-        18.5,
-        12.5,
-        ["Held-out 56", "never used for", "fitting or tuning"],
-        TINT_INT,
-        S1,
-    )
-    _box(
-        ax,
-        1.5,
-        47,
-        43,
-        19,
-        [
-            "MCT-LTDiag (external hospital)",
-            "203: 103 HCC, 100 ICC",
-            "four registered phases, 5 mm slices",
-            "observed age and sex",
-            "no cHCC-CCA: HCC vs ICC only",
-        ],
-        TINT_EXT,
-        S2,
-    )
-    _box(
-        ax,
-        1.5,
-        68.5,
-        43,
-        16,
-        [
-            "HCC-TACE-Seg (stress test)",
-            "89 HCC (clean); all 103 reported",
-            "HCC only; no delayed phase",
-            "phases from series descriptions",
-        ],
-        TINT_EXT,
-        S2,
-    )
-    ax.text(
-        1.5,
-        88.5,
-        "External cohorts: frozen models; no fitting,\n"
-        "threshold tuning or recalibration\non external data.",
-        fontsize=6.1,
-        color=MUTED,
-        va="top",
-        linespacing=1.35,
-    )
-    # 2 preprocessing
-    _box(
-        ax,
-        48.5,
-        9,
-        38,
-        21.5,
-        [
-            "Per phase, internal",
-            "CT × liver mask (as released)",
-            "96³-voxel crop centred on that",
-            "phase's tumor (no registration;",
-            "no resampling)",
-        ],
-        TINT_M,
-    )
-    _box(
-        ax,
-        53,
-        33,
-        33.5,
-        14,
-        ["CNN input", "4 phases stacked: 4 × 96³", "per-phase z-score"],
-        TINT_M,
-    )
-    _box(
-        ax,
-        48.5,
-        49.5,
-        38,
-        15.5,
-        [
-            "Radiomics input",
-            "tumor mask inside each crop",
-            "107 features per phase; 56 shape",
-            "features removed → 372",
-        ],
-        TINT_M,
-    )
-    _box(
-        ax,
-        48.5,
-        68.5,
-        38,
-        22,
-        [
-            "External adapter",
-            "orientation matched to training",
-            "in-plane 0.78 mm, slices kept",
-            "−200…200 HU → 0–255",
-            "one crop for registered phases",
-        ],
-        TINT_EXT,
-        S2,
-    )
-    # 3 models
-    _box(
-        ax,
-        90.5,
-        9,
-        35,
-        21.5,
-        [
-            "CNN (main)",
-            "MONAI 3D ResNet-18",
-            "phase dropout: random phases",
-            "zeroed in training; inner-split",
-            "checkpoint; 5 fold models",
-        ],
-        TINT_M,
-    )
-    _box(
-        ax,
-        90.5,
-        33,
-        35,
-        16.5,
-        [
-            "Radiomics",
-            "per training fold: variance,",
-            "|r| > 0.95, top 30 ANOVA-F",
-            "→ LightGBM; 5 fold models",
-        ],
-        TINT_M,
-    )
-    _box(
-        ax,
-        90.5,
-        53,
-        41,
-        16.5,
-        [
-            "Late fusion (logistic, out-of-fold)",
-            "CNN + radiomics: 6 probabilities",
-            "(pre-specified primary model)",
-            "Full fusion: + age and sex (8 inputs)",
-        ],
-        TINT_M,
-    )
-    _box(
-        ax,
-        90.5,
-        72,
-        41,
-        18.5,
-        [
-            "Also reported",
-            "original CNN; CNN without the",
-            "non-contrast phase; adaptive-crop",
-            "and scanner-variation CNNs;",
-            "robust and ComBat radiomics",
-        ],
-        "white",
-    )
-    # 4 evaluation
-    _box(
-        ax,
-        135.5,
-        9,
-        37.5,
-        25,
-        [
-            "Internal",
-            "held-out macro-AUC, bootstrap CI",
-            "DeLong + Benjamini–Hochberg",
-            "paired bootstrap; calibration",
-            "5 × 5 repeated CV; size thirds",
-            "missing-phase patterns",
-        ],
-        TINT_INT,
-        S1,
-    )
-    _box(
-        ax,
-        135.5,
-        37,
-        37.5,
-        25,
-        [
-            "Dataset audit (1,112 scans)",
-            "file and mask census",
-            "slice-thickness estimate",
-            "models without non-contrast",
-            "counterfactual resampling test",
-            "Grad-CAM attention measures",
-        ],
-        TINT_INT,
-        S1,
-    )
-    _box(
-        ax,
-        135.5,
-        65,
-        37.5,
-        25.5,
-        [
-            "External",
-            "MCT-LTDiag: HCC-vs-ICC AUC",
-            "(DeLong CI), calibration,",
-            "each mitigation once",
-            "HCC-TACE-Seg: HCC sensitivity",
-            "after each pipeline correction",
-        ],
-        TINT_EXT,
-        S2,
-    )
-    # arrows
-    _arrow(ax, 44.8, 18.5, 48.2, 18.5)
-    _arrow(ax, 44.8, 76.5, 48.2, 79.5)
-    _arrow(ax, 69, 30.7, 69, 32.8)
-    _path_arrow(ax, [(50.7, 30.7), (50.7, 49.3)])
-    _arrow(ax, 86.8, 40, 90.2, 19.5)
-    _arrow(ax, 86.8, 57, 90.2, 41)
-    _path_arrow(ax, [(125.7, 19.5), (128.5, 19.5), (128.5, 52.8)])
-    ax.plot([125.7, 128.5], [41, 41], color=MUTED, lw=0.9)
-    _arrow(ax, 131.8, 61, 135.2, 21.5)
-    _arrow(ax, 131.8, 61, 135.2, 49.5)
-    _arrow(ax, 131.8, 61, 135.2, 77.5)
-    save(fig, "Figure1_study_design")
+    for i, (head, subhead, bullets) in enumerate(cards):
+        x = 0.5 + i * (cw + 2.5)
+        card(x, 123, cw, 44.5)
+        ix, iy = x + 5.0, 128.8
+        ax.add_patch(Circle((ix, iy), 3.3, fc="white", ec=BASE, lw=0.6))
+        if i == 0:  # ROC glyph
+            ax.plot(
+                [ix - 1.7, ix - 1.7, ix + 1.7], [iy - 1.7, iy + 1.7, iy + 1.7], color=INK2, lw=0.5
+            )
+            u = np.linspace(0, 1, 30)
+            ax.plot(ix - 1.7 + 3.4 * u, iy + 1.7 - 3.4 * (1 - (1 - u) ** 3), color=INK2, lw=0.8)
+            ax.plot([ix - 1.7, ix + 1.7], [iy + 1.7, iy - 1.7], color=BASE, lw=0.5, ls=(0, (1, 1)))
+        elif i == 1:  # thick versus thin slices
+            for k in range(3):
+                ax.add_patch(
+                    Rectangle((ix - 2.0, iy - 1.7 + k * 1.2), 1.6, 0.9, fc=INK2, ec="none")
+                )
+            for k in range(7):
+                ax.add_patch(
+                    Rectangle((ix + 0.4, iy - 1.7 + k * 0.52), 1.6, 0.3, fc=INK2, ec="none")
+                )
+        else:
+            lock(ix, iy + 0.2)
+        txt(x + 10.2, 127.0, head, size=8.5, weight="bold")
+        txt(x + 10.2, 131.2, subhead)
+        for k, b in enumerate(bullets):
+            yy = 137.5 + k * 5.6
+            if not b.startswith("  "):
+                ax.add_patch(Circle((x + 3.0, yy), 0.5, fc=INK2, ec="none"))
+            txt(x + 5.0, yy, b.strip())
+    save(fig, "Figure1_study_design_public" if public else "Figure1_study_design")
 
 
 # =================================================================================================
@@ -1377,7 +1647,7 @@ def figure_examples():
         ("fig2_mct_ICC", "MCT-LTDiag\nICC"),
     ]
     fig, axes = plt.subplots(
-        4, 5, figsize=(150 * MM, 132 * MM), gridspec_kw={"wspace": 0.06, "hspace": 0.06}
+        4, 5, figsize=(WIDTH * MM, 160 * MM), gridspec_kw={"wspace": 0.06, "hspace": 0.22}
     )
     for c, (tag, head) in enumerate(cols):
         pid = meta[tag]["patient_id"]
@@ -1391,19 +1661,18 @@ def figure_examples():
             else:
                 lab = f"{int(json.loads(mct.loc[pid, 'size'])[2])} × 5 mm"
             ax.text(
-                0.03,
-                0.03,
+                0.5,
+                -0.03,
                 lab,
                 transform=ax.transAxes,
-                fontsize=5.8,
-                color="white",
-                va="bottom",
-                ha="left",
-                bbox={"boxstyle": "round,pad=0.15", "fc": (0, 0, 0, 0.55), "ec": "none"},
+                fontsize=8,
+                color=TEXT,
+                va="top",
+                ha="center",
             )
             if c == 0:
-                ax.set_ylabel(phname, fontsize=7, color=INK, labelpad=4)
-        axes[0, c].set_title(f"{head}\n{pid}", fontsize=7, color=INK, pad=4, linespacing=1.15)
+                ax.set_ylabel(phname, fontsize=8, color=INK, labelpad=4)
+        axes[0, c].set_title(f"{head}\n{pid}", fontsize=8, color=INK, pad=4, linespacing=1.15)
     save(fig, "Figure2_example_inputs")
 
 
@@ -1441,50 +1710,66 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
     E = E[E["subset"] == "all 278"]
     Pr = pd.read_csv(Path(e10_dir) / "E10c_predictions.csv", dtype={"patient_id": str})
     Pr["y"] = Pr["patient_id"].map(LABEL)
-    fig = plt.figure(figsize=(174 * MM, 168 * MM))
-    gs = fig.add_gridspec(
-        2, 2, height_ratios=[0.9, 1.25], width_ratios=[1.12, 1], hspace=0.32, wspace=0.62
-    )
+    fig = plt.figure(figsize=(WIDTH * MM, 172 * MM), layout="constrained")
+    fig.get_layout_engine().set(w_pad=0.04, h_pad=0.06, wspace=0.06, hspace=0.06)
+    gs = fig.add_gridspec(2, 2, height_ratios=[0.62, 1.35], width_ratios=[1.0, 1.0])
     # A: stored-voxel coronal views through the tumor centre of the first seeded evidence
     # patient of each class (the run's evidence folder lists them as <id>_<class>_P_vs_C2.png)
     first = {}
     for path in sorted((Path(e10_dir) / "evidence").glob("*_P_vs_C2.png")):
         pid, cls = path.name.split("_")[:2]
         first.setdefault(cls, pid)
-    sub = gs[0, :].subgridspec(2, 2, wspace=0.08, hspace=0.25)
+    # the four strips share one panel (stored voxels: one row per slice, 140 rows shown, as before)
+    axa = fig.add_subplot(gs[0, :])
+    sw, sh, gx, gy, top = 432, 140, 40, 42, 46  # strip width and height, gaps, title band (pixels)
     for c, (pid, cname) in enumerate([(first["HCC"], "HCC"), (first["CHCC"], "cHCC-CCA")]):
         for r, (ph, phname) in enumerate([("P", "non-contrast"), ("C2", "portal venous")]):
             ct = _load_nii(Path(raw_dir) / f"{pid}_{ph}_ct.nii.gz")
             tm = _load_nii(Path(raw_dir) / f"{pid}_{ph}_mask.nii.gz") > 0
             jj = int(round(np.nonzero(tm)[1].mean()))
-            img, msk = ct[40:472, jj, :].T, tm[40:472, jj, :].T
-            ax = fig.add_subplot(sub[r, c])
-            ax.imshow(img, cmap="gray", vmin=0, vmax=255, aspect="equal", interpolation="nearest")
-            if msk.any():
-                ax.contour(msk.astype(float), levels=[0.5], colors=[S4], linewidths=0.7)
-            ax.set_xticks([])
-            ax.set_yticks([])
-            ax.set_ylim(140, 0)
-            for sp in ax.spines.values():
-                sp.set_visible(False)
-            ax.set_title(
-                f"{cname} {pid}, {phname}: {ct.shape[2]} slices",
-                fontsize=6.8,
-                color=INK,
-                loc="left",
-                pad=2,
+            img, msk = ct[40:472, jj, :].T[:sh], tm[40:472, jj, :].T[:sh]
+            x0, y0 = c * (sw + gx), top + r * (sh + gy)
+            n = img.shape[0]
+            axa.imshow(
+                img,
+                cmap="gray",
+                vmin=0,
+                vmax=255,
+                extent=(x0, x0 + sw, y0 + n, y0),
+                interpolation="nearest",
             )
-            if r == 0 and c == 0:
-                ax.text(
-                    -0.02,
-                    1.25,
-                    "A",
-                    transform=ax.transAxes,
-                    fontsize=10,
-                    fontweight="bold",
-                    ha="right",
-                    va="bottom",
+            if msk.any():
+                axa.contour(
+                    x0 + np.arange(sw) + 0.5,
+                    y0 + np.arange(n) + 0.5,
+                    msk.astype(float),
+                    levels=[0.5],
+                    colors=[S4],
+                    linewidths=0.7,
                 )
+            head = f"{cname} {pid}\n" if r == 0 else ""
+            axa.text(
+                x0,
+                y0 - 4,
+                f"{head}{phname.capitalize()}: {ct.shape[2]} slices",
+                fontsize=8,
+                ha="left",
+                va="bottom",
+            )
+    axa.set_xlim(0, 2 * sw + gx)
+    axa.set_ylim(top + 2 * sh + gy, 0)
+    axa.set_aspect("equal")
+    axa.axis("off")
+    axa.text(
+        -0.01,
+        1.0,
+        "A",
+        transform=axa.transAxes,
+        fontsize=10,
+        fontweight="bold",
+        ha="right",
+        va="top",
+    )
     # B: effect sizes in the expected direction
     ax = fig.add_subplot(gs[1, 0])
     tests = [
@@ -1501,7 +1786,7 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
             -0.5,
             -y,
             tname,
-            fontsize=6.8,
+            fontsize=8,
             fontweight="bold",
             va="center",
             ha="left",
@@ -1532,16 +1817,13 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
     ax.axvline(0, color=MUTED, lw=0.8)
     ax.axvline(0.05, color=MUTED, lw=0.8, ls=(0, (3, 2)))
     ax.set_yticks(ticks)
-    ax.set_yticklabels(labels, fontsize=6.6)
+    ax.set_yticklabels(labels, fontsize=8)
     ax.set_xlim(-0.4, 1.1)
     ax.set_ylim(-(y + 0.4), -0.2)
     ax.tick_params(axis="y", length=0)
     ax.spines["left"].set_visible(False)
     grid_x(ax)
-    ax.set_xlabel(
-        "Shift toward the simulated class vs matched\n"
-        "smoothing control (mean, bootstrap 95% CI; n as in C)"
-    )
+    ax.set_xlabel("Shift toward the simulated class\n(vs smoothing control; mean, 95% CI)")
     ax.legend(
         handles=[
             Line2D(
@@ -1551,9 +1833,9 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
                 marker="o",
                 lw=0,
                 ms=5,
-                label="meets every pre-specified criterion",
+                label="Meets every pre-specified criterion",
             ),
-            Line2D([], [], color=INK2, marker="o", mfc="white", lw=0, ms=5, label="not claimed"),
+            Line2D([], [], color=INK2, marker="o", mfc="white", lw=0, ms=5, label="Not claimed"),
             Line2D(
                 [],
                 [],
@@ -1562,7 +1844,7 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
                 lw=0,
                 ms=7,
                 mew=1.4,
-                label="smoothing control alone (|change|)",
+                label="Smoothing control alone (|change|)",
             ),
         ],
         loc="lower left",
@@ -1593,11 +1875,11 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
     y, ticks, labels = 0, [], []
     for cond, cls, cname in conds:
         y += 0.8
-        ax.text(0, -y, cname, fontsize=6.6, fontweight="bold", va="center", color=INK, zorder=5)
+        ax.text(0, -y, cname, fontsize=8, fontweight="bold", va="center", color=INK, zorder=5)
         for state, sname in [
-            ("control", "unchanged"),
-            (cond + "_smooth", "smoothing control"),
-            (cond, "counterfactual"),
+            ("control", "Unchanged"),
+            (cond + "_smooth", "Smoothing control"),
+            (cond, "Counterfactual"),
         ]:
             y += 1
             q = Pr[(Pr["model"] == "CNN") & (Pr["condition"] == state) & (Pr["y"].isin(cls))]
@@ -1613,14 +1895,14 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
                     edgecolor="white",
                     lw=0.4,
                 )
-                if cnt[k] >= 9:
+                if cnt[k] >= 15:
                     ax.text(
                         left + cnt[k] / 2,
                         -y,
                         str(cnt[k]),
                         ha="center",
                         va="center",
-                        fontsize=5.8,
+                        fontsize=8,
                         color="white",
                     )
                 left += cnt[k]
@@ -1628,7 +1910,7 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
             labels.append(sname)
         y += 0.3
     ax.set_yticks(ticks)
-    ax.set_yticklabels(labels, fontsize=6.6)
+    ax.set_yticklabels(labels, fontsize=8)
     ax.set_ylim(-(y + 0.4), -0.2)
     ax.set_xlim(0, 196)
     ax.tick_params(axis="y", length=0)
@@ -1636,7 +1918,10 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
     ax.set_xlabel("Patients by CNN-predicted class")
     ax.legend(
         handles=[plt.Rectangle((0, 0), 1, 1, color=CLASS_COL[c]) for c in CLASSES],
-        labels=[f"predicted {c}" for c in CLASSES],
+        labels=CLASSES,
+        title="Predicted class",
+        title_fontsize=8,
+        alignment="left",
         loc="lower left",
         bbox_to_anchor=(0, 1.0),
         ncol=3,
@@ -1672,17 +1957,22 @@ def figure_gradcam(census_wide=None):
         "heat",
         [(1, 1, 1, 0), (0.93, 0.63, 0.0, 0.55), (0.92, 0.41, 0.2, 0.85), (0.75, 0.1, 0.1, 0.95)],
     )
-    fig = plt.figure(figsize=(174 * MM, 150 * MM))
-    gs = fig.add_gridspec(2, 1, height_ratios=[0.62, 1], hspace=0.28)
-    top = gs[0].subgridspec(2, 7, wspace=0.05, hspace=0.06)
+    fig = plt.figure(figsize=(WIDTH * MM, 180 * MM), layout="constrained")
+    fig.get_layout_engine().set(w_pad=0.03, h_pad=0.05, wspace=0.03, hspace=0.04)
+    sf_top, sf_bot = fig.subfigures(2, 1, height_ratios=[0.66, 1])
+    sf_int, sf_ext = sf_top.subfigures(1, 2, width_ratios=[5, 2.05])
+    sf_int.suptitle("PLC-CECT, held-out patients", fontsize=8)
+    sf_ext.suptitle("MCT-LTDiag", fontsize=8)
+    grid_int, grid_ext = sf_int.add_gridspec(2, 5), sf_ext.add_gridspec(2, 2)
+    sf_top.text(0.0, 1.0, "A", fontsize=10, fontweight="bold", ha="left", va="top")
     tiles = [
-        ("fig8_internal_HCC", "cam_pred", "PLC-CECT HCC"),
-        ("fig8_internal_ICC", "cam_pred", "PLC-CECT ICC"),
-        ("fig8_internal_CHCC", "cam_pred", "PLC-CECT\ncHCC-CCA"),
-        ("fig8_internal_misclassified", "cam_pred", "cHCC-CCA called\nHCC: HCC map"),
-        ("fig8_internal_misclassified", "cam_true", "same case:\ncHCC-CCA map"),
-        ("fig8_mct_HCC", "cam_pred", "MCT-LTDiag HCC"),
-        ("fig8_mct_ICC", "cam_pred", "MCT-LTDiag ICC"),
+        ("fig8_internal_HCC", "cam_pred", "HCC"),
+        ("fig8_internal_ICC", "cam_pred", "ICC"),
+        ("fig8_internal_CHCC", "cam_pred", "cHCC-CCA"),
+        ("fig8_internal_misclassified", "cam_pred", "cHCC-CCA,\npredicted HCC"),
+        ("fig8_internal_misclassified", "cam_true", "Same case,\ntrue-class map"),
+        ("fig8_mct_HCC", "cam_pred", "HCC"),
+        ("fig8_mct_ICC", "cam_pred", "ICC"),
     ]
     names3 = ["HCC", "ICC", "cHCC-CCA"]
     for c, (tag, cam, head) in enumerate(tiles):
@@ -1691,20 +1981,20 @@ def figure_gradcam(census_wide=None):
         pr = m["probabilities"]
         k = int(np.argmax(pr))
         for r in range(2):
-            ax = fig.add_subplot(top[r, c])
+            ax = (
+                sf_int.add_subplot(grid_int[r, c])
+                if c < 5
+                else sf_ext.add_subplot(grid_ext[r, c - 5])
+            )
             _tile(ax, ct, tm)
             if r == 1:
                 ax.imshow(cm / cm.max(), cmap=heat, vmin=0, vmax=1, interpolation="bilinear")
             if r == 0:
                 ax.set_title(
-                    f"{head}\n{m['patient_id']}", fontsize=6.2, color=INK, pad=3, linespacing=1.1
+                    f"{head}\n{m['patient_id']}", fontsize=8, color=INK, pad=3, linespacing=1.1
                 )
             else:
-                lab_ = (
-                    f"pred. {names3[k]} {pr[k]:.2f}"
-                    if cam == "cam_pred"
-                    else f"map for true class ({pr[2]:.2f})"
-                )
+                lab_ = f"{names3[k]} {pr[k]:.2f}" if cam == "cam_pred" else f"cHCC-CCA {pr[2]:.2f}"
                 ax.text(
                     0.5,
                     -0.06,
@@ -1712,26 +2002,14 @@ def figure_gradcam(census_wide=None):
                     transform=ax.transAxes,
                     ha="center",
                     va="top",
-                    fontsize=5.8,
+                    fontsize=8,
                     color=INK2,
                 )
-            if r == 0 and tag == "fig8_mct_ICC":
-                ax.text(
-                    0.5,
-                    0.1,
-                    "tumor 99% outside " + chr(10) + "the liver mask",
-                    transform=ax.transAxes,
-                    ha="center",
-                    va="bottom",
-                    fontsize=5.2,
-                    color="white",
-                )
             if c == 0:
-                ax.set_ylabel("portal venous" if r == 0 else "Grad-CAM", fontsize=6.6, color=INK)
-    fig.text(0.07, 0.985, "A", fontsize=10, fontweight="bold", va="top")
-    bot = gs[1].subgridspec(1, 2, wspace=0.95, width_ratios=[1.2, 0.85])
+                ax.set_ylabel("Portal venous" if r == 0 else "Grad-CAM", fontsize=8, color=INK)
+    bot = sf_bot.add_gridspec(1, 2, width_ratios=[1.3, 1])
     # B: attention enrichment over chance, portal-venous crop, per patient
-    ax = fig.add_subplot(bot[0])
+    ax = sf_bot.add_subplot(bot[0])
     w = (
         pd.read_csv(census_wide, dtype={"patient_id": str}).set_index("patient_id")["C2"]
         if census_wide and Path(census_wide).exists()
@@ -1747,8 +2025,8 @@ def figure_gradcam(census_wide=None):
     ]
     if w is not None:
         groups[2:2] = [
-            ("internal_held_out", "ICC", "  ICC, tumor ≥ 90% inside liver mask", "in"),
-            ("internal_held_out", "ICC", "  ICC, tumor < 90% inside liver mask", "out"),
+            ("internal_held_out", "ICC", "ICC, ≥ 90% inside liver mask", "in"),
+            ("internal_held_out", "ICC", "ICC, < 90% inside liver mask", "out"),
         ]
     rng = np.random.default_rng(3)
     for i, (coh, cl, _lab, sub_) in enumerate(groups):
@@ -1777,21 +2055,18 @@ def figure_gradcam(census_wide=None):
             f"{md:.2f} (n = {len(e)})",
             transform=ax.get_yaxis_transform(),
             va="center",
-            fontsize=6.3,
+            fontsize=8,
             color=INK2,
         )
     ax.axvline(1, color=MUTED, lw=0.9, ls=(0, (3, 2)))
     ax.set_yticks(range(len(groups)))
-    ax.set_yticklabels([g[2] for g in groups][::-1], fontsize=6.6)
+    ax.set_yticklabels([g[2] for g in groups][::-1], fontsize=8)
     ax.set_xlim(0, 3.2)
-    ax.set_xlabel(
-        "Attention inside the tumor ÷ tumor share of the crop\n"
-        "(portal venous; 1 = chance; dot = median, bar = IQR)"
-    )
+    ax.set_xlabel("Tumor attention ÷ tumor share of crop\n(1 = chance; dot = median, bar = IQR)")
     grid_x(ax)
     panel(ax, "B", "Attention on the tumor")
     # C: per-phase share of |gradient × input|
-    ax = fig.add_subplot(bot[1])
+    ax = sf_bot.add_subplot(bot[1])
     sh = Sh[~Sh["black_crop"]] if "black_crop" in Sh.columns else Sh
     rows = [
         ("internal_held_out", "HCC", "PLC-CECT HCC"),
@@ -1800,7 +2075,7 @@ def figure_gradcam(census_wide=None):
         ("MCT_LTDiag", "HCC", "MCT-LTDiag HCC"),
         ("MCT_LTDiag", "ICC", "MCT-LTDiag ICC"),
     ]
-    pcols = ["#184f95", "#3987e5", "#9ec5f4", "#c3c2b7"]
+    pcols = ["#3987e5", "#86b6ef", "#cde2fb", "#c3c2b7"]
     for i, (coh, cl, _lab) in enumerate(rows):
         yy = len(rows) - 1 - i
         v = (
@@ -1828,12 +2103,12 @@ def figure_gradcam(census_wide=None):
                 f"{v[k]:.2f}",
                 ha="center",
                 va="center",
-                fontsize=5.9,
-                color="white" if k < 2 else INK,
+                fontsize=8,
+                color=TEXT,
             )
             left += v[k]
     ax.set_yticks(range(len(rows)))
-    ax.set_yticklabels([r_[2] for r_ in rows][::-1], fontsize=6.6)
+    ax.set_yticklabels([r_[2] for r_ in rows][::-1], fontsize=8)
     ax.set_xlim(0, 1)
     ax.set_xlabel("Median share of |gradient × input|")
     ax.tick_params(axis="y", length=0)
@@ -1846,12 +2121,13 @@ def figure_gradcam(census_wide=None):
         borderaxespad=0,
         columnspacing=1.0,
     )
-    panel(ax, "C", "Contribution of each phase channel")
+    panel(ax, "C", "Phase contribution")
     save(fig, "Figure8_gradcam")
 
 
 FIGURES = {
     "design": figure_design,
+    "design_public": lambda: figure_design(public=True),
     "examples": figure_examples,
     "internal": figure_internal,
     "size": figure_size,

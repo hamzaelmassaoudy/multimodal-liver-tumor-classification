@@ -78,12 +78,14 @@ Each phase masked by the union of the liver and tumor masks instead of the liver
 ## Figures
 
 The figures are the manuscript figures, drawn by
-[`make_revision_figures.py`](../../scripts/revision/make_revision_figures.py) at 600 dpi. Figures 2,
-6, and 8 show patient images and are not published here.
+[`make_revision_figures.py`](../../scripts/revision/make_revision_figures.py) at 600 dpi and the
+printed width of 16.5 cm. Figures 2, 6, and 8 show patient images and are not published here. The
+manuscript Figure 1 shows the CT crops and radiomic features of one patient; the copy here
+(`--figures design_public`) has schematic tiles and a schematic feature strip instead.
 
 | File | Contents |
 |---|---|
-| [`figure1_study_design.png`](figures/figure1_study_design.png) | Cohorts, preprocessing, models, and evaluation |
+| [`figure1_study_design.png`](figures/figure1_study_design.png) | Cohorts and data partition, model pipeline (schematic inputs), and evaluation |
 | [`figure3_internal_performance.png`](figures/figure3_internal_performance.png) | Held-out discrimination with and without the non-contrast phase, repeated cross-validation, confusion table, and missing-phase robustness |
 | [`figure4_size_truncation.png`](figures/figure4_size_truncation.png) | Crop truncation, size strata, and the adaptive crop |
 | [`figure5_dataset_artifacts.png`](figures/figure5_dataset_artifacts.png) | Slice counts by class and acquisition-only discrimination |

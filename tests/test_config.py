@@ -43,7 +43,7 @@ def test_citation_metadata_is_complete_and_does_not_invent_identifiers():
     with (ROOT / "CITATION.cff").open(encoding="utf-8") as stream:
         citation = yaml.safe_load(stream)
     assert citation["cff-version"] == "1.2.0"
-    assert citation["version"] == "2.1.2"
+    assert citation["version"] == "2.1.3"
     names = [(author["given-names"], author["family-names"]) for author in citation["authors"]]
     assert names == [("Xuezhi", "Wen"), ("Hamza", "El Massaoudy")]
     assert citation["license"] == "MIT"
