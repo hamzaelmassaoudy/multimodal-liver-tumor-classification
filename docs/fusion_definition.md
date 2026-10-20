@@ -36,7 +36,9 @@ The meta-learner was fold-specific multinomial logistic regression.
 ## Corrected internal missingness handling
 
 The provenance audit found three unresolved internal sex entries. The corrected primary analysis
-retained them as missing. Each fold fitted median imputation and scaling on its training patients,
+retained them as missing. The same three patients have no recorded age (stored as −1); every
+meta-learner treats values of −1 or below as missing, so their age is also filled with the
+training-fold median. Each fold fitted median imputation and scaling on its training patients,
 then fitted clinical and fusion logistic regression. The historical exact-token rule encoded male
 as 1 and every other token as 0; it is retained only as a sensitivity analysis.
 

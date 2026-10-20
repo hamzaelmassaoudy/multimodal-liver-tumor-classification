@@ -1,5 +1,26 @@
 # Changelog
 
+## 2.1.1 — 2026-10-20
+
+Documentation and figure corrections from a consistency check of the paper, code, and results. No analysis,
+table, or headline value changed.
+
+### Changed
+
+- Figure 7: the phase-dropout CNN reference in panel C now uses the same run as Table 5 (0.528, 0.448–0.607);
+  the mitigation run had recomputed the same predictions (largest difference about 1e-4), which moved the
+  upper bound across a rounding boundary (0.608). `make_revision_figures.py` reproduces the published figures
+  pixel for pixel.
+- Figure 6 (private): the axis label no longer says n = 278, because each condition uses the patients of the
+  classes concerned.
+- Model card: the range of external calibration intercepts is −0.87 to −2.02 for the models in the table
+  (−2.06 belonged to a fusion with the original CNN that is not shown).
+- Dataset documentation: collection periods, institutions, and basis of diagnosis from the source
+  publications; the PLC-CECT curators kept only the slices containing liver, which supports the
+  slice-thickness reading of the dataset audit; the three patients with unresolved sex also have no recorded
+  age, and the meta-learners treat both as missing; the HCC-TACE-Seg dataset DOI (10.7937/TCIA.5FNA-0924),
+  and MCT-LTDiag added to the data access notes.
+
 ## 2.1.0 — 2026-10-20
 
 Analyses added after a second check of the revision, before resubmission.

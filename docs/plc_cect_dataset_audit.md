@@ -16,7 +16,7 @@ private.
 | Patient numbers follow the class | Numbers were assigned in class blocks: all HCC first, then ICC, then cHCC-CCA |
 | Spacing is not recorded | Every file is stored as 8-bit integers (0–255) with a nominal 1 mm spacing, so physical slice thickness and voxel size cannot be read from the files |
 | Slice counts differ by class | Median portal-venous slices: HCC 93, ICC 195, cHCC-CCA 126; counts differ by class in every phase |
-| The difference is slice thickness, not scan range | Liver slices per liver width (portal venous): HCC 0.31, ICC 0.70, cHCC-CCA 0.44, while the share of slices containing liver is similar (0.94–0.98) |
+| The difference is slice thickness, not scan range | Liver slices per liver width (portal venous): HCC 0.31, ICC 0.70, cHCC-CCA 0.44, while the share of slices containing liver is similar (0.94–0.98); the curators had already kept only the slices containing liver |
 | cHCC-CCA non-contrast scans have far fewer slices | Median non-contrast / portal-venous slice ratio: cHCC-CCA 0.29, HCC 0.95, ICC 0.99, consistent with a much thicker reconstruction |
 | Storage format follows the class | Three-channel files in 87 of 99 ICC patients, 3 of 85 cHCC-CCA patients, and no HCC patient |
 | Some liver masks are empty | 13 scans of 4 ICC patients have an empty liver mask, so their liver-masked crops are black |
@@ -24,7 +24,8 @@ private.
 
 The slice-thickness reading follows a rule fixed before the census: class medians of the
 liver-slices-per-width ratio differing more than 1.5-fold, with a similar share of slices containing
-liver, indicate different slice thickness. It is an anatomical estimate, not a measurement. The
+liver, indicate different slice thickness. It is an anatomical estimate, not a measurement. The source publication states that only the slices
+containing liver were kept, so the scan range was already restricted to the liver, which supports this reading. The
 external cohort MCT-LTDiag has 5 mm slices in every scan of both classes.
 
 Slice counts alone predict the class: a logistic model on slice counts alone reached a held-out

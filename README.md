@@ -101,7 +101,7 @@ PLC-CECT should read the [dataset audit](docs/plc_cect_dataset_audit.md).
 
 Obtain PLC-CECT V4 from [Science Data Bank](https://doi.org/10.57760/sciencedb.12207),
 MCT-LTDiag from [Harvard Dataverse](https://doi.org/10.7910/DVN/S3RW15), and HCC-TACE-Seg from
-[TCIA](https://www.cancerimagingarchive.net/collection/hcc-tace-seg/), following each provider's
+[TCIA](https://doi.org/10.7937/TCIA.5FNA-0924), following each provider's
 terms. Patient images, masks, clinical rows, splits, predictions, and checkpoints are not
 distributed here; see the [privacy boundary](docs/privacy_and_data_boundary.md).
 

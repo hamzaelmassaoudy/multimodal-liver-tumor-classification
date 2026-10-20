@@ -5,7 +5,8 @@ No patient data are distributed in this repository.
 ## Source datasets
 
 - **PLC-CECT V4:** obtain the Primary Liver Cancer CECT Imaging Dataset from its [Science Data Bank record](https://doi.org/10.57760/sciencedb.12207).
-- **HCC-TACE-Seg:** obtain the external collection from [The Cancer Imaging Archive](https://www.cancerimagingarchive.net/collection/hcc-tace-seg/).
+- **MCT-LTDiag:** obtain version 3.1 of the external cohort from [Harvard Dataverse](https://doi.org/10.7910/DVN/S3RW15).
+- **HCC-TACE-Seg:** obtain the stress-test collection from [The Cancer Imaging Archive](https://doi.org/10.7937/TCIA.5FNA-0924).
 
 Review and follow the current source terms before download or use. Data being publicly obtainable from a custodian does not authorize redistribution through this software repository.
 

@@ -11,6 +11,12 @@ The Primary Liver Cancer CECT Imaging Dataset, PLC-CECT V4, supplied the interna
 | cHCC-CCA | 85 |
 | Total | 278 |
 
+According to the source publication (Luo et al., *Sci Data* 2025), the scans were acquired between January 2015
+and December 2022 at Chongqing Yubei District People's Hospital, China, diagnoses were confirmed histologically or
+cytologically, and the curators kept only the slices containing liver, clipped intensities to −200…200 HU, and
+rescaled them to 0–255. For three patients, sex is unresolved and age is not recorded; the analysis treats both as
+missing (see the [fusion definition](fusion_definition.md)).
+
 The study used 222 development patients and 56 held-out internal evaluation patients. Five patient-level stratified folds were defined inside the development cohort. The repository does not distribute the patient-level manifest or split membership.
 
 Dataset access and its current terms are provided by the [Science Data Bank record](https://doi.org/10.57760/sciencedb.12207). Users must obtain the release directly from its custodian and comply with the dataset license and access conditions.
@@ -20,7 +26,8 @@ release (slice counts, slice thickness, storage format). Read it before training
 
 ## External cohort: MCT-LTDiag
 
-MCT-LTDiag (Peking Union Medical College Hospital) is available from
+MCT-LTDiag (Peking Union Medical College Hospital; scans acquired between August 2014 and January 2024;
+pathological or clinical diagnoses) is available from
 [Harvard Dataverse](https://doi.org/10.7910/DVN/S3RW15); the revision used version 3.1 (CC0).
 It has no cHCC-CCA class, so the revision used all 103 HCC and 100 ICC patients for
 HCC-versus-ICC validation. The four phases are registered to the portal-venous phase, every
@@ -29,7 +36,8 @@ the cases and checks each file against its published checksum.
 
 ## Stress-test cohort: HCC-TACE-Seg
 
-The external source was [HCC-TACE-Seg at The Cancer Imaging Archive](https://www.cancerimagingarchive.net/collection/hcc-tace-seg/). The study retained 103 known-HCC patients after applying the historical external workflow. No retained patient had all four phases required by the internal multiphase input.
+The external source was [HCC-TACE-Seg at The Cancer Imaging Archive](https://doi.org/10.7937/TCIA.5FNA-0924): 105 patients with confirmed HCC
+treated at The University of Texas MD Anderson Cancer Center between 2002 and 2012. The study retained 103 known-HCC patients after applying the historical external workflow. No retained patient had all four phases required by the internal multiphase input.
 
 This cohort supported an HCC-only stress test. It did not support external discrimination among HCC, ICC, and cHCC-CCA, so external multiclass AUC is neither defined nor reported.
 

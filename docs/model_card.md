@@ -43,7 +43,7 @@ MCT-LTDiag (103 HCC, 100 ICC). Stress test: HCC-TACE-Seg (89 HCC without mixed-s
 | Full fusion | 0.951 (0.903–0.984) | 0.947 ± 0.011 | 0.690 (0.617–0.763); sex alone 0.663 |
 
 Internally, CNN + radiomics had calibration slopes of 0.82–1.12. On MCT-LTDiag, calibration failed
-for every model (intercepts −0.87 to −2.06), the models rarely predicted ICC, and many patients
+for every model (intercepts −0.87 to −2.02), the models rarely predicted ICC, and many patients
 were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
 [revision overview](revision_2026-10.md) and [external validation](external_validation_mct_ltdiag.md).
 

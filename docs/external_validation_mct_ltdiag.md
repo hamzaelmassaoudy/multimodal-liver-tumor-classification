@@ -6,7 +6,7 @@ tuned, thresholded, or recalibrated on external data.
 | Cohort | Role | Patients | What it can show |
 |---|---|---|---|
 | [MCT-LTDiag](https://doi.org/10.7910/DVN/S3RW15) (Peking Union Medical College Hospital; Harvard Dataverse version 3.1) | External validation | 103 HCC, 100 ICC | HCC-versus-ICC discrimination and calibration |
-| [HCC-TACE-Seg](https://www.cancerimagingarchive.net/collection/hcc-tace-seg/) (TCIA) | Stress test | 89 HCC without mixed-scan inputs (103 in total) | HCC sensitivity only |
+| [HCC-TACE-Seg](https://doi.org/10.7937/TCIA.5FNA-0924) (TCIA) | Stress test | 89 HCC without mixed-scan inputs (103 in total) | HCC sensitivity only |
 
 No public external cohort contains cHCC-CCA, so the three-class task cannot be validated externally.
 

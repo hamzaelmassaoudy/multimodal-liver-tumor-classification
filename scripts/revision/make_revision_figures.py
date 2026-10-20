@@ -831,11 +831,16 @@ def figure_external():
     ax = fig.add_subplot(gs[1, :])
     r8 = f("E8b", "E8b_E9_mct203_results.csv").set_index("model")
     r8a = f("E8a", "E8a_mct203_results.csv").set_index("model")
+    # The CNN reference is the Table 5 value (E8.0, 203 patients). E8b recomputed the same model's
+    # predictions (largest difference about 1e-4), which moved the upper CI bound across a rounding
+    # boundary (0.607 vs 0.608).
+    r80 = f("E8a", "E8_0_E6_203_results.csv")
+    r80 = r80[(r80["variant"] == "primary") & (r80["subset"] == "all")].set_index("model")
     groups = [
         (
             "CNN",
             [
-                ("Phase-dropout CNN (reference)", r8, "CNN phase_dropout_CNN"),
+                ("Phase-dropout CNN (reference)", r80, "phase_dropout_CNN"),
                 ("+ test-time harmonization", r8, "CNN phase_dropout_CNN + harmonisation"),
                 ("Scanner-variation training", r8, "CNN DR_CNN"),
                 ("Scanner-variation + harmonization", r8, "CNN DR_CNN + harmonisation"),
@@ -1535,7 +1540,7 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
     grid_x(ax)
     ax.set_xlabel(
         "Shift toward the simulated class vs matched\n"
-        "smoothing control (mean, bootstrap 95% CI; n = 278)"
+        "smoothing control (mean, bootstrap 95% CI; n as in C)"
     )
     ax.legend(
         handles=[
