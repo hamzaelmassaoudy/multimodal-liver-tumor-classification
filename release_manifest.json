@@ -13,12 +13,12 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "9af94fff8ef10c3d84af8358a257c8f140256d2e",
+  "commit_hash": "ee1ef58c9b43291a5977c6c066c16c17b0ddd5af",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "9af94fff8ef10c3d84af8358a257c8f140256d2e",
+  "content_commit": "ee1ef58c9b43291a5977c6c066c16c17b0ddd5af",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
-  "largest_public_file_bytes": 1240289,
+  "largest_public_file_bytes": 1330885,
   "license": "MIT",
   "notebook_count": 28,
   "notebook_outputs_cleared": true,
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 6869
+      "size_bytes": 7817
     },
     {
       "path": "CITATION.cff",
@@ -373,7 +373,7 @@
     },
     {
       "path": "results/revision_2026-10/README.md",
-      "size_bytes": 8015
+      "size_bytes": 8261
     },
     {
       "path": "results/revision_2026-10/acquisition_only_discrimination.csv",
@@ -473,23 +473,23 @@
     },
     {
       "path": "results/revision_2026-10/figures/figure1_study_design.png",
-      "size_bytes": 1185052
+      "size_bytes": 1190526
     },
     {
       "path": "results/revision_2026-10/figures/figure3_internal_performance.png",
-      "size_bytes": 698367
+      "size_bytes": 663668
     },
     {
       "path": "results/revision_2026-10/figures/figure4_size_truncation.png",
-      "size_bytes": 552512
+      "size_bytes": 577630
     },
     {
       "path": "results/revision_2026-10/figures/figure5_dataset_artifacts.png",
-      "size_bytes": 593703
+      "size_bytes": 597752
     },
     {
       "path": "results/revision_2026-10/figures/figure7_external_validation.png",
-      "size_bytes": 1240289
+      "size_bytes": 1330885
     },
     {
       "path": "results/revision_2026-10/internal_comparisons.csv",
@@ -569,7 +569,7 @@
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
-      "size_bytes": 65565
+      "size_bytes": 80985
     },
     {
       "path": "scripts/revision/summarize_tumor_inside_liver_mask.py",
@@ -660,7 +660,7 @@
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.1.2",
+  "repository_version": "2.1.3",
   "test_status": {
     "passed": true,
     "tests_passed": 43
