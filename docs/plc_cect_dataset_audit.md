@@ -17,7 +17,7 @@ private.
 | Spacing is not recorded | Every file is stored as 8-bit integers (0–255) with a nominal 1 mm spacing, so physical slice thickness and voxel size cannot be read from the files |
 | Slice counts differ by class | Median portal-venous slices: HCC 93, ICC 195, cHCC-CCA 126; counts differ by class in every phase |
 | The difference is slice thickness, not scan range | Liver slices per liver width (portal venous): HCC 0.31, ICC 0.70, cHCC-CCA 0.44, while the share of slices containing liver is similar (0.94–0.98) |
-| cHCC-CCA non-contrast scans are thick | Median non-contrast / portal-venous slice ratio: cHCC-CCA 0.29, HCC 0.95, ICC 0.99 |
+| cHCC-CCA non-contrast scans have far fewer slices | Median non-contrast / portal-venous slice ratio: cHCC-CCA 0.29, HCC 0.95, ICC 0.99, consistent with a much thicker reconstruction |
 | Storage format follows the class | Three-channel files in 87 of 99 ICC patients, 3 of 85 cHCC-CCA patients, and no HCC patient |
 | Some liver masks are empty | 13 scans of 4 ICC patients have an empty liver mask, so their liver-masked crops are black |
 | Tumors extend beyond the liver mask (post hoc) | Tumors lie less than 90% inside the released liver mask in 52 of 99 ICC, 29 of 94 HCC, and 21 of 85 cHCC-CCA patients (portal venous) |
@@ -50,7 +50,7 @@ moved the score by less than 0.05.
 | ICC scans made HCC-like, Δ [p(ICC) − p(HCC)] | −0.57 (−0.66 to −0.49) | Predicted HCC: 14 → 31 of 99 |
 
 - **Non-contrast artifact.** Both directions met every criterion (smoothing controls 0.04 and 0.02).
-  The CNN uses the thick cHCC-CCA non-contrast reconstruction.
+  The CNN uses this non-contrast reconstruction artifact of the cHCC-CCA scans.
 - **Slice density.** The shifts were five to eight times larger than the smoothing controls, but the
   controls moved the score by 0.12, above the pre-set limit. This is strong evidence, not a
   conclusive test.
@@ -76,11 +76,18 @@ The scripts
 [`summarize_tumor_inside_liver_mask.py`](../scripts/revision/summarize_tumor_inside_liver_mask.py)
 reproduce the census and the summary from the downloaded dataset.
 
+Preserving the tumor changed none of the conclusions. Retrained on crops masked by the union of the
+liver and tumor masks (notebook 28), CNN + radiomics reached a held-out macro-AUC of 0.963 (main
+pipeline 0.952), the CNN still met every criterion of the non-contrast artifact test, and MCT-LTDiag
+performance was unchanged (0.571 vs. 0.578). Radiomics improved where tissue had been removed
+([`corrected_mask_by_tumor_inside_liver.csv`](../results/revision_2026-10/corrected_mask_by_tumor_inside_liver.csv)).
+
 ## Recommendations for PLC-CECT users
 
 1. Do not interpret internal accuracy on PLC-CECT as evidence of tumor-specific learning without an
    acquisition check such as the counterfactual test above.
 2. Report slice counts by class and test a slice-count-only baseline.
 3. Avoid the non-contrast phase or harmonize slice thickness before training.
-4. Check tumor coverage before masking the CT with the released liver mask.
+4. Check tumor coverage before masking the CT with the released liver mask; masking with the union
+   of the liver and tumor masks keeps the tumor tissue.
 5. Validate on a cohort with recorded and balanced acquisition, such as MCT-LTDiag for HCC versus ICC.

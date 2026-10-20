@@ -17,26 +17,30 @@ an in-plane pixel size of 0.56–0.96 mm. Age and sex were observed for every pa
 21 women; ICC 47 men and 53 women), and 23 patients had recorded prior chemotherapy or TACE. Every
 downloaded file was checked against its published checksum (notebook 18).
 
-The score is p(HCC) / [p(HCC) + p(ICC)]. Sensitivity and specificity use the internal decision rule
-(most probable of three classes), so a cHCC-CCA prediction counts as an error.
+The score is p(HCC) / [p(HCC) + p(ICC)]. Sensitivity (HCC patients called HCC) and specificity (ICC
+patients not called HCC) use the internal decision rule (most probable of three classes).
 
-| Model | HCC-vs-ICC AUC (95% CI) | HCC sensitivity | ICC specificity | Calibration intercept / slope |
+| Model | HCC-vs-ICC AUC (95% CI) | Sensitivity | Specificity | Calibration intercept / slope / Brier |
 |---|---:|---:|---:|---:|
-| **CNN + radiomics (pre-specified primary)** | **0.578 (0.500–0.657)** | 0.52 | 0.02 | −2.02 / 0.29 |
-| Phase-dropout CNN | 0.528 (0.448–0.607) | 0.72 | 0.02 | −1.52 / 0.08 |
-| Original CNN | 0.525 (0.445–0.605) | 0.83 | 0.17 | −0.87 / 0.07 |
-| Radiomics (no shape) | 0.655 (0.579–0.731) | 0.21 | 0.10 | −1.19 / 0.26 |
-| Full fusion (+ observed age, sex) | 0.690 (0.617–0.763) | 0.53 | 0.05 | −1.97 / 0.48 |
+| **CNN + radiomics (pre-specified primary)** | **0.578 (0.500–0.657)** | 0.52 | 0.52 | −2.02 / 0.29 / 0.37 |
+| Phase-dropout CNN | 0.528 (0.448–0.607) | 0.72 | 0.33 | −1.52 / 0.08 / 0.34 |
+| Original CNN | 0.525 (0.445–0.605) | 0.83 | 0.22 | −0.87 / 0.07 / 0.31 |
+| Radiomics (no shape) | 0.655 (0.579–0.731) | 0.21 | 0.88 | −1.19 / 0.26 / 0.30 |
+| Full fusion (+ observed age, sex) | 0.690 (0.617–0.763) | 0.53 | 0.61 | −1.97 / 0.48 / 0.32 |
 | Sex alone (post hoc) | 0.663 | — | — | — |
 
 - **Discrimination.** The CNNs were at chance level. Radiomics kept part of its signal. Full fusion
-  was higher only because sex separated the classes in this cohort (79.6% of HCC and 47.0% of ICC
-  patients were men).
-- **Predicted classes.** The models rarely predicted ICC and assigned many patients of both classes to
+  was higher because sex separated the classes in this cohort (79.6% of HCC and 47.0% of ICC
+  patients were men): within men and within women it was no better than CNN + radiomics (+0.009,
+  p = 0.68; −0.004, p = 0.87; post hoc,
+  [`external_mct_ltdiag_by_sex.csv`](../results/revision_2026-10/external_mct_ltdiag_by_sex.csv)).
+- **Predicted classes.** The models rarely predicted ICC (2 to 17 of 100 ICC patients) and assigned many patients of both classes to
   cHCC-CCA, a class absent from the cohort.
-- **Calibration.** Calibration failed for every model.
+- **Calibration.** Calibration failed for every model (Brier scores 0.30–0.37, against 0.25 for a
+  constant prediction of 0.5).
 - **Sensitivity analyses.** Pre-specified preprocessing variants gave 0.57–0.63 for CNN + radiomics,
-  and excluding the 23 previously treated patients gave 0.605.
+  excluding the 23 previously treated patients gave 0.605, and preserving the tumor tissue (corrected
+  mask, notebook 28) gave 0.571 (paired p = 0.83).
 
 All models, preprocessing variants, and subsets are in
 [`external_mct_ltdiag.csv`](../results/revision_2026-10/external_mct_ltdiag.csv) and

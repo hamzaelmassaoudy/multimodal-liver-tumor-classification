@@ -1,0 +1,10 @@
+group,n_HCC,n_ICC,model,auc,delong_low,delong_high,post_hoc,paired_delong_p
+all,103,100,CNN + radiomics,0.578252,0.499709,0.656796,True,
+all,103,100,full fusion,0.690097,0.617454,0.76274,True,
+all,103,100,full fusion - CNN + radiomics,0.111845,,,True,0.000634593
+men,82,47,CNN + radiomics,0.565127,0.463276,0.666979,True,
+men,82,47,full fusion,0.57369,0.472586,0.674794,True,
+men,82,47,full fusion - CNN + radiomics,0.00856253,,,True,0.681922
+women,21,53,CNN + radiomics,0.565139,0.417302,0.712976,True,
+women,21,53,full fusion,0.560647,0.409778,0.711516,True,
+women,21,53,full fusion - CNN + radiomics,-0.00449236,,,True,0.870593

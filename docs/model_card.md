@@ -54,11 +54,12 @@ were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
   (held-out macro-AUC 0.853–0.872). Internal performance is therefore partly inflated by dataset
   artifacts ([dataset audit](plc_cect_dataset_audit.md)).
 - **Masked tumor tissue.** In 52 of 99 ICC patients, less than 90% of the tumor lies inside the
-  released liver mask, so part of the tumor is blanked in the model input.
+  released liver mask, so part of the tumor is blanked in the model input. Retraining with the
+  tumor preserved changed none of the conclusions (corrected-mask analysis).
 - **Fixed crop.** The 96³ crop kept less than 90% of the portal-venous tumor in 37 of 94 HCC
   patients; an adaptive crop did not help.
 - **Clinical inputs.** Age and sex added nothing internally; externally, full fusion's advantage
-  came from sex, and on HCC-TACE-Seg its output depended strongly on how age and sex were supplied.
+  came from sex (it disappeared within each sex), and on HCC-TACE-Seg its output depended strongly on how age and sex were supplied.
 - **Missing phases.** Models need all four phases; phase dropout reduces but does not remove the
   dependence.
 - **Small held-out set.** With 56 patients, confidence intervals are wide.

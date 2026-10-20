@@ -1,0 +1,4 @@
+class,patients,patients_with_tumour_restored_in_crop,portal_venous_share_inside_liver_below_0.9,median_portal_venous_share_inside_liver
+CHCC,85,79,21,0.965392
+HCC,94,93,29,0.963973
+ICC,99,97,52,0.882483

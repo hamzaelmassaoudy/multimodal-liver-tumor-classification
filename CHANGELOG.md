@@ -1,5 +1,30 @@
 # Changelog
 
+## 2.1.0 — 2026-10-20
+
+Analyses added after a second check of the revision, before resubmission.
+
+### Added
+
+- Notebook 28: corrected-mask sensitivity analysis. Each phase is masked by the union of the liver and
+  tumor masks instead of the liver mask, so tumor tissue outside the released liver mask is kept; the
+  CNN, radiomics, and both fusions are retrained with the same folds, seeds, and settings. No conclusion
+  changed: CNN + radiomics 0.963 held-out (main 0.952), the CNN still uses the non-contrast artifact, and
+  MCT-LTDiag 0.571 (main 0.578; paired p = 0.83).
+- Within-sex external comparison (post hoc): the full-fusion advantage on MCT-LTDiag disappears within
+  men and within women, so it comes from sex.
+- Eight cohort-level tables (`corrected_mask_*.csv`, `external_mct_ltdiag_by_sex.csv`), produced by the
+  extended `export_revision_aggregates.py`, which reproduces the existing 27 tables unchanged and now
+  writes Unix line endings on every platform.
+- Tests that lock the corrected-mask and within-sex headline values.
+
+### Changed
+
+- External specificity is reported as the share of ICC patients not called HCC (for example 0.52 for
+  CNN + radiomics), with Brier scores; the earlier "ICC specificity" was the share called ICC.
+- Wording matched to the evidence: slice thickness is inferred from slice counts, and the sex
+  explanation is backed by the within-sex result.
+
 ## 2.0.0 — 2026-10-19
 
 Adds the analyses of the October 2026 revision of the manuscript, now titled "Multimodal

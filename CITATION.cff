@@ -7,7 +7,7 @@ authors:
     given-names: Xuezhi
   - family-names: El Massaoudy
     given-names: Hamza
-version: 2.0.0
-date-released: 2026-10-19
+version: 2.1.0
+date-released: 2026-10-20
 license: MIT
 repository-code: "https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification"

@@ -1,0 +1,13 @@
+model,test,subset,n,expected_sign,mean_shift_vs_smoothing_control,ci_low,ci_high,smoothing_control_mean_abs_change,smoothing_control_ok,meets_rule
+CNN,"non-contrast artefact injected (HCC, ICC)",all 278,193,1,0.252385,0.212433,0.292908,0.0277956,True,True
+CNN,"non-contrast artefact injected (HCC, ICC)",held-out 56,39,1,0.26441,0.192148,0.338837,0.0308985,True,True
+CNN,non-contrast artefact repaired (cHCC-CCA),all 278,85,-1,-0.42136,-0.492971,-0.348754,0.0109697,True,True
+CNN,non-contrast artefact repaired (cHCC-CCA),held-out 56,17,-1,-0.406117,-0.551669,-0.256806,0.0107739,True,True
+radiomics,"non-contrast artefact injected (HCC, ICC)",all 278,193,1,-0.17867,-0.222814,-0.135243,0.258234,False,False
+radiomics,"non-contrast artefact injected (HCC, ICC)",held-out 56,39,1,-0.200742,-0.282668,-0.126253,0.263179,False,False
+radiomics,non-contrast artefact repaired (cHCC-CCA),all 278,85,-1,0.0163513,-0.0317751,0.070153,0.038666,True,False
+radiomics,non-contrast artefact repaired (cHCC-CCA),held-out 56,17,-1,-0.0644976,-0.153953,0.00609862,0.026807,True,False
+CNN + radiomics,"non-contrast artefact injected (HCC, ICC)",all 278,193,1,0.10817,0.0750728,0.14379,0.108379,False,True
+CNN + radiomics,"non-contrast artefact injected (HCC, ICC)",held-out 56,39,1,0.100057,0.0418614,0.160954,0.119438,False,True
+CNN + radiomics,non-contrast artefact repaired (cHCC-CCA),all 278,85,-1,-0.26114,-0.315661,-0.207575,0.0201024,True,True
+CNN + radiomics,non-contrast artefact repaired (cHCC-CCA),held-out 56,17,-1,-0.289456,-0.37996,-0.197184,0.0142937,True,True

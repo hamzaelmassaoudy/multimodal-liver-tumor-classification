@@ -1,6 +1,6 @@
-# Revision notebooks (15–27)
+# Revision notebooks (15–28)
 
-The thirteen revision notebooks are the code that produced every result of the
+The fourteen revision notebooks are the code that produced every result of the
 [October 2026 revision](revision_2026-10.md). They ran on Google Colab, with a GPU for the CNN analyses,
 against the private project folder, and are published with outputs cleared and with every
 machine-specific location replaced by an environment variable.
@@ -22,6 +22,7 @@ machine-specific location replaced by an environment variable.
 | 25 | [Adaptive-crop CNN](../notebooks/06_revision_internal_models_and_statistics/25_adaptive_crop_cnn.ipynb) | E4d | Trains and evaluates the CNN on size-adaptive crops |
 | 26 | [Dataset audit and counterfactual test](../notebooks/08_revision_dataset_audit_and_explainability/26_dataset_audit_and_counterfactual_test.ipynb) | E10 | File-level census of 1,112 scans and the slice-resampling counterfactual test |
 | 27 | [Grad-CAM attribution and examples](../notebooks/08_revision_dataset_audit_and_explainability/27_gradcam_attribution_and_examples.ipynb) | F2 | Quantitative Grad-CAM enrichment and per-phase attribution |
+| 28 | [Corrected-mask sensitivity analysis](../notebooks/08_revision_dataset_audit_and_explainability/28_corrected_mask_liver_union_tumour.ipynb) | E11 | Repeats the pipeline with liver ∪ tumor masks (all models retrained); internal, artifact test, and MCT-LTDiag versus the main models |
 
 Numbers follow the order in which the analyses ran; the folders group them by topic. The analysis IDs
 refer to the dated analysis log in which each analysis was planned and approved before it was run;
@@ -47,7 +48,8 @@ records.
 | `LIVER_HISTORICAL_PREFIX` | 17, 20, 24, 25 | Folder prefix stored inside older run manifests; it is replaced by the current project location when those manifests are read |
 | `LIVER_DRIVE_PROJECT_FOLDER_ID`, `LIVER_DRIVE_EXTERNAL_FOLDER_ID` | 18 | Drive folder identifiers of the project and of its external-data folder, used by the Drive API upload |
 
-Variables ending in `_TEST_ROOT`, `_TEST_PROCESSED`, `_TEST_WORK`, `_TEST_TMP`, or `_TEST_GLOSSARY`
+Variables ending in `_TEST_ROOT`, `_TEST_PROCESSED`, `_TEST_WORK`, `_TEST_TMP`, `_TEST_GLOSSARY`, or
+`_TEST_EPOCHS`
 are read only outside Colab, by the local synthetic-data test harness used to check each notebook
 before it ran on real data.
 

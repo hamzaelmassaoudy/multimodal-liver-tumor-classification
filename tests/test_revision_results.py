@@ -103,3 +103,29 @@ def test_external_headline_values_are_locked():
         subset="clean_89",
     )
     assert int(tace["hcc_correct"]) == 47
+
+
+def test_corrected_mask_analysis_values_are_locked():
+    internal = row(read_csv("corrected_mask_internal_paired.csv"), model="CNN + radiomics")
+    assert float(internal["heldout_difference_E11_minus_main"]) == pytest.approx(0.0112775)
+    assert float(internal["boot_low"]) < 0 < float(internal["boot_high"])
+    effects = read_csv("corrected_mask_counterfactual_effects.csv")
+    for test in [
+        "non-contrast artefact injected (HCC, ICC)",
+        "non-contrast artefact repaired (cHCC-CCA)",
+    ]:
+        cnn = row(effects, model="CNN", test=test, subset="all 278")
+        assert cnn["meets_rule"] == "True" and cnn["smoothing_control_ok"] == "True"
+    external = row(read_csv("corrected_mask_external.csv"), pipeline="E11", model="CNN + radiomics")
+    assert float(external["auc"]) == pytest.approx(0.570777, abs=1e-6)
+    paired = row(read_csv("corrected_mask_external_paired.csv"), model="CNN + radiomics")
+    assert float(paired["delong_p"]) > 0.05
+
+
+def test_full_fusion_advantage_disappears_within_sex():
+    rows = read_csv("external_mct_ltdiag_by_sex.csv")
+    overall = row(rows, group="all", model="full fusion - CNN + radiomics")
+    assert float(overall["paired_delong_p"]) < 0.01
+    for group in ["men", "women"]:
+        within = row(rows, group=group, model="full fusion - CNN + radiomics")
+        assert abs(float(within["auc"])) < 0.01 and float(within["paired_delong_p"]) > 0.5

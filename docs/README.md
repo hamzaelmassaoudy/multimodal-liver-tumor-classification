@@ -4,14 +4,14 @@ For a first run, follow the [quick start](quickstart.md). It needs no patient da
 The [synthetic fusion example](../examples/synthetic_fusion.py) shows the input contract
 and the order of training-fold imputation and feature construction.
 
-## Revision (v2.0.0)
+## Revision (v2.0.0–2.1.0)
 
 | Guide | What it covers |
 |---|---|
 | [Revision overview](revision_2026-10.md) | What changed from v1.1.0, internal results, and corrections to earlier statements. |
 | [PLC-CECT dataset audit](plc_cect_dataset_audit.md) | Class-dependent acquisition, the counterfactual test, and advice for PLC-CECT users. |
 | [External validation](external_validation_mct_ltdiag.md) | MCT-LTDiag validation, mitigation attempts, and the HCC-TACE-Seg stress test. |
-| [Revision notebooks](revision_notebooks.md) | Notebooks 15–27, their safeguards, and their environment variables. |
+| [Revision notebooks](revision_notebooks.md) | Notebooks 15–28, their safeguards, and their environment variables. |
 
 ## Running the software
 
@@ -22,7 +22,7 @@ and the order of training-fold imputation and feature construction.
 | [Reproducibility](reproducibility.md) | Analyses supported by the release and what prevents exact reconstruction. |
 | [Dataset access](datasets.md) | Cohorts, provider links, and local configuration. |
 | [Artifact contracts](artifact_contracts.md) | Required schemas for authorized local inputs. |
-| [Notebook sequence](../notebooks/README.md) | All 27 notebooks and their prerequisites. |
+| [Notebook sequence](../notebooks/README.md) | All 28 notebooks and their prerequisites. |
 
 ## Understanding the study
 

@@ -12,7 +12,7 @@ or authorized local derived artifacts.
 - Review corrected internal performance, sex provenance/sensitivity, per-class results, paired tests,
   confusion counts, C2 retention, external adapter QC, and radiomics feature-handling controls.
 - Review the [October 2026 revision](revision_2026-10.md) tables and figures in
-  `results/revision_2026-10` and the code of revision notebooks 15–27.
+  `results/revision_2026-10` and the code of revision notebooks 15–28.
 
 ```bash
 python -m pytest

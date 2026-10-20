@@ -1,7 +1,7 @@
 # Notebooks
 
-The 27 notebooks document the original study workflow (01–14) and the October 2026 revision
-analyses (15–27). Every committed notebook has no outputs, execution counts, attachments, patient
+The 28 notebooks document the original study workflow (01–14) and the October 2026 revision
+analyses (15–28). Every committed notebook has no outputs, execution counts, attachments, patient
 data, or machine-specific paths.
 
 Create ignored `configs/paths.yaml` from `configs/paths.example.yaml` only when user-obtained data
@@ -30,7 +30,7 @@ missing and uses fold-local medians. The historical non-male-to-zero rule is sen
 | 13 | [Radiomics imputation controls](04_external_stress_test/13_radiomics_imputation_controls.ipynb) | Public aggregate reanalysis; private artifacts required for rerun |
 | 14 | [Explainability and aggregate figures](05_figures_and_tables/14_explainability_and_aggregate_figures.ipynb) | Public aggregate figure generation; private artifacts required for case-level explainability |
 
-## Revision analyses (15–27)
+## Revision analyses (15–28)
 
 These notebooks produced every result of the [revision](../docs/revision_2026-10.md). Each analysis
 notebook stops unless it first reproduces the saved results it builds on; the download notebook (18)
@@ -42,7 +42,7 @@ environment variables.
 |---|---|
 | [`06_revision_internal_models_and_statistics`](06_revision_internal_models_and_statistics) | 15 reproduction and radiomics without shape · 16 missing phases and phase-dropout CNN · 22 truncation, size, calibration, statistics · 23 repeated cross-validation · 25 adaptive-crop CNN |
 | [`07_revision_external_validation_and_mitigation`](07_revision_external_validation_and_mitigation) | 17 HCC-TACE-Seg repaired · 18 MCT-LTDiag download · 19 MCT-LTDiag validation · 20 HCC-TACE-Seg axis corrected · 21 all 203 patients and radiomics mitigation · 24 CNN mitigation and models without non-contrast |
-| [`08_revision_dataset_audit_and_explainability`](08_revision_dataset_audit_and_explainability) | 26 dataset audit and counterfactual test · 27 Grad-CAM attribution |
+| [`08_revision_dataset_audit_and_explainability`](08_revision_dataset_audit_and_explainability) | 26 dataset audit and counterfactual test · 27 Grad-CAM attribution · 28 corrected-mask sensitivity analysis |
 
 Numbers follow the order in which the analyses ran.
 

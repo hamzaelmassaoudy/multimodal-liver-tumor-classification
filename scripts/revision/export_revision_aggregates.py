@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Export the cohort-level results of the October 2026 revision from authorized run outputs.
 
-The inputs are the run folders written by notebooks 15-27 (``liver_project/revision_2026-10``)
+The inputs are the run folders written by notebooks 15-28 (``liver_project/revision_2026-10``)
 and the split and label files of the private project folder. Every output table is aggregated
 over patients: no identifier, probability, label, or split membership is written.
 
@@ -22,6 +22,7 @@ from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import roc_auc_score
@@ -41,6 +42,7 @@ RUNS = {
     "E4d": "E4d_20261019T030857Z",
     "E10": "E10_20261019T031225Z",
     "F2": "F2_20261019T090444Z",
+    "E11": "E11_20261019T195325Z",
 }
 MAIN = {
     "CNN": "phase_dropout_CNN",
@@ -462,6 +464,94 @@ def hcc_tace_seg(runs: Path) -> pd.DataFrame:
     return pd.concat([e5c, e5, e8b, e4d], ignore_index=True)
 
 
+def _midrank(x: np.ndarray) -> np.ndarray:
+    order = np.argsort(x)
+    s = x[order]
+    ranks = np.zeros(len(x))
+    i = 0
+    while i < len(x):
+        j = i
+        while j < len(x) and s[j] == s[i]:
+            j += 1
+        ranks[i:j] = 0.5 * (i + j - 1) + 1
+        i = j
+    out = np.empty(len(x))
+    out[order] = ranks
+    return out
+
+
+def _delong(y: np.ndarray, s: np.ndarray) -> tuple[float, np.ndarray, np.ndarray]:
+    pos, neg = s[y == 1], s[y == 0]
+    m, n = len(pos), len(neg)
+    tz = _midrank(np.concatenate([pos, neg]))
+    auc = tz[:m].sum() / m / n - (m + 1) / 2 / n
+    return auc, (tz[:m] - _midrank(pos)) / n, 1 - (tz[m:] - _midrank(neg)) / m
+
+
+def mct_by_sex(runs: Path, project: Path) -> pd.DataFrame:
+    """Post hoc: MCT-LTDiag HCC-vs-ICC AUC of CNN + radiomics and full fusion within each sex."""
+    meta = (
+        project
+        / "external_validation"
+        / "MCT-LTDiag"
+        / "metadata"
+        / "selected_HCC_ICC_patients.csv"
+    )
+    sel = pd.read_csv(meta, dtype=str).set_index("patient_id")
+    preds = read(runs, "E8b", "E8b_E9_predictions.csv", dtype={"patient_id": str})
+    preds = preds[preds.cohort == "MCT_LTDiag"]
+    keys = {
+        "CNN + radiomics": "cnn_plus_radiomics: [ref] phase_dropout_CNN + radiomics_noshape",
+        "full fusion": "full_fusion: [ref] phase_dropout_CNN + radiomics_noshape",
+    }
+    ids = sorted(set(preds.patient_id) & set(sel.index))
+    y = (sel.loc[ids, "type"] == "HCC").astype(int).to_numpy()
+    sex = sel.loc[ids, "patient_sex"].str.strip().str.upper().to_numpy()
+    score = {}
+    for name, key in keys.items():
+        t = preds[preds.model == key].set_index("patient_id").loc[ids]
+        score[name] = (t.p_HCC / (t.p_HCC + t.p_ICC)).to_numpy()
+    rows = []
+    for group, keep in [
+        ("all", np.ones(len(ids), bool)),
+        ("men", sex == "M"),
+        ("women", sex == "F"),
+    ]:
+        yy, comps = y[keep], {}
+        for name in keys:
+            auc, v01, v10 = _delong(yy, score[name][keep])
+            se = np.sqrt(np.var(v01, ddof=1) / len(v01) + np.var(v10, ddof=1) / len(v10))
+            comps[name] = (v01, v10)
+            rows.append(
+                {
+                    "group": group,
+                    "n_HCC": int(yy.sum()),
+                    "n_ICC": int((1 - yy).sum()),
+                    "model": name,
+                    "auc": auc,
+                    "delong_low": max(0.0, auc - 1.96 * se),
+                    "delong_high": min(1.0, auc + 1.96 * se),
+                    "post_hoc": True,
+                }
+            )
+        (a01, a10), (b01, b10) = comps["full fusion"], comps["CNN + radiomics"]
+        cov = np.cov(np.vstack([a01, b01])) / len(a01) + np.cov(np.vstack([a10, b10])) / len(a10)
+        diff = rows[-1]["auc"] - rows[-2]["auc"]
+        p = float(2 * norm.sf(abs(diff) / np.sqrt(cov[0, 0] + cov[1, 1] - 2 * cov[0, 1])))
+        rows.append(
+            {
+                "group": group,
+                "n_HCC": int(yy.sum()),
+                "n_ICC": int((1 - yy).sum()),
+                "model": "full fusion - CNN + radiomics",
+                "auc": diff,
+                "paired_delong_p": p,
+                "post_hoc": True,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -516,11 +606,22 @@ def main() -> int:
     tables["calibration.csv"] = calibration
     tables["external_mct_ltdiag_mitigation.csv"] = mitigation
     tables["external_mct_ltdiag_mitigation_comparisons.csv"] = paired
+    tables["external_mct_ltdiag_by_sex.csv"] = mct_by_sex(runs, project)
+    for name, source in [
+        ("corrected_mask_crops_by_class.csv", "E11_crop_summary_by_class.csv"),
+        ("corrected_mask_internal.csv", "E11_internal_results.csv"),
+        ("corrected_mask_internal_paired.csv", "E11_internal_paired_differences.csv"),
+        ("corrected_mask_by_tumor_inside_liver.csv", "E11_by_tumour_inside_liver.csv"),
+        ("corrected_mask_counterfactual_effects.csv", "E11_counterfactual_effects.csv"),
+        ("corrected_mask_external.csv", "E11_mct_results.csv"),
+        ("corrected_mask_external_paired.csv", "E11_mct_paired.csv"),
+    ]:
+        tables[name] = read(runs, "E11", source)
     forbidden = {"patient_id", "case_id", "subject_id"}
     for name, table in tables.items():
         if forbidden & set(table.columns):
             raise SystemExit(f"{name} would contain patient-level columns")
-        table.to_csv(out / name, index=False, float_format="%.6g")
+        table.to_csv(out / name, index=False, float_format="%.6g", lineterminator="\n")
     print(f"Wrote {len(tables)} aggregate tables to {out}")
     return 0
 

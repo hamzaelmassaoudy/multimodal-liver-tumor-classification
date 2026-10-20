@@ -55,10 +55,25 @@ patients. A `post_hoc` column marks analyses decided after seeing data.
 
 | File | Contents |
 |---|---|
-| [`external_mct_ltdiag.csv`](external_mct_ltdiag.csv) | MCT-LTDiag AUC (DeLong and bootstrap CI), sensitivity, specificity, and predicted classes for every model, preprocessing variant, and subset |
+| [`external_mct_ltdiag.csv`](external_mct_ltdiag.csv) | MCT-LTDiag AUC (DeLong and bootstrap CI), HCC sensitivity, the share of ICC patients called ICC (column `icc_specificity`), and predicted classes for every model, preprocessing variant, and subset; standard specificity (ICC not called HCC) follows from the counts |
 | [`external_mct_ltdiag_mitigation.csv`](external_mct_ltdiag_mitigation.csv) | Every mitigation strategy on MCT-LTDiag |
 | [`external_mct_ltdiag_mitigation_comparisons.csv`](external_mct_ltdiag_mitigation_comparisons.csv) | Mitigation versus reference: difference, DeLong p, and Benjamini–Hochberg-adjusted p within each family |
 | [`external_hcc_tace_seg.csv`](external_hcc_tace_seg.csv) | HCC-TACE-Seg HCC recognition after each pipeline correction, for 89 and 103 patients |
+| [`external_mct_ltdiag_by_sex.csv`](external_mct_ltdiag_by_sex.csv) | MCT-LTDiag AUC of CNN + radiomics and full fusion within men and within women, with the paired DeLong test (post hoc) |
+
+## Corrected-mask sensitivity analysis (notebook 28, post hoc)
+
+Each phase masked by the union of the liver and tumor masks instead of the liver mask; every model retrained with the same folds, seeds, and settings. Rows labelled `main` repeat the main models for comparison; `CHCC` denotes cHCC-CCA.
+
+| File | Contents |
+|---|---|
+| [`corrected_mask_crops_by_class.csv`](corrected_mask_crops_by_class.csv) | Patients whose crops gained tumor voxels, and the portal-venous tumor share inside the liver mask, by class |
+| [`corrected_mask_internal.csv`](corrected_mask_internal.csv) | Held-out and out-of-fold results of the retrained and the main models |
+| [`corrected_mask_internal_paired.csv`](corrected_mask_internal_paired.csv) | Retrained minus main model: held-out bootstrap difference and out-of-fold difference |
+| [`corrected_mask_by_tumor_inside_liver.csv`](corrected_mask_by_tumor_inside_liver.csv) | Results for patients with less than and at least 90% of the tumor inside the liver mask |
+| [`corrected_mask_counterfactual_effects.csv`](corrected_mask_counterfactual_effects.csv) | Non-contrast artifact test with the retrained models (rules of Section 3.5 of the paper) |
+| [`corrected_mask_external.csv`](corrected_mask_external.csv) | MCT-LTDiag results of the retrained and the main models |
+| [`corrected_mask_external_paired.csv`](corrected_mask_external_paired.csv) | Retrained minus main model on MCT-LTDiag, paired DeLong test |
 
 ## Figures
 

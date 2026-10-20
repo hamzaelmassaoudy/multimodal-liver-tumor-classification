@@ -44,6 +44,7 @@ def test_canonical_notebook_sequence_is_complete():
         "25_adaptive_crop_cnn.ipynb",
         "26_dataset_audit_and_counterfactual_test.ipynb",
         "27_gradcam_attribution_and_examples.ipynb",
+        "28_corrected_mask_liver_union_tumour.ipynb",
     }
     actual = {path.name for path in (ROOT / "notebooks").rglob("*.ipynb")}
     assert actual == expected

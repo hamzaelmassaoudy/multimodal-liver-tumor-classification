@@ -1,6 +1,7 @@
 # October 2026 revision
 
-Version 2.0.0 adds the analyses run during peer review of the manuscript (17–19 October 2026).
+Versions 2.0.0 and 2.1.0 add the analyses run during peer review of the manuscript (17–20 October
+2026).
 Each analysis was planned in a dated analysis log before it was run; analyses decided after seeing
 data are labelled *post hoc*. All values below are in
 [`results/revision_2026-10`](../results/revision_2026-10/README.md), and every notebook is listed in
@@ -15,7 +16,7 @@ the [revision notebook guide](revision_notebooks.md).
 | Primary model | Full fusion (CNN + radiomics + age + sex) | **CNN + radiomics**; age and sex added nothing internally and only sex separated the external classes |
 | Internal statistics | One held-out set; per-class DeLong tests | Adds 5 × 5 repeated cross-validation, Harrell optimism correction, Benjamini–Hochberg adjustment across 18 DeLong tests, and calibration |
 | External evaluation | HCC-TACE-Seg (HCC only, sensitivity) | **MCT-LTDiag** (103 HCC, 100 ICC; observed age and sex) as the external validation; HCC-TACE-Seg repaired and kept as a stress test |
-| New analyses | — | Missing-phase tests, crop truncation and size strata, adaptive crop, dataset audit, counterfactual test, tumor-inside-liver-mask census (post hoc), quantitative Grad-CAM |
+| New analyses | — | Missing-phase tests, crop truncation and size strata, adaptive crop, dataset audit, counterfactual test, tumor-inside-liver-mask census and corrected-mask analysis (post hoc), quantitative Grad-CAM, within-sex external comparison (post hoc) |
 
 The main CNN was chosen on 17 October 2026, after the internal held-out results of all CNN variants
 were known and before any external evaluation of the new models. The original CNN is reported
@@ -66,12 +67,32 @@ scans. A post hoc census showed that tumors of 52 of 99 ICC patients lie less th
 released liver mask, so part of the tumor is blanked in the model input. Details are in the
 [dataset audit](plc_cect_dataset_audit.md).
 
+## Corrected-mask sensitivity analysis
+
+Because liver masking blanked tumor tissue (above), notebook 28 repeated the whole pipeline with each
+phase multiplied by the union of the liver and tumor masks, and retrained the CNN, radiomics (features
+re-extracted), and both fusions with the same folds, seeds, and settings. The analysis is post hoc;
+its decision rules were fixed before the run. None of the conclusions changed:
+
+| Check | Main pipeline (liver mask) | Tumor preserved (liver ∪ tumor mask) |
+|---|---|---|
+| CNN + radiomics, held-out macro-AUC | 0.952 (0.906–0.985) | 0.963 (0.920–0.991); difference +0.011 (−0.016 to 0.042) |
+| Non-contrast artifact, CNN (injected / repaired) | +0.25 / −0.50 | +0.25 / −0.42; rule met in both directions |
+| MCT-LTDiag, CNN + radiomics | 0.578 (0.500–0.657) | 0.571 (0.492–0.650); paired p = 0.83 |
+
+Radiomics improved most where tissue had been removed (out-of-fold macro-AUC 0.924 vs. 0.877 in the 83
+patients with less than 90% of the tumor inside the mask). On MCT-LTDiag the retrained radiomics and
+fusion models assigned 192–198 of 203 patients to cHCC-CCA at the internal decision rule, although
+their AUCs were unchanged. All values are in the `corrected_mask_*.csv` tables.
+
 ## External validation
 
 On MCT-LTDiag the primary CNN + radiomics model reached an HCC-versus-ICC AUC of 0.578
 (0.500–0.657); calibration failed for every model, and none of 26 mitigation comparisons was
 significant after Benjamini–Hochberg adjustment. On HCC-TACE-Seg, correcting the intensity window,
-the axis order, and the preprocessing raised the phase-dropout CNN from 1 to 47 of 89 HCC recognized. Details are in the
+the axis order, and the preprocessing raised the phase-dropout CNN from 1 to 47 of 89 HCC recognized.
+Full fusion's higher external AUC (0.690) came from sex: within men and within women it was no better
+than CNN + radiomics (post hoc). Details are in the
 [external validation page](external_validation_mct_ltdiag.md).
 
 ## Attention maps
