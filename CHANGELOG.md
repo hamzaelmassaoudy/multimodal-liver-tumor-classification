@@ -1,5 +1,20 @@
 # Changelog
 
+## 2.1.2 — 2026-10-20
+
+Reproducibility documentation only; no code, result, or figure changed.
+
+### Added
+
+- The exact package versions recorded by every revision run, including the PyRadiomics build: a
+  development build, 3.1.1.dev111 (commit `8ed579383b44806651c463d5e691f3b2b57522ab`), installed from
+  GitHub because the notebooks fall back to the master branch. The pinned install command is in the
+  [environment](docs/environment.md) page.
+- A determinism section in [reproducibility](docs/reproducibility.md): cropping, radiomics, and the
+  fusion and statistics steps reproduce exactly; CNN inference from the saved checkpoints reproduces
+  within 10⁻³; CNN retraining is seeded but not bit-exact on a GPU, and its run-to-run variation was
+  not measured.
+
 ## 2.1.1 — 2026-10-20
 
 Documentation and figure corrections from a consistency check of the paper, code, and results. No analysis,

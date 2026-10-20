@@ -47,6 +47,27 @@ The public release supports aggregate checks and workflow inspection. Rerunning 
 needs the private checkpoints and the source images, so exact end-to-end reconstruction is not
 possible from a public clone.
 
+## Determinism of the revision runs
+
+- **Reproduced exactly:** cropping, radiomics extraction, the LightGBM radiomics models, the
+  logistic fusions, and the statistics. The revision notebooks start with checks against saved
+  results and stop on any mismatch. Notebook 15 reproduced all 75 submitted values,
+  including the fusion results and the DeLong tests (largest difference 1.1 × 10⁻¹⁶); rebuilt
+  crops matched the original crops for 278 of 278 internal patients (notebooks 26 and 28) and
+  the MCT-LTDiag crops for 203 of 203 (notebook 28); re-extracted features matched within 10⁻¹⁵;
+  and retrained radiomics models reproduced the saved predictions within 10⁻¹⁶.
+- **CNN predictions from the saved checkpoints:** below 10⁻³ of the saved probabilities (largest
+  difference 6.1 × 10⁻⁴, notebook 16), and the AUCs checked were unchanged. The small differences
+  come from GPU arithmetic.
+- **CNN retraining is not bit-exact.** Training fixes the random seeds but does not enable
+  PyTorch's deterministic algorithms, and notebooks 03, 04, and 16 also enable cuDNN autotuning
+  (`torch.backends.cudnn.benchmark = True`). Retraining on a GPU therefore gives close but not
+  bit-identical weights and predictions. No CNN configuration was trained twice, so the size of
+  this run-to-run variation was not measured. (The repeated cross-validation of notebook 23
+  shows how much the results vary with different folds.)
+- **Package versions:** see the [environment](environment.md), including the exact PyRadiomics
+  build.
+
 ## Corrected analysis boundary
 
 The missing-sex correction refitted only internal clinical and fusion logistic regressions after
