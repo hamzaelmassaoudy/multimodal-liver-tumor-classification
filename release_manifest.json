@@ -13,14 +13,14 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "9e6245b3a0541713e8e0bfbf286d38a14e2eba20",
+  "commit_hash": "f66cba2eb9fcee445f4bf60cd0d357c08f9e00f2",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "9e6245b3a0541713e8e0bfbf286d38a14e2eba20",
+  "content_commit": "f66cba2eb9fcee445f4bf60cd0d357c08f9e00f2",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 1239871,
   "license": "MIT",
-  "notebook_count": 27,
+  "notebook_count": 28,
   "notebook_outputs_cleared": true,
   "public_files": [
     {
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 3394
+      "size_bytes": 4796
     },
     {
       "path": "CITATION.cff",
@@ -65,7 +65,7 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 6734
+      "size_bytes": 6954
     },
     {
       "path": "SECURITY.md",
@@ -97,7 +97,7 @@
     },
     {
       "path": "docs/README.md",
-      "size_bytes": 2969
+      "size_bytes": 2977
     },
     {
       "path": "docs/artifact_contracts.md",
@@ -117,7 +117,7 @@
     },
     {
       "path": "docs/external_validation_mct_ltdiag.md",
-      "size_bytes": 5091
+      "size_bytes": 5544
     },
     {
       "path": "docs/fusion_definition.md",
@@ -133,11 +133,11 @@
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 4314
+      "size_bytes": 4444
     },
     {
       "path": "docs/plc_cect_dataset_audit.md",
-      "size_bytes": 6175
+      "size_bytes": 6841
     },
     {
       "path": "docs/preprocessing.md",
@@ -165,11 +165,11 @@
     },
     {
       "path": "docs/revision_2026-10.md",
-      "size_bytes": 7441
+      "size_bytes": 8905
     },
     {
       "path": "docs/revision_notebooks.md",
-      "size_bytes": 6013
+      "size_bytes": 6321
     },
     {
       "path": "docs/scientific_scope.md",
@@ -288,8 +288,12 @@
       "size_bytes": 22954
     },
     {
+      "path": "notebooks/08_revision_dataset_audit_and_explainability/28_corrected_mask_liver_union_tumour.ipynb",
+      "size_bytes": 93683
+    },
+    {
       "path": "notebooks/README.md",
-      "size_bytes": 4941
+      "size_bytes": 4983
     },
     {
       "path": "pyproject.toml",
@@ -301,7 +305,7 @@
     },
     {
       "path": "results/README.md",
-      "size_bytes": 3728
+      "size_bytes": 3736
     },
     {
       "path": "results/aggregate/c2_crop_retention.csv",
@@ -369,7 +373,7 @@
     },
     {
       "path": "results/revision_2026-10/README.md",
-      "size_bytes": 6249
+      "size_bytes": 8015
     },
     {
       "path": "results/revision_2026-10/acquisition_only_discrimination.csv",
@@ -404,6 +408,34 @@
       "size_bytes": 2644
     },
     {
+      "path": "results/revision_2026-10/corrected_mask_by_tumor_inside_liver.csv",
+      "size_bytes": 3763
+    },
+    {
+      "path": "results/revision_2026-10/corrected_mask_counterfactual_effects.csv",
+      "size_bytes": 1559
+    },
+    {
+      "path": "results/revision_2026-10/corrected_mask_crops_by_class.csv",
+      "size_bytes": 203
+    },
+    {
+      "path": "results/revision_2026-10/corrected_mask_external.csv",
+      "size_bytes": 742
+    },
+    {
+      "path": "results/revision_2026-10/corrected_mask_external_paired.csv",
+      "size_bytes": 167
+    },
+    {
+      "path": "results/revision_2026-10/corrected_mask_internal.csv",
+      "size_bytes": 769
+    },
+    {
+      "path": "results/revision_2026-10/corrected_mask_internal_paired.csv",
+      "size_bytes": 335
+    },
+    {
       "path": "results/revision_2026-10/counterfactual_effects.csv",
       "size_bytes": 2917
     },
@@ -426,6 +458,10 @@
     {
       "path": "results/revision_2026-10/external_mct_ltdiag.csv",
       "size_bytes": 8063
+    },
+    {
+      "path": "results/revision_2026-10/external_mct_ltdiag_by_sex.csv",
+      "size_bytes": 631
     },
     {
       "path": "results/revision_2026-10/external_mct_ltdiag_mitigation.csv",
@@ -529,7 +565,7 @@
     },
     {
       "path": "scripts/revision/export_revision_aggregates.py",
-      "size_bytes": 22691
+      "size_bytes": 26740
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
@@ -609,7 +645,7 @@
     },
     {
       "path": "tests/test_release_safety.py",
-      "size_bytes": 2131
+      "size_bytes": 2185
     },
     {
       "path": "tests/test_result_integrity.py",
@@ -617,16 +653,16 @@
     },
     {
       "path": "tests/test_revision_results.py",
-      "size_bytes": 3941
+      "size_bytes": 5359
     },
     {
       "path": "tests/test_synthetic_example.py",
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.0.0",
+  "repository_version": "2.1.0",
   "test_status": {
     "passed": true,
-    "tests_passed": 41
+    "tests_passed": 43
   }
 }
