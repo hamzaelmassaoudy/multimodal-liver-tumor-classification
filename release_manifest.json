@@ -13,9 +13,9 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "2d9f4e104b0f329c9afb35267854471c6b4995c3",
+  "commit_hash": "9af94fff8ef10c3d84af8358a257c8f140256d2e",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "2d9f4e104b0f329c9afb35267854471c6b4995c3",
+  "content_commit": "9af94fff8ef10c3d84af8358a257c8f140256d2e",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 1240289,
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 6097
+      "size_bytes": 6869
     },
     {
       "path": "CITATION.cff",
@@ -109,7 +109,7 @@
     },
     {
       "path": "docs/environment.md",
-      "size_bytes": 2346
+      "size_bytes": 3578
     },
     {
       "path": "docs/external_stress_test.md",
@@ -157,7 +157,7 @@
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 4281
+      "size_bytes": 5834
     },
     {
       "path": "docs/results_provenance.md",
@@ -660,7 +660,7 @@
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.1.1",
+  "repository_version": "2.1.2",
   "test_status": {
     "passed": true,
     "tests_passed": 43
