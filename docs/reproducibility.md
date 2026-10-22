@@ -12,7 +12,7 @@ or authorized local derived artifacts.
 - Review corrected internal performance, sex provenance/sensitivity, per-class results, paired tests,
   confusion counts, C2 retention, external adapter QC, and radiomics feature-handling controls.
 - Review the [October 2026 revision](revision_2026-10.md) tables and figures in
-  `results/revision_2026-10` and the code of revision notebooks 15–28.
+  `results/revision_2026-10` and the code of revision notebooks 15–30.
 
 ```bash
 python -m pytest
@@ -91,8 +91,12 @@ would require nesting upstream fitting and model selection within each evaluatio
 
 The revision addressed these points: the main CNN uses an inner validation split and per-fold
 class weights, the whole pipeline was retrained in 5 × 5 repeated cross-validation, and
-Harrell's bootstrap estimated the optimism of both fusions (0.007). See the
-[revision overview](revision_2026-10.md).
+Harrell's bootstrap estimated the optimism of both fusions (0.007). Notebook 30 then nested the
+stacking step: in every outer fold of the five repeats, the meta-learners were fitted only on
+predictions of base models trained without that fold. The nested out-of-fold macro-AUC was slightly
+higher than the non-nested one (CNN + radiomics 0.948 vs. 0.942), so the non-nested estimates were
+not optimistic. The choice of the main CNN, made after its internal results were known, is not
+nested. See the [revision overview](revision_2026-10.md).
 
 ## Configuration
 

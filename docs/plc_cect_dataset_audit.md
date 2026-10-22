@@ -83,12 +83,21 @@ pipeline 0.952), the CNN still met every criterion of the non-contrast artifact 
 performance was unchanged (0.571 vs. 0.578). Radiomics improved where tissue had been removed
 ([`corrected_mask_by_tumor_inside_liver.csv`](../results/revision_2026-10/corrected_mask_by_tumor_inside_liver.csv)).
 
+Equalizing slice density is not enough. Retrained after every scan was resampled to one anatomical
+slice density (notebook 29), the models kept their held-out performance (CNN + radiomics 0.934 vs.
+0.952) although slice counts alone lost most of their signal (held-out macro-AUC 0.853 to 0.678). A
+non-contrast series made thick before equalization still raised the CNN's cHCC-CCA probability
+(+0.087), and external discrimination did not improve (MCT-LTDiag 0.510 vs. 0.578): resampling
+equalizes the number of slices, not the blur of a thick reconstruction
+([`equalized_density_residual_artifact.csv`](../results/revision_2026-10/equalized_density_residual_artifact.csv)).
+
 ## Recommendations for PLC-CECT users
 
 1. Do not interpret internal accuracy on PLC-CECT as evidence of tumor-specific learning without an
    acquisition check such as the counterfactual test above.
 2. Report slice counts by class and test a slice-count-only baseline.
-3. Avoid the non-contrast phase or harmonize slice thickness before training.
+3. Avoid the non-contrast phase. Resampling the scans to one slice density did not remove the
+   acquisition cue, so prefer data with acquisition balanced across classes.
 4. Check tumor coverage before masking the CT with the released liver mask; masking with the union
    of the liver and tumor masks keeps the tumor tissue.
 5. Validate on a cohort with recorded and balanced acquisition, such as MCT-LTDiag for HCC versus ICC.

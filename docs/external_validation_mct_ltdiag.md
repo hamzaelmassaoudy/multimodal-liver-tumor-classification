@@ -63,6 +63,12 @@ Test-time harmonization, scanner-variation training, and their combination left 
 non-contrast phase were nominally better externally, which is consistent with, but does not prove,
 the [non-contrast artifact](plc_cect_dataset_audit.md) hindering transfer.
 
+Retraining every model with slice density equalized across classes (notebook 29; decision rules fixed
+before the run) did not improve external discrimination either: CNN + radiomics 0.510 vs. 0.578
+(paired p = 0.17) and radiomics 0.474 vs. 0.655 (p < 0.001), and the equalized models assigned almost
+every patient to cHCC-CCA at the internal decision rule
+([`equalized_density_external.csv`](../results/revision_2026-10/equalized_density_external.csv)).
+
 ## HCC-TACE-Seg stress test
 
 The submitted analysis reported that the CNNs recognized almost no external HCC. The revision traced

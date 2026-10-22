@@ -6,7 +6,7 @@ The tables were exported from the private run outputs by
 [`export_revision_aggregates.py`](../../scripts/revision/export_revision_aggregates.py) (the
 tumor-inside-liver-mask tables by
 [`summarize_tumor_inside_liver_mask.py`](../../scripts/revision/summarize_tumor_inside_liver_mask.py)),
-and their values match the revised manuscript.
+and the values of the tables used in the revised manuscript match it.
 
 Conventions: AUCs are macro-AUCs (one-versus-rest, three classes) internally and HCC-versus-ICC AUCs
 for the score p(HCC) / [p(HCC) + p(ICC)] externally. `CHCC` in a column or row denotes cHCC-CCA.
@@ -74,6 +74,27 @@ Each phase masked by the union of the liver and tumor masks instead of the liver
 | [`corrected_mask_counterfactual_effects.csv`](corrected_mask_counterfactual_effects.csv) | Non-contrast artifact test with the retrained models (rules of Section 3.5 of the paper) |
 | [`corrected_mask_external.csv`](corrected_mask_external.csv) | MCT-LTDiag results of the retrained and the main models |
 | [`corrected_mask_external_paired.csv`](corrected_mask_external_paired.csv) | Retrained minus main model on MCT-LTDiag, paired DeLong test |
+
+## Retraining with slice density equalized (notebook 29)
+
+Every scan resampled along the slice axis to one anatomical slice density before cropping; every model retrained with the same folds, seeds, and settings. Rows labelled `main` repeat the main models for comparison.
+
+| File | Contents |
+|---|---|
+| [`equalized_density_by_class.csv`](equalized_density_by_class.csv) | Class medians of the slice-density estimate and of the slice counts, before and after equalization, by phase |
+| [`equalized_density_slice_count_model.csv`](equalized_density_slice_count_model.csv) | A slice-count-only model before and after equalization: held-out and out-of-fold discrimination |
+| [`equalized_density_internal.csv`](equalized_density_internal.csv) | Held-out and out-of-fold results of the retrained and the main models |
+| [`equalized_density_internal_paired.csv`](equalized_density_internal_paired.csv) | Retrained minus main model: held-out bootstrap difference and out-of-fold difference |
+| [`equalized_density_residual_artifact.csv`](equalized_density_residual_artifact.csv) | Non-contrast artifact injected or repaired before equalization, against the unaltered equalized scan |
+| [`equalized_density_external.csv`](equalized_density_external.csv) | MCT-LTDiag results of the retrained and the main models |
+| [`equalized_density_external_paired.csv`](equalized_density_external_paired.csv) | Retrained minus main model on MCT-LTDiag, paired DeLong test |
+
+## Nested stacking (notebook 30)
+
+| File | Contents |
+|---|---|
+| [`nested_stacking_per_repeat.csv`](nested_stacking_per_repeat.csv) | Nested and non-nested out-of-fold macro-AUC of both fusions per repeat, and their differences from the two branches |
+| [`nested_stacking_summary.csv`](nested_stacking_summary.csv) | Mean over the five repeats: optimism of the non-nested estimates and the number of repeats in which each fusion exceeded each branch |
 
 ## Figures
 

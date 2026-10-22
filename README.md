@@ -91,7 +91,7 @@ PLC-CECT should read the [dataset audit](docs/plc_cect_dataset_audit.md).
 | Path | Contents |
 |---|---|
 | [`src/liver_tumor_pipeline`](src/liver_tumor_pipeline) | Tested utilities: preprocessing contracts, fusion features, metrics, release validation |
-| [`notebooks`](notebooks/README.md) | 28 notebooks: the original workflow (01–14) and the revision analyses (15–28) |
+| [`notebooks`](notebooks/README.md) | 30 notebooks: the original workflow (01–14) and the revision analyses (15–30) |
 | [`scripts`](scripts) | Aggregate checks, release validation, and the [revision scripts](scripts/revision) |
 | [`results`](results/README.md) | Cohort-level tables and figures: v1.1.0 (`aggregate`) and revision (`revision_2026-10`) |
 | [`docs`](docs/README.md) | Methods, datasets, reproducibility, model card, and privacy boundary |

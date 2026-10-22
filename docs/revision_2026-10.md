@@ -1,6 +1,6 @@
 # October 2026 revision
 
-Versions 2.0.0 and 2.1.0 add the analyses run during peer review of the manuscript (17–20 October
+Versions 2.0.0 to 2.2.0 add the analyses run during peer review of the manuscript (17–22 October
 2026).
 Each analysis was planned in a dated analysis log before it was run; analyses decided after seeing
 data are labelled *post hoc*. All values below are in
@@ -16,7 +16,7 @@ the [revision notebook guide](revision_notebooks.md).
 | Primary model | Full fusion (CNN + radiomics + age + sex) | **CNN + radiomics**; age and sex added nothing internally and only sex separated the external classes |
 | Internal statistics | One held-out set; per-class DeLong tests | Adds 5 × 5 repeated cross-validation, Harrell optimism correction, Benjamini–Hochberg adjustment across 18 DeLong tests, and calibration |
 | External evaluation | HCC-TACE-Seg (HCC only, sensitivity) | **MCT-LTDiag** (103 HCC, 100 ICC; observed age and sex) as the external validation; HCC-TACE-Seg repaired and kept as a stress test |
-| New analyses | — | Missing-phase tests, crop truncation and size strata, adaptive crop, dataset audit, counterfactual test, tumor-inside-liver-mask census and corrected-mask analysis (post hoc), quantitative Grad-CAM, within-sex external comparison (post hoc) |
+| New analyses | — | Missing-phase tests, crop truncation and size strata, adaptive crop, dataset audit, counterfactual test, tumor-inside-liver-mask census and corrected-mask analysis (post hoc), quantitative Grad-CAM, within-sex external comparison (post hoc), retraining with equalized slice density, nested stacking |
 
 The main CNN was chosen on 17 October 2026, after the internal held-out results of all CNN variants
 were known and before any external evaluation of the new models. The original CNN is reported
@@ -42,7 +42,10 @@ macro-AUC over five repeats of five-fold cross-validation (the whole pipeline re
   sex changed the held-out AUC by −0.001 (−0.016 to 0.016). No per-class DeLong test remained
   significant after Benjamini–Hochberg adjustment across 18 tests (smallest adjusted p = 0.13).
 - **Optimism.** Harrell's bootstrap optimism was 0.007 for both fusions (corrected AUC 0.962 for
-  CNN + radiomics and 0.966 for full fusion).
+  CNN + radiomics and 0.966 for full fusion). Fully nested stacking (notebook 30) gave slightly higher
+  out-of-fold values than the non-nested stacking (CNN + radiomics 0.948 ± 0.012 vs. 0.942; full
+  fusion 0.952 vs. 0.947), and CNN + radiomics stayed above both branches in all five repeats
+  ([`nested_stacking_summary.csv`](../results/revision_2026-10/nested_stacking_summary.csv)).
 - **Calibration.** CNN + radiomics had one-versus-rest calibration slopes of 0.82–1.12 and
   intercepts of −0.50 to 0.35 on the held-out set.
 - **Missing phases.** With phases zeroed as in the original external pipeline, the original CNN
@@ -84,6 +87,30 @@ Radiomics improved most where tissue had been removed (out-of-fold macro-AUC 0.9
 patients with less than 90% of the tumor inside the mask). On MCT-LTDiag the retrained radiomics and
 fusion models assigned 192–198 of 203 patients to cHCC-CCA at the internal decision rule, although
 their AUCs were unchanged. All values are in the `corrected_mask_*.csv` tables.
+
+## Retraining with slice density equalized
+
+Notebook 29 tested whether removing the class-dependent slice density helps. Before cropping, every scan
+was resampled along the slice axis so that its anatomical slice-density estimate (slices containing
+liver divided by the largest in-plane liver width) equals 0.4468, the median of the development
+patients' portal-venous scans; MCT-LTDiag received the same label-free rule. The CNN, radiomics
+(features re-extracted), and both fusions were retrained with the same folds, seeds, and settings. The
+decision rules were fixed in the analysis log before the run.
+
+| Check | Main pipeline | Slice density equalized |
+|---|---|---|
+| Class medians of the slice-density estimate (largest / smallest) | 2.2–5.4-fold | at most 1.011-fold |
+| Slice counts alone, held-out macro-AUC | 0.853 | 0.678 |
+| CNN + radiomics, held-out macro-AUC | 0.952 (0.906–0.985) | 0.934 (0.872–0.978); difference −0.018 (−0.061 to 0.024) |
+| Non-contrast series made thick before equalization, CNN | — | +0.087 (0.067 to 0.107) |
+| MCT-LTDiag, CNN + radiomics | 0.578 (0.500–0.657) | 0.510 (0.430–0.590); paired p = 0.17 |
+| MCT-LTDiag, radiomics | 0.655 (0.579–0.731) | 0.474 (0.394–0.554); paired p < 0.001 |
+
+Equalization removed most of the slice-count signal without a measurable change in held-out
+performance, but it did not improve external discrimination, and the equalized models assigned almost
+every MCT-LTDiag patient to cHCC-CCA at the internal decision rule. The equalized CNN still responded to
+a thick non-contrast reconstruction: resampling equalizes the number of slices, not the through-plane
+blur of a thick reconstruction. All values are in the `equalized_density_*.csv` tables.
 
 ## External validation
 

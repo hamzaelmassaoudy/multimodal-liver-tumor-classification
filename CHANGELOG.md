@@ -1,5 +1,33 @@
 # Changelog
 
+## 2.2.0 — 2026-10-22
+
+Two analyses planned after an independent review of the revision; their decision rules were fixed in the
+analysis log before either run. The main models and all earlier results are unchanged.
+
+### Added
+
+- Notebook 29: retraining with slice density equalized across classes. Before cropping, every scan is
+  resampled along the slice axis so that its anatomical slice-density estimate (slices containing liver
+  divided by the largest in-plane liver width) equals one target, 0.4468, the median of the development
+  patients' portal-venous scans; MCT-LTDiag gets the same label-free rule. The CNN, radiomics (features
+  re-extracted), and both fusions are retrained with the same folds, seeds, and settings. Equalization
+  removed most of the slice-count signal (slice-count-only held-out macro-AUC 0.853 to 0.678) without a
+  measurable change in held-out performance (CNN + radiomics 0.934 vs. 0.952; difference −0.018,
+  −0.061 to 0.024). It did not improve external discrimination (MCT-LTDiag CNN + radiomics 0.510 vs.
+  0.578, paired p = 0.17; radiomics 0.474 vs. 0.655, p < 0.001), and the equalized models assigned
+  almost every MCT-LTDiag patient to cHCC-CCA. A non-contrast series made thick before equalization
+  still raised the equalized CNN's cHCC-CCA probability (+0.087, 0.067 to 0.107), so resampling does not
+  remove the blur of a thick reconstruction.
+- Notebook 30: fully nested evaluation of the stacked fusions. In each of the five repeated
+  cross-validations, an inner four-fold cross-validation inside every outer fold (100 CNN trainings)
+  produces the meta-learners' training inputs. The non-nested estimates were not optimistic: nested
+  out-of-fold macro-AUC 0.948 vs. 0.942 for CNN + radiomics (difference −0.006, range −0.008 to
+  −0.002), and CNN + radiomics stayed above both branches in all five repeats.
+- Nine cohort-level tables (`equalized_density_*.csv`, `nested_stacking_*.csv`); the export script
+  reproduces the existing 35 tables unchanged.
+- Tests that lock the new headline values; package, citation, and manifest versions set to 2.2.0.
+
 ## 2.1.3 — 2026-10-20
 
 Figures brought to the figure rules of the journal. No analysis, table, or value changed.

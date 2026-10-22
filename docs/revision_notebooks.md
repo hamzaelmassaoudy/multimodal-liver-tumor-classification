@@ -1,6 +1,6 @@
-# Revision notebooks (15–28)
+# Revision notebooks (15–30)
 
-The fourteen revision notebooks are the code that produced every result of the
+The sixteen revision notebooks are the code that produced every result of the
 [October 2026 revision](revision_2026-10.md). They ran on Google Colab, with a GPU for the CNN analyses,
 against the private project folder, and are published with outputs cleared and with every
 machine-specific location replaced by an environment variable.
@@ -23,6 +23,8 @@ machine-specific location replaced by an environment variable.
 | 26 | [Dataset audit and counterfactual test](../notebooks/08_revision_dataset_audit_and_explainability/26_dataset_audit_and_counterfactual_test.ipynb) | E10 | File-level census of 1,112 scans and the slice-resampling counterfactual test |
 | 27 | [Grad-CAM attribution and examples](../notebooks/08_revision_dataset_audit_and_explainability/27_gradcam_attribution_and_examples.ipynb) | F2 | Quantitative Grad-CAM enrichment and per-phase attribution |
 | 28 | [Corrected-mask sensitivity analysis](../notebooks/08_revision_dataset_audit_and_explainability/28_corrected_mask_liver_union_tumour.ipynb) | E11 | Repeats the pipeline with liver ∪ tumor masks (all models retrained); internal, artifact test, and MCT-LTDiag versus the main models |
+| 29 | [Equalized slice density](../notebooks/08_revision_dataset_audit_and_explainability/29_equalized_slice_density.ipynb) | E12 | Resamples every scan to one anatomical slice density before cropping (all models retrained); slice-count signal, internal, residual artifact, and MCT-LTDiag versus the main models |
+| 30 | [Nested stacking](../notebooks/06_revision_internal_models_and_statistics/30_nested_stacking.ipynb) | E13 | Fully nested evaluation of the stacked fusions: inner four-fold cross-validation inside every outer fold of the five repeats (100 CNN trainings) |
 
 Numbers follow the order in which the analyses ran; the folders group them by topic. The analysis IDs
 refer to the dated analysis log in which each analysis was planned and approved before it was run;

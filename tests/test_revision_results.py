@@ -122,6 +122,46 @@ def test_corrected_mask_analysis_values_are_locked():
     assert float(paired["delong_p"]) > 0.05
 
 
+def test_equalized_slice_density_values_are_locked():
+    density = [
+        r for r in read_csv("equalized_density_by_class.csv") if r["quantity"] == "ratio_after"
+    ]
+    assert len(density) == 4 and max(float(r["max_over_min"]) for r in density) <= 1.25
+    counts = read_csv("equalized_density_slice_count_model.csv")
+    assert float(row(counts, slices="n_before")["heldout_macro_auc"]) == pytest.approx(0.852975)
+    assert float(row(counts, slices="n_after")["heldout_macro_auc"]) == pytest.approx(0.678046)
+    internal = row(read_csv("equalized_density_internal_paired.csv"), model="CNN + radiomics")
+    assert float(internal["boot_low"]) < 0 < float(internal["boot_high"])
+    residual = row(
+        read_csv("equalized_density_residual_artifact.csv"),
+        model="CNN",
+        test="non-contrast artifact injected before equalization (HCC, ICC)",
+        subset="all 278",
+    )
+    assert residual["meets_E10_thresholds"] == "True"
+    external = row(
+        read_csv("equalized_density_external.csv"), pipeline="E12", model="CNN + radiomics"
+    )
+    assert float(external["auc"]) == pytest.approx(0.510, abs=5e-4)
+    paired = read_csv("equalized_density_external_paired.csv")
+    assert float(row(paired, model="CNN + radiomics")["delong_p"]) > 0.05
+    radiomics = row(paired, model="radiomics")
+    assert (
+        float(radiomics["auc_difference_E12_minus_main"]) < 0
+        and float(radiomics["delong_p"]) < 0.001
+    )
+
+
+def test_nested_stacking_is_not_optimistic():
+    for model in ["cnn_plus_radiomics", "full_fusion"]:
+        summary = row(read_csv("nested_stacking_summary.csv"), model=model)
+        assert int(summary["repeats"]) == 5
+        assert float(summary["optimism_max"]) <= 0
+        assert int(summary["repeats_nested_above_CNN"]) == 5
+        assert int(summary["repeats_nested_above_radiomics"]) == 5
+    assert len(read_csv("nested_stacking_per_repeat.csv")) == 10
+
+
 def test_full_fusion_advantage_disappears_within_sex():
     rows = read_csv("external_mct_ltdiag_by_sex.csv")
     overall = row(rows, group="all", model="full fusion - CNN + radiomics")

@@ -52,7 +52,9 @@ were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
 - **Dataset shortcuts.** PLC-CECT acquisition differs by class. The CNN uses a non-contrast
   reconstruction artifact of the cHCC-CCA scans, and slice counts alone predict the class
   (held-out macro-AUC 0.853–0.872). Internal performance is therefore partly inflated by dataset
-  artifacts ([dataset audit](plc_cect_dataset_audit.md)).
+  artifacts ([dataset audit](plc_cect_dataset_audit.md)). Retraining with slice density equalized
+  removed most of the slice-count signal but not the cue of thick reconstructions, and it did not
+  improve external discrimination.
 - **Masked tumor tissue.** In 52 of 99 ICC patients, less than 90% of the tumor lies inside the
   released liver mask, so part of the tumor is blanked in the model input. Retraining with the
   tumor preserved changed none of the conclusions (corrected-mask analysis).
