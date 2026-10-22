@@ -13,14 +13,14 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "ee1ef58c9b43291a5977c6c066c16c17b0ddd5af",
+  "commit_hash": "6d670cb64a38361a731549912f97513845acc2b2",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "ee1ef58c9b43291a5977c6c066c16c17b0ddd5af",
+  "content_commit": "6d670cb64a38361a731549912f97513845acc2b2",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 1330885,
   "license": "MIT",
-  "notebook_count": 28,
+  "notebook_count": 30,
   "notebook_outputs_cleared": true,
   "public_files": [
     {
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 7817
+      "size_bytes": 9937
     },
     {
       "path": "CITATION.cff",
@@ -117,7 +117,7 @@
     },
     {
       "path": "docs/external_validation_mct_ltdiag.md",
-      "size_bytes": 5521
+      "size_bytes": 5976
     },
     {
       "path": "docs/fusion_definition.md",
@@ -133,11 +133,11 @@
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 4444
+      "size_bytes": 4617
     },
     {
       "path": "docs/plc_cect_dataset_audit.md",
-      "size_bytes": 7068
+      "size_bytes": 7837
     },
     {
       "path": "docs/preprocessing.md",
@@ -157,7 +157,7 @@
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 5834
+      "size_bytes": 6258
     },
     {
       "path": "docs/results_provenance.md",
@@ -165,11 +165,11 @@
     },
     {
       "path": "docs/revision_2026-10.md",
-      "size_bytes": 8905
+      "size_bytes": 11045
     },
     {
       "path": "docs/revision_notebooks.md",
-      "size_bytes": 6321
+      "size_bytes": 6897
     },
     {
       "path": "docs/scientific_scope.md",
@@ -256,6 +256,10 @@
       "size_bytes": 113407
     },
     {
+      "path": "notebooks/06_revision_internal_models_and_statistics/30_nested_stacking.ipynb",
+      "size_bytes": 36035
+    },
+    {
       "path": "notebooks/07_revision_external_validation_and_mitigation/17_hcc_tace_seg_repaired_pipeline.ipynb",
       "size_bytes": 41645
     },
@@ -292,8 +296,12 @@
       "size_bytes": 93683
     },
     {
+      "path": "notebooks/08_revision_dataset_audit_and_explainability/29_equalized_slice_density.ipynb",
+      "size_bytes": 96079
+    },
+    {
       "path": "notebooks/README.md",
-      "size_bytes": 4983
+      "size_bytes": 5035
     },
     {
       "path": "pyproject.toml",
@@ -373,7 +381,7 @@
     },
     {
       "path": "results/revision_2026-10/README.md",
-      "size_bytes": 8261
+      "size_bytes": 10196
     },
     {
       "path": "results/revision_2026-10/acquisition_only_discrimination.csv",
@@ -452,6 +460,34 @@
       "size_bytes": 3030
     },
     {
+      "path": "results/revision_2026-10/equalized_density_by_class.csv",
+      "size_bytes": 660
+    },
+    {
+      "path": "results/revision_2026-10/equalized_density_external.csv",
+      "size_bytes": 736
+    },
+    {
+      "path": "results/revision_2026-10/equalized_density_external_paired.csv",
+      "size_bytes": 168
+    },
+    {
+      "path": "results/revision_2026-10/equalized_density_internal.csv",
+      "size_bytes": 772
+    },
+    {
+      "path": "results/revision_2026-10/equalized_density_internal_paired.csv",
+      "size_bytes": 334
+    },
+    {
+      "path": "results/revision_2026-10/equalized_density_residual_artifact.csv",
+      "size_bytes": 1588
+    },
+    {
+      "path": "results/revision_2026-10/equalized_density_slice_count_model.csv",
+      "size_bytes": 129
+    },
+    {
       "path": "results/revision_2026-10/external_hcc_tace_seg.csv",
       "size_bytes": 17474
     },
@@ -524,6 +560,14 @@
       "size_bytes": 527
     },
     {
+      "path": "results/revision_2026-10/nested_stacking_per_repeat.csv",
+      "size_bytes": 1560
+    },
+    {
+      "path": "results/revision_2026-10/nested_stacking_summary.csv",
+      "size_bytes": 420
+    },
+    {
       "path": "results/revision_2026-10/performance_by_tumor_inside_liver_mask.csv",
       "size_bytes": 1852
     },
@@ -565,7 +609,7 @@
     },
     {
       "path": "scripts/revision/export_revision_aggregates.py",
-      "size_bytes": 26740
+      "size_bytes": 27670
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
@@ -645,7 +689,7 @@
     },
     {
       "path": "tests/test_release_safety.py",
-      "size_bytes": 2185
+      "size_bytes": 2265
     },
     {
       "path": "tests/test_result_integrity.py",
@@ -653,16 +697,16 @@
     },
     {
       "path": "tests/test_revision_results.py",
-      "size_bytes": 5359
+      "size_bytes": 7282
     },
     {
       "path": "tests/test_synthetic_example.py",
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.1.3",
+  "repository_version": "2.2.0",
   "test_status": {
     "passed": true,
-    "tests_passed": 43
+    "tests_passed": 45
   }
 }
