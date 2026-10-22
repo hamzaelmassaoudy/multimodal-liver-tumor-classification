@@ -13,12 +13,12 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "3dbe838b64fa7f0703107d8e7da5df96f951620d",
+  "commit_hash": "42672c9d3686419b1df197423b4dc7f5a1541507",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "3dbe838b64fa7f0703107d8e7da5df96f951620d",
+  "content_commit": "42672c9d3686419b1df197423b4dc7f5a1541507",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
-  "largest_public_file_bytes": 1330885,
+  "largest_public_file_bytes": 1318649,
   "license": "MIT",
   "notebook_count": 30,
   "notebook_outputs_cleared": true,
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 10558
+      "size_bytes": 11723
     },
     {
       "path": "CITATION.cff",
@@ -117,7 +117,7 @@
     },
     {
       "path": "docs/external_validation_mct_ltdiag.md",
-      "size_bytes": 5976
+      "size_bytes": 6308
     },
     {
       "path": "docs/fusion_definition.md",
@@ -133,11 +133,11 @@
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 4617
+      "size_bytes": 4665
     },
     {
       "path": "docs/plc_cect_dataset_audit.md",
-      "size_bytes": 7837
+      "size_bytes": 8740
     },
     {
       "path": "docs/preprocessing.md",
@@ -165,7 +165,7 @@
     },
     {
       "path": "docs/revision_2026-10.md",
-      "size_bytes": 11045
+      "size_bytes": 11115
     },
     {
       "path": "docs/revision_notebooks.md",
@@ -173,7 +173,7 @@
     },
     {
       "path": "docs/scientific_scope.md",
-      "size_bytes": 2599
+      "size_bytes": 2792
     },
     {
       "path": "examples/synthetic_fusion.py",
@@ -509,7 +509,7 @@
     },
     {
       "path": "results/revision_2026-10/figures/figure1_study_design.png",
-      "size_bytes": 1191284
+      "size_bytes": 1188631
     },
     {
       "path": "results/revision_2026-10/figures/figure3_internal_performance.png",
@@ -525,7 +525,7 @@
     },
     {
       "path": "results/revision_2026-10/figures/figure7_external_validation.png",
-      "size_bytes": 1330885
+      "size_bytes": 1318649
     },
     {
       "path": "results/revision_2026-10/internal_comparisons.csv",
@@ -613,7 +613,7 @@
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
-      "size_bytes": 80988
+      "size_bytes": 83047
     },
     {
       "path": "scripts/revision/summarize_tumor_inside_liver_mask.py",
@@ -704,7 +704,7 @@
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.2.1",
+  "repository_version": "2.3.0",
   "test_status": {
     "passed": true,
     "tests_passed": 45
