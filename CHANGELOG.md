@@ -1,5 +1,18 @@
 # Changelog
 
+## 2.2.1 — 2026-10-22
+
+A label correction in Figure 1. No analysis, table, or other figure changed.
+
+### Changed
+
+- Figure 1, External evaluation card: "Frozen models, used once" now reads "Frozen models, no refitting".
+  The external cohorts were never used for fitting, threshold selection, or recalibration, but several
+  analyses were run on them in a recorded order, so "used once" was imprecise. One label in
+  `make_revision_figures.py`; the public `figure1_study_design.png` is redrawn from it.
+- README version badge corrected (it still showed 2.1.0); package, citation, and manifest versions set
+  to 2.2.1.
+
 ## 2.2.0 — 2026-10-22
 
 Two analyses planned after an independent review of the revision; their decision rules were fixed in the

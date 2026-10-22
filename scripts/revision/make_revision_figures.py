@@ -1569,7 +1569,7 @@ def figure_design(public=False):
         ),
         (
             "External evaluation",
-            "Frozen models, used once",
+            "Frozen models, no refitting",
             [
                 "Inputs matched to training",
                 "MCT-LTDiag: AUC, calibration",

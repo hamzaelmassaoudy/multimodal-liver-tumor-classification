@@ -5,7 +5,7 @@ patient rows, probabilities, split membership, imaging, masks, or feature matric
 
 | Folder | Analysis |
 |---|---|
-| [`revision_2026-10`](revision_2026-10/README.md) | October 2026 revision (v2.0.0–2.2.0): 44 tables and 5 figures — the current results |
+| [`revision_2026-10`](revision_2026-10/README.md) | October 2026 revision (v2.0.0–2.2.1): 44 tables and 5 figures — the current results |
 | [`aggregate`](aggregate) and [`figures`](figures/README.md) | Analysis as submitted (v1.1.0), unchanged |
 
 ## v1.1.0 files (submitted analysis)

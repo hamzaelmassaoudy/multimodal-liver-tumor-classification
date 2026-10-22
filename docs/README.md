@@ -4,7 +4,7 @@ For a first run, follow the [quick start](quickstart.md). It needs no patient da
 The [synthetic fusion example](../examples/synthetic_fusion.py) shows the input contract
 and the order of training-fold imputation and feature construction.
 
-## Revision (v2.0.0–2.2.0)
+## Revision (v2.0.0–2.2.1)
 
 | Guide | What it covers |
 |---|---|
