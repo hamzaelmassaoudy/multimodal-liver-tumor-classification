@@ -13,9 +13,9 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "6d670cb64a38361a731549912f97513845acc2b2",
+  "commit_hash": "3dbe838b64fa7f0703107d8e7da5df96f951620d",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "6d670cb64a38361a731549912f97513845acc2b2",
+  "content_commit": "3dbe838b64fa7f0703107d8e7da5df96f951620d",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 1330885,
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 9937
+      "size_bytes": 10558
     },
     {
       "path": "CITATION.cff",
@@ -509,7 +509,7 @@
     },
     {
       "path": "results/revision_2026-10/figures/figure1_study_design.png",
-      "size_bytes": 1190526
+      "size_bytes": 1191284
     },
     {
       "path": "results/revision_2026-10/figures/figure3_internal_performance.png",
@@ -613,7 +613,7 @@
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
-      "size_bytes": 80985
+      "size_bytes": 80988
     },
     {
       "path": "scripts/revision/summarize_tumor_inside_liver_mask.py",
@@ -704,7 +704,7 @@
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.2.0",
+  "repository_version": "2.2.1",
   "test_status": {
     "passed": true,
     "tests_passed": 45
