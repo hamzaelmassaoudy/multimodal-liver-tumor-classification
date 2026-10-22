@@ -37,7 +37,9 @@ patients not called HCC) use the internal decision rule (most probable of three 
 - **Predicted classes.** The models rarely predicted ICC (2 to 17 of 100 ICC patients) and assigned many patients of both classes to
   cHCC-CCA, a class absent from the cohort.
 - **Calibration.** Calibration failed for every model (Brier scores 0.30–0.37, against 0.25 for a
-  constant prediction of 0.5).
+  constant prediction of 0.5). For the same HCC-versus-ICC score, CNN + radiomics had an intercept of
+  −2.02 and a slope of 0.29 externally, against −0.26 and 0.89 on the 39 held-out HCC and ICC patients
+  (post hoc; Figure 7B, drawn by `make_revision_figures.py`).
 - **Sensitivity analyses.** Pre-specified preprocessing variants gave 0.57–0.63 for CNN + radiomics,
   excluding the 23 previously treated patients gave 0.605, and preserving the tumor tissue (corrected
   mask, notebook 28) gave 0.571 (paired p = 0.83).
@@ -49,7 +51,7 @@ All models, preprocessing variants, and subsets are in
 ## Mitigation
 
 Each strategy used internal data only, or MCT-LTDiag images without their labels, and was evaluated
-once. P values are DeLong tests against the reference model, adjusted with Benjamini–Hochberg within
+once; ComBat is the only one that estimated parameters (its feature adjustments) from MCT-LTDiag. P values are DeLong tests against the reference model, adjusted with Benjamini–Hochberg within
 each family ([`external_mct_ltdiag_mitigation_comparisons.csv`](../results/revision_2026-10/external_mct_ltdiag_mitigation_comparisons.csv)).
 
 | Strategy | External AUC | Difference vs reference (95% CI) | Adjusted p |

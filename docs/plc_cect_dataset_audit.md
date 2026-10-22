@@ -50,14 +50,23 @@ moved the score by less than 0.05.
 | HCC scans made ICC-like, Δ [p(ICC) − p(HCC)] | +0.92 (0.81–1.03) | Predicted ICC: 9 → 65 of 94 |
 | ICC scans made HCC-like, Δ [p(ICC) − p(HCC)] | −0.57 (−0.66 to −0.49) | Predicted HCC: 14 → 31 of 99 |
 
-- **Non-contrast artifact.** Both directions met every criterion (smoothing controls 0.04 and 0.02).
-  The CNN uses this non-contrast reconstruction artifact of the cHCC-CCA scans.
+- **Non-contrast artifact.** Both directions met every criterion, each judged against its own matched
+  smoothing control (0.04 and 0.02). The CNN responds strongly to this non-contrast reconstruction
+  artifact of the cHCC-CCA scans. The response replicated after retraining with the tumor preserved
+  (+0.25 and −0.42; controls 0.03 and 0.01) and, for injection, after equalized retraining (+0.087).
 - **Slice density.** The shifts were five to eight times larger than the smoothing controls, but the
-  controls moved the score by 0.12, above the pre-set limit. This is strong evidence, not a
-  conclusive test.
+  controls moved the score by 0.12, above the pre-set limit, so reliance on slice density is not
+  claimed.
 - **Radiomics.** Slice-density shifts were barely larger than the controls, and the artifact test was
   positive in one direction only, so no reliance is claimed.
 - **CNN + radiomics.** Same pattern as the CNN with smaller artifact effects (+0.19 and −0.41).
+- **Two readings of the rule.** The plan did not say whether the smoothing-control limit applies per
+  condition or to all conditions of a model together. The implementation notes, written before the run,
+  compared each condition with its own matched control (the reading above); the notebook's verdict, also
+  written before the run, applied the limit to all four conditions of a model at once and returned "not
+  interpretable" for every model, because the slice-density controls exceeded 0.05. The manuscript
+  reports both readings (Supplementary Table S6). The test shows that the CNN responds to the artifact;
+  it does not measure how much of the internal AUC depends on it.
 
 All conditions and models are in
 [`counterfactual_effects.csv`](../results/revision_2026-10/counterfactual_effects.csv) and

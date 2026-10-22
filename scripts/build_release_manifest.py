@@ -60,7 +60,7 @@ def main() -> int:
     }
     largest = max((path.stat().st_size for path in files), default=0)
     manifest = {
-        "repository_version": "2.2.1",
+        "repository_version": "2.3.0",
         "license": "MIT",
         "content_commit": args.content_commit,
         "commit_hash": args.content_commit,

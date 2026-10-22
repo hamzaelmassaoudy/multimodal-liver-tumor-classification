@@ -49,9 +49,9 @@ were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
 
 ## Known failure modes and risks
 
-- **Dataset shortcuts.** PLC-CECT acquisition differs by class. The CNN uses a non-contrast
-  reconstruction artifact of the cHCC-CCA scans, and slice counts alone predict the class
-  (held-out macro-AUC 0.853–0.872). Internal performance is therefore partly inflated by dataset
+- **Dataset shortcuts.** PLC-CECT acquisition differs by class. The CNN responds strongly to a
+  non-contrast reconstruction artifact of the cHCC-CCA scans, and slice counts alone predict the class
+  (held-out macro-AUC 0.853–0.872). Internal performance therefore partly relies on dataset
   artifacts ([dataset audit](plc_cect_dataset_audit.md)). Retraining with slice density equalized
   removed most of the slice-count signal but not the cue of thick reconstructions, and it did not
   improve external discrimination.
@@ -61,7 +61,7 @@ were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
 - **Fixed crop.** The 96³ crop kept less than 90% of the portal-venous tumor in 37 of 94 HCC
   patients; an adaptive crop did not help.
 - **Clinical inputs.** Age and sex added nothing internally; externally, full fusion's advantage
-  came from sex (it disappeared within each sex), and on HCC-TACE-Seg its output depended strongly on how age and sex were supplied.
+  disappeared within each sex, consistent with the sex composition of the two classes, and on HCC-TACE-Seg its output depended strongly on how age and sex were supplied.
 - **Missing phases.** Models need all four phases; phase dropout reduces but does not remove the
   dependence.
 - **Small held-out set.** With 56 patients, confidence intervals are wide.

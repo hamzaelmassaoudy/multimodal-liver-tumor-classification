@@ -844,6 +844,50 @@ def figure_size():
 # =================================================================================================
 # Figure — external validation on MCT-LTDiag (HCC vs ICC)
 # =================================================================================================
+def _logit(p):  # E7c (E47 notebook), unchanged
+    p = np.clip(p, 1e-6, 1 - 1e-6)
+    return np.log(p / (1 - p))
+
+
+def _logistic_fit(x, y, offset=None, slope=True, iters=100):  # E7c, unchanged
+    a, b = 0.0, 1.0 if not slope else 0.0
+    off = np.zeros_like(x) if offset is None else offset
+    for _ in range(iters):
+        eta = a + (b * x if slope else 0) + off
+        p = 1 / (1 + np.exp(-eta))
+        w = p * (1 - p) + 1e-12
+        if slope:
+            X = np.column_stack([np.ones_like(x), x])
+            H = X.T @ (X * w[:, None])
+            g = X.T @ (y - p)
+            step = np.linalg.solve(H + 1e-9 * np.eye(2), g)
+            a, b = a + step[0], b + step[1]
+        else:
+            step = (y - p).sum() / w.sum()
+            a += step
+        if np.max(np.abs(step)) < 1e-10:
+            break
+    return a, b
+
+
+def _calibration(y, p):
+    """Calibration intercept and slope and the five-bin reliability table, as in E7c."""
+    intercept, _ = _logistic_fit(_logit(p), y, offset=_logit(p), slope=False)
+    _, slope = _logistic_fit(_logit(p), y, slope=True)
+    bins = np.clip((p * 5).astype(int), 0, 4)
+    table = pd.DataFrame(
+        [
+            {
+                "n": int((bins == k).sum()),
+                "mean_predicted": float(p[bins == k].mean()) if (bins == k).any() else np.nan,
+                "observed": float(y[bins == k].mean()) if (bins == k).any() else np.nan,
+            }
+            for k in range(5)
+        ]
+    )
+    return {"intercept": intercept, "slope": slope, "brier": float(np.mean((p - y) ** 2))}, table
+
+
 def figure_external():
     p80 = f("E8a", "E8_0_E6_203_predictions.csv", dtype={"patient_id": str})
     p80 = p80[p80["variant"] == "primary"]
@@ -902,19 +946,27 @@ def figure_external():
     rel = f("E47", "E7c_reliability_tables.csv")
     cal = f("E47", "E7c_calibration.csv")
     key = "cnn_plus_radiomics [phase_dropout_CNN]"
-    for cohort, target, col, name in [
-        ("internal_test_56", "HCC_vs_rest", S1, "Held-out (HCC vs rest)"),
-        ("MCT_LTDiag_203", "HCC_vs_ICC (renormalised)", S2, "MCT-LTDiag (HCC vs ICC)"),
+    # Held-out curve for the external endpoint (post hoc): HCC versus ICC among the held-out
+    # HCC and ICC patients.
+    q = PRED8B[
+        (PRED8B["cohort"] == "internal_test")
+        & (PRED8B["model"] == "cnn_plus_radiomics: [ref] phase_dropout_CNN + radiomics_noshape")
+    ].set_index("patient_id")
+    yq = LABEL.loc[q.index].to_numpy()
+    keep = yq != 2
+    s_int = (q["p_HCC"] / (q["p_HCC"] + q["p_ICC"])).to_numpy()[keep]
+    c_int, d_int = _calibration((yq[keep] == 0).astype(float), s_int)
+    ext = (rel["model"] == key) & (rel["cohort"] == "MCT_LTDiag_203")
+    d_ext = rel[ext & (rel["target"] == "HCC_vs_ICC (renormalised)") & (rel["n"] > 0)]
+    c_ext = cal[
+        (cal["model"] == key)
+        & (cal["cohort"] == "MCT_LTDiag_203")
+        & (cal["target"] == "HCC_vs_ICC (renormalised)")
+    ].iloc[0]
+    for d, c, col, name in [
+        (d_int[d_int["n"] > 0], c_int, S1, f"Held-out, {keep.sum()} HCC or ICC"),
+        (d_ext, c_ext, S2, "MCT-LTDiag, 203 HCC or ICC"),
     ]:
-        d = rel[
-            (rel["model"] == key)
-            & (rel["cohort"] == cohort)
-            & (rel["target"] == target)
-            & (rel["n"] > 0)
-        ]
-        c = cal[(cal["model"] == key) & (cal["cohort"] == cohort) & (cal["target"] == target)].iloc[
-            0
-        ]
         ax.plot(
             d["mean_predicted"],
             d["observed"],
@@ -1305,7 +1357,7 @@ def figure_design(public=False):
             )
         )
         xb += n * 26.5 / 56
-    txt(49.5, 47.9, "Never used for\nfitting or tuning", linespacing=1.15)
+    txt(49.5, 47.9, "Never used for\nfitting", linespacing=1.15)
     ax.plot([83.2, 83.2], [9, 52.5], color=BASE, lw=0.7, ls=(0, (2, 2)))
     ax.add_patch(Circle((83.2, 30.5), 3.0, fc="white", ec=BASE, lw=0.7, zorder=5))
     lock(83.2, 30.6)

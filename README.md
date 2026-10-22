@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification/actions/workflows/ci.yml/badge.svg)](https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version 2.2.1](https://img.shields.io/badge/version-2.2.1-475569.svg)](CHANGELOG.md)
+[![Version 2.3.0](https://img.shields.io/badge/version-2.3.0-475569.svg)](CHANGELOG.md)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](pyproject.toml)
 
 Code, notebooks, and cohort-level results for **"Multimodal Classification of Primary Liver

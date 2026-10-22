@@ -118,8 +118,8 @@ On MCT-LTDiag the primary CNN + radiomics model reached an HCC-versus-ICC AUC of
 (0.500–0.657); calibration failed for every model, and none of 26 mitigation comparisons was
 significant after Benjamini–Hochberg adjustment. On HCC-TACE-Seg, correcting the intensity window,
 the axis order, and the preprocessing raised the phase-dropout CNN from 1 to 47 of 89 HCC recognized.
-Full fusion's higher external AUC (0.690) came from sex: within men and within women it was no better
-than CNN + radiomics (post hoc). Details are in the
+Full fusion's higher external AUC (0.690) disappeared within each sex: within men and within women it
+was no better than CNN + radiomics (post hoc), consistent with the sex composition of the two classes. Details are in the
 [external validation page](external_validation_mct_ltdiag.md).
 
 ## Attention maps

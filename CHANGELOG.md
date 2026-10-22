@@ -1,5 +1,23 @@
 # Changelog
 
+## 2.3.0 — 2026-10-23
+
+Figures and documentation aligned with the final revision of the manuscript. No analysis was rerun, and no table
+changed.
+
+### Changed
+
+- Figure 1: the held-out box now reads "Never used for fitting" (was "Never used for fitting or tuning"), because the
+  main CNN was chosen with the held-out results known.
+- Figure 7B: the held-out calibration curve now uses the same HCC-versus-ICC score as the external curve (the 39
+  held-out HCC and ICC patients; post hoc), computed with the calibration rules of the E47 notebook; it was HCC versus
+  rest. The figure shows intercept −0.26 and slope 0.89 held-out, against −2.02 and 0.29 on MCT-LTDiag.
+- Documentation: the counterfactual test is described with both readings of its smoothing-control rule and the two
+  replications; reliance on slice density is not claimed; the within-sex result is described as consistent with the
+  sex composition of the two classes; internal performance "partly relies on" dataset artifacts; ComBat is named as the
+  only analysis that estimated parameters from external (unlabeled) data.
+- Package, citation, manifest, and README versions set to 2.3.0.
+
 ## 2.2.1 — 2026-10-22
 
 A label correction in Figure 1. No analysis, table, or other figure changed.
