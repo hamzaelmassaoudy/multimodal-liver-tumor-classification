@@ -22,7 +22,7 @@ The study used 222 development patients and 56 held-out internal evaluation pati
 Dataset access and its current terms are provided by the [Science Data Bank record](https://doi.org/10.57760/sciencedb.12207). Users must obtain the release directly from its custodian and comply with the dataset license and access conditions.
 
 The [dataset audit](plc_cect_dataset_audit.md) found that acquisition differs by class in this
-release (slice counts, slice thickness, storage format). Read it before training on PLC-CECT.
+release (slice counts, slice spacing, storage format). Read it before training on PLC-CECT.
 
 ## External cohort: MCT-LTDiag
 

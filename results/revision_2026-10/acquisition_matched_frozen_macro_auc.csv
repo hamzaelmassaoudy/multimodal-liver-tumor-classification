@@ -1,0 +1,19 @@
+model,cohort,condition,n,macro_auc,difference_vs_unchanged,boot_low,boot_high
+CNN,held-out,control,56,0.919178,,,
+CNN,held-out,mct,56,0.68915,-0.230028,-0.328332,-0.137504
+CNN,held-out,mct_smooth,56,0.863194,-0.0559839,-0.109766,-0.00661038
+CNN,out-of-fold,control,222,0.942553,,,
+CNN,out-of-fold,mct,222,0.676105,-0.266448,-0.320001,-0.213516
+CNN,out-of-fold,mct_smooth,222,0.883475,-0.0590788,-0.08636,-0.0350026
+radiomics,held-out,control,56,0.902333,,,
+radiomics,held-out,mct,56,0.796417,-0.105916,-0.188674,-0.0300002
+radiomics,held-out,mct_smooth,56,0.749193,-0.15314,-0.231209,-0.07806
+radiomics,out-of-fold,control,222,0.91854,,,
+radiomics,out-of-fold,mct,222,0.773203,-0.145337,-0.188019,-0.105023
+radiomics,out-of-fold,mct_smooth,222,0.755866,-0.162674,-0.211083,-0.115325
+CNN + radiomics,held-out,control,56,0.952114,,,
+CNN + radiomics,held-out,mct,56,0.735229,-0.216885,-0.309871,-0.128558
+CNN + radiomics,held-out,mct_smooth,56,0.887258,-0.0648556,-0.121153,-0.0167432
+CNN + radiomics,out-of-fold,control,222,0.954605,,,
+CNN + radiomics,out-of-fold,mct,222,0.730679,-0.223926,-0.273323,-0.17703
+CNN + radiomics,out-of-fold,mct_smooth,222,0.885717,-0.0688873,-0.0982347,-0.0410915

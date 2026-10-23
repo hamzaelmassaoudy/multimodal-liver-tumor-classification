@@ -42,9 +42,12 @@ MCT-LTDiag (103 HCC, 100 ICC). Stress test: HCC-TACE-Seg (89 HCC without mixed-s
 | **CNN + radiomics** | **0.952 (0.906–0.985)** | **0.942 ± 0.011** | **0.578 (0.500–0.657)** |
 | Full fusion | 0.951 (0.903–0.984) | 0.947 ± 0.011 | 0.690 (0.617–0.763); sex alone 0.663 |
 
-Internally, CNN + radiomics had calibration slopes of 0.82–1.12. On MCT-LTDiag, calibration failed
-for every model (intercepts −0.87 to −2.02), the models rarely predicted ICC, and many patients
-were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
+Over six CNN training seeds, the held-out macro-AUC was 0.910 ± 0.009 for the CNN and 0.947 ± 0.003
+for CNN + radiomics; the saved models in the table are the best of the six (notebook 33).
+Internally, CNN + radiomics had calibration slopes of 0.82–1.12. On MCT-LTDiag, the lower bound of
+the 95% CI of CNN + radiomics was 0.4997, so its discrimination was not shown to be better than
+chance; calibration failed for every model (calibration-in-the-large −0.87 to −2.02), the models
+rarely predicted ICC, and many patients were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
 [revision overview](revision_2026-10.md) and [external validation](external_validation_mct_ltdiag.md).
 
 ## Known failure modes and risks
@@ -54,7 +57,9 @@ were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
   (held-out macro-AUC 0.853–0.872). Internal performance therefore partly relies on dataset
   artifacts ([dataset audit](plc_cect_dataset_audit.md)). Retraining with slice density equalized
   removed most of the slice-count signal but not the cue of thick reconstructions, and it did not
-  improve external discrimination.
+  improve external discrimination. Giving the internal scans the slice spacing of MCT-LTDiag
+  reproduced about 40% of the external loss, and models retrained at that spacing still failed
+  externally (0.627), so acquisition explains part, not most, of the external failure.
 - **Masked tumor tissue.** In 52 of 99 ICC patients, less than 90% of the tumor lies inside the
   released liver mask, so part of the tumor is blanked in the model input. Retraining with the
   tumor preserved changed none of the conclusions (corrected-mask analysis).

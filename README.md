@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification/actions/workflows/ci.yml/badge.svg)](https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version 2.3.0](https://img.shields.io/badge/version-2.3.0-475569.svg)](CHANGELOG.md)
+[![Version 2.4.0](https://img.shields.io/badge/version-2.4.0-475569.svg)](CHANGELOG.md)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](pyproject.toml)
 
 Code, notebooks, and cohort-level results for **"Multimodal Classification of Primary Liver
@@ -22,9 +22,10 @@ tests the models on an external cohort from another hospital.
 |---|---|
 | Combining CNN and radiomics gives the best internal discrimination, but no per-class DeLong test survives correction | CNN + radiomics held-out macro-AUC **0.952** (95% CI 0.906–0.985); 0.942 ± 0.011 over 5 × 5 repeated cross-validation; smallest Benjamini–Hochberg-adjusted DeLong p = 0.13 |
 | Age and sex add nothing | Full fusion − CNN + radiomics: −0.001 (−0.016 to 0.016) held-out; −0.006 (−0.024 to 0.013) in the pre-specified comparison |
-| Acquisition is confounded with class in PLC-CECT | Slice counts alone predict the class (held-out macro-AUC 0.853–0.872); anatomical estimates indicate class-dependent slice thickness |
+| Acquisition is confounded with class in PLC-CECT | Slice counts alone predict the class (held-out macro-AUC 0.853–0.872); anatomical estimates indicate class-dependent slice spacing |
 | The CNN uses a dataset artifact | Counterfactual test: injecting the cHCC-CCA non-contrast reconstruction artifact raises p(cHCC-CCA) by 0.25 (0.21–0.30); repairing it lowers it by 0.50 (0.42–0.58) |
 | Internal performance does not transport | MCT-LTDiag (103 HCC, 100 ICC): CNN + radiomics HCC-vs-ICC AUC **0.578** (0.500–0.657); calibration failed; no mitigation strategy helped significantly |
+| Acquisition explains part, not most, of the external failure | Internal scans given MCT-LTDiag's slice spacing: frozen CNN + radiomics HCC-vs-ICC AUC 0.947 → 0.795, and ICC predictions disappear; retrained at that spacing: MCT-LTDiag 0.627 (0.550–0.703), not better than the main model (p = 0.30) |
 | The conclusions hold with the tumor preserved | Retrained with liver ∪ tumor masks: CNN + radiomics 0.963 internally, the CNN still uses the artifact, MCT-LTDiag 0.571 (paired p = 0.83) |
 
 The models are research software and are **not suitable for clinical use**.
@@ -59,6 +60,9 @@ newer is required; the [environment page](docs/environment.md) lists tested vers
 | **CNN + radiomics** | **0.952 (0.906–0.985)** | **0.942 ± 0.011** | 0.872 |
 | Full fusion (+ age, sex) | 0.951 (0.903–0.984) | 0.947 ± 0.011 | 0.861 |
 
+Over six CNN training seeds, CNN + radiomics reached a held-out macro-AUC of 0.947 ± 0.003 (CNN
+0.910 ± 0.009); the saved main models are the best of the six.
+
 ![Internal performance](results/revision_2026-10/figures/figure3_internal_performance.png)
 
 All numbers are in [`results/revision_2026-10`](results/revision_2026-10/README.md); the
@@ -82,7 +86,7 @@ PLC-CECT should read the [dataset audit](docs/plc_cect_dataset_audit.md).
 | MCT-LTDiag (103 HCC, 100 ICC) | CNN + radiomics (pre-specified primary) | AUC 0.578 (0.500–0.657) |
 | | Radiomics | AUC 0.655 (0.579–0.731) |
 | | Full fusion (gain explained by sex; sex alone 0.663) | AUC 0.690 (0.617–0.763) |
-| HCC-TACE-Seg (89 HCC, stress test) | Phase-dropout CNN, after pipeline corrections | 47/89 HCC recognized (sensitivity only) |
+| HCC-TACE-Seg (89 HCC, stress test) | Phase-dropout CNN | 0/89 HCC recognized with 1 mm isotropic voxels, 47/89 with the native slices (sensitivity only) |
 
 ![External validation](results/revision_2026-10/figures/figure7_external_validation.png)
 
@@ -91,7 +95,7 @@ PLC-CECT should read the [dataset audit](docs/plc_cect_dataset_audit.md).
 | Path | Contents |
 |---|---|
 | [`src/liver_tumor_pipeline`](src/liver_tumor_pipeline) | Tested utilities: preprocessing contracts, fusion features, metrics, release validation |
-| [`notebooks`](notebooks/README.md) | 30 notebooks: the original workflow (01–14) and the revision analyses (15–30) |
+| [`notebooks`](notebooks/README.md) | 33 notebooks: the original workflow (01–14) and the revision analyses (15–33) |
 | [`scripts`](scripts) | Aggregate checks, release validation, and the [revision scripts](scripts/revision) |
 | [`results`](results/README.md) | Cohort-level tables and figures: v1.1.0 (`aggregate`) and revision (`revision_2026-10`) |
 | [`docs`](docs/README.md) | Methods, datasets, reproducibility, model card, and privacy boundary |

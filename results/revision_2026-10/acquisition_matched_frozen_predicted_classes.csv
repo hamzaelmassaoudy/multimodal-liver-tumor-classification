@@ -1,0 +1,55 @@
+model,condition,cohort,true_class,n,called_HCC,called_ICC,called_CHCC
+CNN,control,held-out,HCC,19,17,2,0
+CNN,control,held-out,ICC,20,5,15,0
+CNN,control,held-out,CHCC,17,4,1,12
+CNN,control,all 278,HCC,94,79,9,6
+CNN,control,all 278,ICC,99,14,83,2
+CNN,control,all 278,CHCC,85,12,5,68
+CNN,mct,held-out,HCC,19,17,1,1
+CNN,mct,held-out,ICC,20,8,3,9
+CNN,mct,held-out,CHCC,17,11,0,6
+CNN,mct,all 278,HCC,94,75,3,16
+CNN,mct,all 278,ICC,99,46,13,40
+CNN,mct,all 278,CHCC,85,44,3,38
+CNN,mct_smooth,held-out,HCC,19,5,9,5
+CNN,mct_smooth,held-out,ICC,20,2,17,1
+CNN,mct_smooth,held-out,CHCC,17,3,3,11
+CNN,mct_smooth,all 278,HCC,94,35,38,21
+CNN,mct_smooth,all 278,ICC,99,3,90,6
+CNN,mct_smooth,all 278,CHCC,85,6,21,58
+radiomics,control,held-out,HCC,19,15,3,1
+radiomics,control,held-out,ICC,20,3,13,4
+radiomics,control,held-out,CHCC,17,0,2,15
+radiomics,control,all 278,HCC,94,72,9,13
+radiomics,control,all 278,ICC,99,9,77,13
+radiomics,control,all 278,CHCC,85,3,13,69
+radiomics,mct,held-out,HCC,19,15,3,1
+radiomics,mct,held-out,ICC,20,6,8,6
+radiomics,mct,held-out,CHCC,17,4,0,13
+radiomics,mct,all 278,HCC,94,68,9,17
+radiomics,mct,all 278,ICC,99,33,29,37
+radiomics,mct,all 278,CHCC,85,20,5,60
+radiomics,mct_smooth,held-out,HCC,19,9,7,3
+radiomics,mct_smooth,held-out,ICC,20,1,17,2
+radiomics,mct_smooth,held-out,CHCC,17,0,8,9
+radiomics,mct_smooth,all 278,HCC,94,32,30,32
+radiomics,mct_smooth,all 278,ICC,99,1,78,20
+radiomics,mct_smooth,all 278,CHCC,85,3,25,57
+CNN + radiomics,control,held-out,HCC,19,15,2,2
+CNN + radiomics,control,held-out,ICC,20,4,16,0
+CNN + radiomics,control,held-out,CHCC,17,3,1,13
+CNN + radiomics,control,all 278,HCC,94,81,4,9
+CNN + radiomics,control,all 278,ICC,99,8,89,2
+CNN + radiomics,control,all 278,CHCC,85,9,6,70
+CNN + radiomics,mct,held-out,HCC,19,16,2,1
+CNN + radiomics,mct,held-out,ICC,20,7,3,10
+CNN + radiomics,mct,held-out,CHCC,17,11,0,6
+CNN + radiomics,mct,all 278,HCC,94,76,7,11
+CNN + radiomics,mct,all 278,ICC,99,42,15,42
+CNN + radiomics,mct,all 278,CHCC,85,42,2,41
+CNN + radiomics,mct_smooth,held-out,HCC,19,5,9,5
+CNN + radiomics,mct_smooth,held-out,ICC,20,0,19,1
+CNN + radiomics,mct_smooth,held-out,CHCC,17,2,3,12
+CNN + radiomics,mct_smooth,all 278,HCC,94,33,31,30
+CNN + radiomics,mct_smooth,all 278,ICC,99,0,92,7
+CNN + radiomics,mct_smooth,all 278,CHCC,85,3,14,68

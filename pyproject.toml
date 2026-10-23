@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "liver-tumor-pipeline"
-version = "2.3.0"
+version = "2.4.0"
 description = "Auditable analysis utilities for multiphase CT liver-tumor classification"
 readme = "README.md"
 requires-python = ">=3.10"

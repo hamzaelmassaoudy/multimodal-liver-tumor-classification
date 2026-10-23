@@ -25,7 +25,7 @@ patients. A `post_hoc` column marks analyses decided after seeing data.
 | [`internal_optimism.csv`](internal_optimism.csv) | Harrell bootstrap optimism and optimism-corrected AUC of both fusions |
 | [`internal_missing_phase_patterns.csv`](internal_missing_phase_patterns.csv) | Original, retrained, and phase-dropout CNNs under seven phase patterns |
 | [`internal_fusion_missing_phase_patterns.csv`](internal_fusion_missing_phase_patterns.csv) | The fusions under the same phase patterns |
-| [`calibration.csv`](calibration.csv) | Brier score, calibration intercept and slope, internally and on MCT-LTDiag |
+| [`calibration.csv`](calibration.csv) | Brier score, calibration-in-the-large (column `intercept`, slope fixed at 1) and calibration slope, internally and on MCT-LTDiag |
 
 ## Tumor size and crops
 
@@ -95,6 +95,35 @@ Every scan resampled along the slice axis to one anatomical slice density before
 |---|---|
 | [`nested_stacking_per_repeat.csv`](nested_stacking_per_repeat.csv) | Nested and non-nested out-of-fold macro-AUC of both fusions per repeat, and their differences from the two branches |
 | [`nested_stacking_summary.csv`](nested_stacking_summary.csv) | Mean over the five repeats: optimism of the non-nested estimates and the number of repeats in which each fusion exceeded each branch |
+
+## Acquisition-matched tests (notebooks 31 and 32)
+
+Every internal scan given the slice spacing of MCT-LTDiag (median ratio of liver slices to liver width 0.117) by averaging adjacent slices. Notebook 31 evaluates the frozen main models, with a blur-only control (the same averaging, then interpolation back to the original slice count); notebook 32 retrains every model with the same folds, seeds, and settings. Rows labelled `main` or `unchanged` repeat the main models for comparison.
+
+| File | Contents |
+|---|---|
+| [`acquisition_matched_frozen_hcc_vs_icc.csv`](acquisition_matched_frozen_hcc_vs_icc.csv) | Held-out and out-of-fold HCC-versus-ICC AUC of the frozen models with unchanged, MCT-like, and blur-only scans: DeLong CI, paired difference with bootstrap CI and DeLong p, share of the external loss reproduced, and the reading of the pre-specified rule |
+| [`acquisition_matched_frozen_macro_auc.csv`](acquisition_matched_frozen_macro_auc.csv) | Three-class macro-AUC under the same conditions, with the paired bootstrap difference |
+| [`acquisition_matched_frozen_predicted_classes.csv`](acquisition_matched_frozen_predicted_classes.csv) | Predicted classes by true class under each condition |
+| [`acquisition_matched_frozen_thick_noncontrast.csv`](acquisition_matched_frozen_thick_noncontrast.csv) | Non-contrast series made thick by the same averaging in HCC and ICC scans: shift of p(cHCC-CCA) against the blur-only control, with the criteria of the counterfactual test |
+| [`acquisition_matched_frozen_density_by_class.csv`](acquisition_matched_frozen_density_by_class.csv) | Scans thickened, averaging factor, class medians of the slice counts and of the slice-density estimate before and after, and tumor masks lost, by phase |
+| [`acquisition_matched_retrained_by_class.csv`](acquisition_matched_retrained_by_class.csv) | Class medians of the slice-density estimate and of the slice counts before and after, by phase |
+| [`acquisition_matched_retrained_slice_count_model.csv`](acquisition_matched_retrained_slice_count_model.csv) | A slice-count-only model before and after: held-out and out-of-fold discrimination |
+| [`acquisition_matched_retrained_internal.csv`](acquisition_matched_retrained_internal.csv) | Held-out and out-of-fold results of the retrained and the main models, with per-class recall |
+| [`acquisition_matched_retrained_internal_paired.csv`](acquisition_matched_retrained_internal_paired.csv) | Retrained minus main model: held-out bootstrap difference and p, and out-of-fold difference |
+| [`acquisition_matched_retrained_residual_artifact.csv`](acquisition_matched_retrained_residual_artifact.csv) | Non-contrast artifact injected or repaired before the averaging, against the unaltered averaged scan |
+| [`acquisition_matched_retrained_external.csv`](acquisition_matched_retrained_external.csv) | MCT-LTDiag AUC, HCC sensitivity, ICC recall, share of ICC patients not called HCC, and predicted classes of the retrained and the main models |
+| [`acquisition_matched_retrained_external_paired.csv`](acquisition_matched_retrained_external_paired.csv) | Retrained minus main model on MCT-LTDiag, paired DeLong test |
+
+## Training-seed variability (notebook 33)
+
+The main CNN retrained with five further seeds (offsets +1000 to +5000) and once with its own seed (offset 0); both fusions refitted for each. Rows of the saved main models are included.
+
+| File | Contents |
+|---|---|
+| [`seed_variability_per_seed.csv`](seed_variability_per_seed.csv) | Held-out and out-of-fold macro-AUC, held-out HCC-versus-ICC AUC, accuracy, and per-class recall of the CNN and both fusions for each training seed |
+| [`seed_variability_spread.csv`](seed_variability_spread.csv) | Range over the three seeds of the pre-specified statement; mean, SD, minimum, and maximum over all six seeds; change on retraining with the original seed |
+| [`seed_variability_training.csv`](seed_variability_training.csv) | Chosen epoch, inner-validation AUC, and training time for each seed and fold |
 
 ## Figures
 

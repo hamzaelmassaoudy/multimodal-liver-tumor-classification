@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """Export the cohort-level results of the October 2026 revision from authorized run outputs.
 
-The inputs are the run folders written by notebooks 15-30 (``liver_project/revision_2026-10``)
+The inputs are the run folders written by notebooks 15-33 (``liver_project/revision_2026-10``)
 and the split and label files of the private project folder. Every output table is aggregated
 over patients: no identifier, probability, label, or split membership is written.
 
@@ -45,6 +45,9 @@ RUNS = {
     "E11": "E11_20261019T195325Z",
     "E12": "E12_20261022T025246Z",
     "E13": "E13_20261022T024552Z",
+    "E14a": "E14a_20261023T052443Z",
+    "E14b": "E14b_20261023T052254Z",
+    "E15": "E15_20261023T052328Z",
 }
 MAIN = {
     "CNN": "phase_dropout_CNN",
@@ -633,6 +636,44 @@ def main() -> int:
         runs, "E13", "E13_combined_per_repeat.csv"
     ).drop(columns=["run"])
     tables["nested_stacking_summary.csv"] = read(runs, "E13", "E13_combined_summary.csv")
+    for name, run, source in [
+        ("acquisition_matched_frozen_hcc_vs_icc.csv", "E14a", "E14a_OA_hcc_vs_icc.csv"),
+        ("acquisition_matched_frozen_macro_auc.csv", "E14a", "E14a_OA_macro_auc.csv"),
+        ("acquisition_matched_frozen_predicted_classes.csv", "E14a", "E14a_predicted_classes.csv"),
+        (
+            "acquisition_matched_frozen_thick_noncontrast.csv",
+            "E14a",
+            "E14a_OC_thick_noncontrast.csv",
+        ),
+        (
+            "acquisition_matched_frozen_density_by_class.csv",
+            "E14a",
+            "E14a_mct_like_density_by_class.csv",
+        ),
+        ("acquisition_matched_retrained_by_class.csv", "E14b", "E14b_equalization_by_class.csv"),
+        (
+            "acquisition_matched_retrained_slice_count_model.csv",
+            "E14b",
+            "E14b_slice_count_only_model.csv",
+        ),
+        ("acquisition_matched_retrained_internal.csv", "E14b", "E14b_internal_results.csv"),
+        (
+            "acquisition_matched_retrained_internal_paired.csv",
+            "E14b",
+            "E14b_internal_paired_differences.csv",
+        ),
+        (
+            "acquisition_matched_retrained_residual_artifact.csv",
+            "E14b",
+            "E14b_residual_artifact_effects.csv",
+        ),
+        ("acquisition_matched_retrained_external.csv", "E14b", "E14b_mct_results.csv"),
+        ("acquisition_matched_retrained_external_paired.csv", "E14b", "E14b_mct_paired.csv"),
+        ("seed_variability_per_seed.csv", "E15", "E15_results_per_seed.csv"),
+        ("seed_variability_spread.csv", "E15", "E15_seed_spread.csv"),
+        ("seed_variability_training.csv", "E15", "E15_training_per_fold.csv"),
+    ]:
+        tables[name] = read(runs, run, source)
     forbidden = {"patient_id", "case_id", "subject_id"}
     for name, table in tables.items():
         if forbidden & set(table.columns):

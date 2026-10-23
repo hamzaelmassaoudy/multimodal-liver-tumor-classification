@@ -1,0 +1,13 @@
+model,test,subset,n,expected_sign,mean_shift_vs_equalized_scan,ci_low,ci_high,meets_E10_thresholds
+CNN,"non-contrast artifact injected before equalization (HCC, ICC)",all 278,193,1,0.0431379,0.0295534,0.0582113,False
+CNN,"non-contrast artifact injected before equalization (HCC, ICC)",held-out 56,39,1,0.0486567,0.0257953,0.0720331,False
+CNN,non-contrast artifact repaired before equalization (cHCC-CCA),all 278,85,-1,0.00689997,-0.00490112,0.0189632,False
+CNN,non-contrast artifact repaired before equalization (cHCC-CCA),held-out 56,17,-1,-0.00264055,-0.0217596,0.0164849,False
+radiomics,"non-contrast artifact injected before equalization (HCC, ICC)",all 278,193,1,0.101131,0.0701,0.133776,True
+radiomics,"non-contrast artifact injected before equalization (HCC, ICC)",held-out 56,39,1,0.116826,0.0596207,0.186641,True
+radiomics,non-contrast artifact repaired before equalization (cHCC-CCA),all 278,85,-1,0.0279226,-0.00235525,0.0578005,False
+radiomics,non-contrast artifact repaired before equalization (cHCC-CCA),held-out 56,17,-1,0.0206195,0.00133155,0.0418069,False
+CNN + radiomics,"non-contrast artifact injected before equalization (HCC, ICC)",all 278,193,1,0.0675447,0.0468159,0.089601,True
+CNN + radiomics,"non-contrast artifact injected before equalization (HCC, ICC)",held-out 56,39,1,0.0852891,0.0406661,0.138223,True
+CNN + radiomics,non-contrast artifact repaired before equalization (cHCC-CCA),all 278,85,-1,0.0142095,-0.000454158,0.0287056,False
+CNN + radiomics,non-contrast artifact repaired before equalization (cHCC-CCA),held-out 56,17,-1,0.00965811,-0.00130948,0.021029,False

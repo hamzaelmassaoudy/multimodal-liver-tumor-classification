@@ -17,16 +17,17 @@ an in-plane pixel size of 0.56–0.96 mm. Age and sex were observed for every pa
 21 women; ICC 47 men and 53 women), and 23 patients had recorded prior chemotherapy or TACE. Every
 downloaded file was checked against its published checksum (notebook 18).
 
-The score is p(HCC) / [p(HCC) + p(ICC)]. Sensitivity (HCC patients called HCC) and specificity (ICC
-patients not called HCC) use the internal decision rule (most probable of three classes).
+The score is p(HCC) / [p(HCC) + p(ICC)]. HCC sensitivity (HCC patients called HCC), ICC recall (ICC
+patients called ICC), and the share of ICC patients not called HCC use the internal decision rule
+(most probable of three classes).
 
-| Model | HCC-vs-ICC AUC (95% CI) | Sensitivity | Specificity | Calibration intercept / slope / Brier |
+| Model | HCC-vs-ICC AUC (95% CI) | HCC sensitivity | ICC recall; ICC not called HCC | Calibration-in-the-large / slope / Brier |
 |---|---:|---:|---:|---:|
-| **CNN + radiomics (pre-specified primary)** | **0.578 (0.500–0.657)** | 0.52 | 0.52 | −2.02 / 0.29 / 0.37 |
-| Phase-dropout CNN | 0.528 (0.448–0.607) | 0.72 | 0.33 | −1.52 / 0.08 / 0.34 |
-| Original CNN | 0.525 (0.445–0.605) | 0.83 | 0.22 | −0.87 / 0.07 / 0.31 |
-| Radiomics (no shape) | 0.655 (0.579–0.731) | 0.21 | 0.88 | −1.19 / 0.26 / 0.30 |
-| Full fusion (+ observed age, sex) | 0.690 (0.617–0.763) | 0.53 | 0.61 | −1.97 / 0.48 / 0.32 |
+| **CNN + radiomics (pre-specified primary)** | **0.578 (0.500–0.657)** | 0.52 | 0.02; 0.52 | −2.02 / 0.29 / 0.37 |
+| Phase-dropout CNN | 0.528 (0.448–0.607) | 0.72 | 0.02; 0.33 | −1.52 / 0.08 / 0.34 |
+| Original CNN | 0.525 (0.445–0.605) | 0.83 | 0.17; 0.22 | −0.87 / 0.07 / 0.31 |
+| Radiomics (no shape) | 0.655 (0.579–0.731) | 0.21 | 0.10; 0.88 | −1.19 / 0.26 / 0.30 |
+| Full fusion (+ observed age, sex) | 0.690 (0.617–0.763) | 0.53 | 0.05; 0.61 | −1.97 / 0.48 / 0.32 |
 | Sex alone (post hoc) | 0.663 | — | — | — |
 
 - **Discrimination.** The CNNs were at chance level. Radiomics kept part of its signal. Full fusion
@@ -35,10 +36,12 @@ patients not called HCC) use the internal decision rule (most probable of three 
   p = 0.68; −0.004, p = 0.87; post hoc,
   [`external_mct_ltdiag_by_sex.csv`](../results/revision_2026-10/external_mct_ltdiag_by_sex.csv)).
 - **Predicted classes.** The models rarely predicted ICC (2 to 17 of 100 ICC patients) and assigned many patients of both classes to
-  cHCC-CCA, a class absent from the cohort.
+  cHCC-CCA, a class absent from the cohort; three-class accuracy over the 203 patients was 0.28 for
+  CNN + radiomics (0.16–0.51 across models). The predicted classes followed the slice spacing: after
+  1 mm isotropic resampling, CNN + radiomics called 97 of 103 HCC and 93 of 100 ICC patients ICC.
 - **Calibration.** Calibration failed for every model (Brier scores 0.30–0.37, against 0.25 for a
-  constant prediction of 0.5). For the same HCC-versus-ICC score, CNN + radiomics had an intercept of
-  −2.02 and a slope of 0.29 externally, against −0.26 and 0.89 on the 39 held-out HCC and ICC patients
+  constant prediction of 0.5). For the same HCC-versus-ICC score, CNN + radiomics had a
+  calibration-in-the-large of −2.02 and a slope of 0.29 externally, against −0.26 and 0.89 on the 39 held-out HCC and ICC patients
   (post hoc; Figure 7B, drawn by `make_revision_figures.py`).
 - **Sensitivity analyses.** Pre-specified preprocessing variants gave 0.57–0.63 for CNN + radiomics,
   excluding the 23 previously treated patients gave 0.605, and preserving the tumor tissue (corrected
@@ -71,12 +74,19 @@ before the run) did not improve external discrimination either: CNN + radiomics 
 every patient to cHCC-CCA at the internal decision rule
 ([`equalized_density_external.csv`](../results/revision_2026-10/equalized_density_external.csv)).
 
+Retraining every model with all scans at the slice spacing of MCT-LTDiag (notebook 32) gave
+CNN + radiomics 0.627 (0.550–0.703): better than chance but not better than the main model (paired
+p = 0.30), with 191 of 203 patients called cHCC-CCA
+([`acquisition_matched_retrained_external.csv`](../results/revision_2026-10/acquisition_matched_retrained_external.csv)).
+Giving the internal scans this spacing reproduced about 40% of the external loss (notebook 31; see the
+[revision overview](revision_2026-10.md#acquisition-matched-tests)).
+
 ## HCC-TACE-Seg stress test
 
 The submitted analysis reported that the CNNs recognized almost no external HCC. The revision traced
 this result through each pipeline correction (notebooks 17 and 20):
 
-| Model (89 HCC) | Submitted pipeline | + intensity window matched | + axis order fixed | + internal geometry rules |
+| Model (89 HCC) | Submitted pipeline | + intensity window matched | + axis order fixed (1 mm isotropic) | + internal geometry rules (native slices) |
 |---|---:|---:|---:|---:|
 | Original CNN | 0 | 0 | 0 | 9 |
 | Phase-dropout CNN (main) | 1 | 1 | 0 | 47 |
@@ -85,11 +95,18 @@ this result through each pipeline correction (notebooks 17 and 20):
 | CNN + radiomics | — | 11 | 7 | 67 |
 
 The submitted pipeline read the volumes with the slice axis and the first in-plane axis swapped
-relative to the training arrays. Fixing the axis order alone did not help, because 1 mm isotropic
-resampling still stretched the anatomy along the slice axis compared with the training arrays.
+relative to the training arrays and resampled them to 1 mm isotropic voxels. Only the change of slice
+spacing changed the CNN predictions: with 1 mm isotropic voxels the main CNN called 86 of 89 patients
+ICC, and with the native 2.5 mm slices kept by the internal geometry rules it recognized 47. This is
+the dependence on slice spacing seen internally, not evidence of a corrected pipeline error. The
+phase-assignment rules of the submitted pipeline, which the revision kept, also took the non-contrast
+input from a later examination than the segmentation in 51 of 96 patients and the arterial input in 28
+of 59; only the portal-venous input is always the segmented series.
 
 Because the cohort contains only HCC, these numbers measure sensitivity, not discrimination. On
 MCT-LTDiag the same main CNN labelled 72% of HCC and 67% of ICC patients as HCC. Full fusion
 recognized 66 of 89 patients with the observed age and sex but 84 with training medians, which
-shows how strongly its output depends on the clinical inputs. Results for all 103 patients are in
+shows how strongly its output depends on the clinical inputs. Radiomics recognized 84 of 89 although
+64% of its selected feature cells in all 103 patients had to be filled with training-fold medians; fed only these medians,
+it predicted cHCC-CCA for all 89 patients. Results for all 103 patients are in
 [`external_hcc_tace_seg.csv`](../results/revision_2026-10/external_hcc_tace_seg.csv).

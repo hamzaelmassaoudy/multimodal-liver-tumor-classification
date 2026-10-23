@@ -1,6 +1,6 @@
-# Revision notebooks (15–30)
+# Revision notebooks (15–33)
 
-The sixteen revision notebooks are the code that produced every result of the
+The nineteen revision notebooks are the code that produced every result of the
 [October 2026 revision](revision_2026-10.md). They ran on Google Colab, with a GPU for the CNN analyses,
 against the private project folder, and are published with outputs cleared and with every
 machine-specific location replaced by an environment variable.
@@ -25,11 +25,14 @@ machine-specific location replaced by an environment variable.
 | 28 | [Corrected-mask sensitivity analysis](../notebooks/08_revision_dataset_audit_and_explainability/28_corrected_mask_liver_union_tumour.ipynb) | E11 | Repeats the pipeline with liver ∪ tumor masks (all models retrained); internal, artifact test, and MCT-LTDiag versus the main models |
 | 29 | [Equalized slice density](../notebooks/08_revision_dataset_audit_and_explainability/29_equalized_slice_density.ipynb) | E12 | Resamples every scan to one anatomical slice density before cropping (all models retrained); slice-count signal, internal, residual artifact, and MCT-LTDiag versus the main models |
 | 30 | [Nested stacking](../notebooks/06_revision_internal_models_and_statistics/30_nested_stacking.ipynb) | E13 | Fully nested evaluation of the stacked fusions: inner four-fold cross-validation inside every outer fold of the five repeats (100 CNN trainings) |
+| 31 | [Acquisition-matched test, frozen models](../notebooks/08_revision_dataset_audit_and_explainability/31_acquisition_matched_frozen_models.ipynb) | E14a | Gives every internal scan the slice spacing of MCT-LTDiag by averaging adjacent slices, with a blur-only control, and evaluates the frozen main models; also a thick non-contrast reconstruction |
+| 32 | [Acquisition-matched retraining](../notebooks/08_revision_dataset_audit_and_explainability/32_acquisition_matched_retraining.ipynb) | E14b | Retrains every model with all scans at the slice spacing of MCT-LTDiag; slice-count signal, internal, residual artifact, and MCT-LTDiag versus the main models |
+| 33 | [CNN training-seed variability](../notebooks/06_revision_internal_models_and_statistics/33_cnn_training_seed_variability.ipynb) | E15 | Retrains the main CNN with five further seeds and once with its own seed, and refits both fusions for each |
 
 Numbers follow the order in which the analyses ran; the folders group them by topic. The analysis IDs
 refer to the dated analysis log in which each analysis was planned and approved before it was run;
-notebook text that cites "00 log" sections refers to that log, which is kept with the private project
-records.
+notebook text that cites "00 log" sections refers to that log. Its plan sections are published as the
+[analysis plans](analysis_plans.md); the rest is kept with the private project records.
 
 ## Safeguards built into the notebooks
 
@@ -50,8 +53,8 @@ records.
 | `LIVER_HISTORICAL_PREFIX` | 17, 20, 24, 25 | Folder prefix stored inside older run manifests; it is replaced by the current project location when those manifests are read |
 | `LIVER_DRIVE_PROJECT_FOLDER_ID`, `LIVER_DRIVE_EXTERNAL_FOLDER_ID` | 18 | Drive folder identifiers of the project and of its external-data folder, used by the Drive API upload |
 
-Variables ending in `_TEST_ROOT`, `_TEST_PROCESSED`, `_TEST_WORK`, `_TEST_TMP`, `_TEST_GLOSSARY`, or
-`_TEST_EPOCHS`
+Variables ending in `_TEST_ROOT`, `_TEST_PROCESSED`, `_TEST_WORK`, `_TEST_TMP`, `_TEST_GLOSSARY`, `_TEST_E`,
+`_TEST_OFFSETS`, or `_TEST_EPOCHS`
 are read only outside Colab, by the local synthetic-data test harness used to check each notebook
 before it ran on real data.
 

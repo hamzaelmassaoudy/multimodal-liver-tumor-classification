@@ -1,0 +1,19 @@
+model,cohort,condition,n,auc,delong_low,delong_high,difference_vs_unchanged,boot_low,boot_high,delong_paired_p,share_of_external_loss_reproduced,plan_rule_reading
+CNN,held-out,control,39,0.961842,0.911332,1,,,,,,
+CNN,held-out,mct,39,0.767105,0.610177,0.924034,-0.194737,-0.326249,-0.0694279,0.00363345,0.448424,explains part of the external loss
+CNN,held-out,mct_smooth,39,0.882895,0.776846,0.988943,-0.0789474,-0.180012,-0.00277778,0.0761816,0.181794,explains part of the external loss
+CNN,out-of-fold,control,154,0.956709,0.926989,0.986429,,,,,,
+CNN,out-of-fold,mct,154,0.762954,0.688358,0.837549,-0.193755,-0.267109,-0.127024,2.99846e-08,,
+CNN,out-of-fold,mct_smooth,154,0.879072,0.826563,0.93158,-0.0776371,-0.123316,-0.0352278,0.000302354,,
+radiomics,held-out,control,39,0.863158,0.750765,0.975551,,,,,,
+radiomics,held-out,mct,39,0.75,0.590214,0.909786,-0.113158,-0.230238,-0.0106952,0.0331066,0.543235,reproduces most of the external loss
+radiomics,held-out,mct_smooth,39,0.752632,0.591372,0.913891,-0.110526,-0.235298,0.0026455,0.0540835,0.530601,does not explain the external loss
+radiomics,out-of-fold,control,154,0.943629,0.90679,0.980467,,,,,,
+radiomics,out-of-fold,mct,154,0.810295,0.741219,0.879372,-0.133333,-0.200342,-0.0755013,9.64495e-06,,
+radiomics,out-of-fold,mct_smooth,154,0.835443,0.771053,0.899833,-0.108186,-0.177231,-0.0492878,0.000422553,,
+CNN + radiomics,held-out,control,39,0.947368,0.886776,1,,,,,,
+CNN + radiomics,held-out,mct,39,0.794737,0.643447,0.946026,-0.152632,-0.274473,-0.05,0.00676157,0.413505,explains part of the external loss
+CNN + radiomics,held-out,mct_smooth,39,0.931579,0.856223,1,-0.0157895,-0.0679469,0.026455,0.459125,0.0427764,does not explain the external loss
+CNN + radiomics,out-of-fold,control,154,0.962869,0.931008,0.99473,,,,,,
+CNN + radiomics,out-of-fold,mct,154,0.765063,0.690256,0.839871,-0.197806,-0.268726,-0.135455,5.18174e-09,,
+CNN + radiomics,out-of-fold,mct_smooth,154,0.927932,0.885735,0.970129,-0.0349367,-0.0715633,-0.00100518,0.0532993,,

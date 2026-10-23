@@ -12,7 +12,8 @@ or authorized local derived artifacts.
 - Review corrected internal performance, sex provenance/sensitivity, per-class results, paired tests,
   confusion counts, C2 retention, external adapter QC, and radiomics feature-handling controls.
 - Review the [October 2026 revision](revision_2026-10.md) tables and figures in
-  `results/revision_2026-10` and the code of revision notebooks 15–30.
+  `results/revision_2026-10`, the code of revision notebooks 15–33, and the
+  [analysis plans](analysis_plans.md).
 
 ```bash
 python -m pytest
@@ -62,9 +63,11 @@ possible from a public clone.
 - **CNN retraining is not bit-exact.** Training fixes the random seeds but does not enable
   PyTorch's deterministic algorithms, and notebooks 03, 04, and 16 also enable cuDNN autotuning
   (`torch.backends.cudnn.benchmark = True`). Retraining on a GPU therefore gives close but not
-  bit-identical weights and predictions. No CNN configuration was trained twice, so the size of
-  this run-to-run variation was not measured. (The repeated cross-validation of notebook 23
-  shows how much the results vary with different folds.)
+  bit-identical weights and predictions. Notebook 33 measured this variation: retraining the main
+  CNN with its own seed changed its held-out macro-AUC by −0.003 (CNN + radiomics −0.001), and over
+  six training seeds the held-out macro-AUC was 0.910 ± 0.009 for the CNN and 0.947 ± 0.003 for
+  CNN + radiomics. (The repeated cross-validation of notebook 23 shows how much the results vary
+  with different folds.)
 - **Package versions:** see the [environment](environment.md), including the exact PyRadiomics
   build.
 

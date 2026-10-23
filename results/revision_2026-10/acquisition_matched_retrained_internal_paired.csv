@@ -1,0 +1,5 @@
+model,heldout_difference_E14b_minus_main,boot_low,boot_high,bootstrap_p,oof_difference_E14b_minus_main
+CNN,-0.116809,-0.212035,-0.0336681,0.012,-0.189462
+radiomics,0.00731664,-0.0567037,0.0735332,0.834,-0.0808925
+CNN + radiomics,-0.0473635,-0.103463,0.00199431,0.065,-0.11633
+full fusion,-0.0449258,-0.114918,0.0127059,0.136,-0.0991898

@@ -1,5 +1,37 @@
 # Changelog
 
+## 2.4.0 — 2026-10-23
+
+Three analyses added in the final revision, each planned in the analysis log before it was run, and the documentation
+aligned with the final manuscript. No earlier table changed.
+
+### Added
+
+- Notebook 31 (E14a): the frozen main models on internal scans given the slice spacing of MCT-LTDiag by averaging
+  adjacent slices, with a blur-only control. CNN + radiomics held-out HCC-versus-ICC AUC 0.947 → 0.795 (−0.153, −0.274
+  to −0.050): by the pre-specified rule, acquisition explains part of the external loss.
+- Notebook 32 (E14b): every model retrained with all scans at that spacing. Held-out CNN + radiomics macro-AUC 0.905
+  vs. 0.952 (within the rule); MCT-LTDiag 0.627 (0.550–0.703), not better than the main model (p = 0.30).
+- Notebook 33 (E15): the main CNN retrained with five further seeds and once with its own seed. Held-out macro-AUC over
+  six seeds: CNN 0.910 ± 0.009, CNN + radiomics 0.947 ± 0.003; the saved models are the best of the six.
+- 15 cohort-level tables (`acquisition_matched_*.csv`, `seed_variability_*.csv`) exported by
+  `export_revision_aggregates.py`, and tests that lock their headline values.
+- [`docs/analysis_plans.md`](docs/analysis_plans.md): the plan sections of the dated analysis log, verbatim except for
+  removed Drive file identifiers and local folder paths.
+
+### Changed
+
+- Figure 1: the evaluation cards list the training seeds, Grad-CAM with size and phases, the slice-spacing estimate, and
+  the scans at external spacing. Figure 7B: number of patients in each calibration bin. The public Figures 1 and 7 are
+  redrawn. Figure 6 (not published here): legend "Meets every criterion (own control)".
+- Documentation: "slice spacing" instead of "slice thickness" for the anatomical estimate; ICC recall reported next to
+  the share of ICC patients not called HCC; the calibration intercept named calibration-in-the-large; the HCC-TACE-Seg
+  steps described as a dependence on slice spacing; run-to-run variation of CNN training now measured.
+- HCC-TACE-Seg inputs documented: the phase-assignment rules of the submitted pipeline, kept in the revision, took the
+  non-contrast input from a later examination than the segmentation in 51 of 96 patients and the arterial input in 28
+  of 59.
+- Package, citation, manifest, and README versions set to 2.4.0.
+
 ## 2.3.0 — 2026-10-23
 
 Figures and documentation aligned with the final revision of the manuscript. No analysis was rerun, and no table

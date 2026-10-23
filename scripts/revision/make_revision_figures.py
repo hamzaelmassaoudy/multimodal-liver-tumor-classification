@@ -978,6 +978,18 @@ def figure_external():
                 "t -", "t −"
             ),
         )
+        # number of patients in each bin of width 0.2 (internal above the point, external below)
+        up = col == S1
+        for xx, yy, nn in zip(d["mean_predicted"], d["observed"], d["n"], strict=True):
+            ax.annotate(
+                str(int(nn)),
+                (xx, yy),
+                xytext=(-4 if up else 4, 5 if up else -10),
+                textcoords="offset points",
+                ha="right" if up else "left",
+                fontsize=8,
+                color=col,
+            )
     ax.plot([0, 1], [0, 1], color=MUTED, lw=0.8, ls=(0, (3, 2)))
     ax.set_xlabel("Predicted probability of HCC")
     ax.set_ylabel("Observed proportion HCC")
@@ -1604,8 +1616,8 @@ def figure_design(public=False):
                 "Macro-AUC, bootstrap CI",
                 "DeLong tests, BH-adjusted",
                 "Calibration, Brier score",
-                "5 × 5 repeated CV",
-                "Size thirds; missing phases",
+                "Repeated CV; 6 seeds",
+                "Size; phases; Grad-CAM",
             ],
         ),
         (
@@ -1613,10 +1625,10 @@ def figure_design(public=False):
             "All 1,112 PLC-CECT scans",
             [
                 "File and mask census",
-                "Slice-thickness estimate",
+                "Slice-spacing estimate",
                 "Models without non-contrast",
                 "Counterfactual resampling",
-                "Grad-CAM measures",
+                "Scans at external spacing",
             ],
         ),
         (
@@ -1885,7 +1897,7 @@ def figure_counterfactual(raw_dir=None, e10_dir=None):
                 marker="o",
                 lw=0,
                 ms=5,
-                label="Meets every pre-specified criterion",
+                label="Meets every criterion (own control)",
             ),
             Line2D([], [], color=INK2, marker="o", mfc="white", lw=0, ms=5, label="Not claimed"),
             Line2D(

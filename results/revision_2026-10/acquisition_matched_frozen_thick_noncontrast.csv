@@ -1,0 +1,7 @@
+model,subset,n,mean_shift_vs_smoothing_control,ci_low,ci_high,mean_shift_vs_unchanged,smoothing_control_mean_abs_change,smoothing_control_ok,meets_rule
+CNN,all HCC/ICC,188,0.281217,0.236635,0.325164,0.282502,0.0397701,True,True
+CNN,held-out HCC/ICC,38,0.326017,0.236909,0.418593,0.327248,0.0432831,True,True
+radiomics,all HCC/ICC,188,-0.0153553,-0.0619823,0.0336155,0.2505,0.289466,False,False
+radiomics,held-out HCC/ICC,38,0.0392909,-0.0654439,0.143308,0.26433,0.277555,False,False
+CNN + radiomics,all HCC/ICC,188,0.216996,0.170565,0.263638,0.303701,0.103437,False,True
+CNN + radiomics,held-out HCC/ICC,38,0.262085,0.160131,0.362611,0.354229,0.102872,False,True

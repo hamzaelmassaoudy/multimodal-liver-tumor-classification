@@ -152,6 +152,47 @@ def test_equalized_slice_density_values_are_locked():
     )
 
 
+def test_acquisition_matched_tests_are_locked():
+    frozen = read_csv("acquisition_matched_frozen_hcc_vs_icc.csv")
+    primary = row(frozen, model="CNN + radiomics", cohort="held-out", condition="mct")
+    assert float(primary["auc"]) == pytest.approx(0.794737, abs=1e-6)
+    assert float(primary["boot_high"]) < 0 and float(primary["auc"]) >= 0.763
+    assert primary["plan_rule_reading"] == "explains part of the external loss"
+    blur = row(frozen, model="CNN + radiomics", cohort="held-out", condition="mct_smooth")
+    assert float(blur["boot_low"]) < 0 < float(blur["boot_high"])
+    thick = row(
+        read_csv("acquisition_matched_frozen_thick_noncontrast.csv"),
+        model="CNN",
+        subset="all HCC/ICC",
+    )
+    assert thick["meets_rule"] == "True" and thick["smoothing_control_ok"] == "True"
+    paired = row(
+        read_csv("acquisition_matched_retrained_internal_paired.csv"), model="CNN + radiomics"
+    )
+    assert float(paired["boot_low"]) < 0 < float(paired["boot_high"])
+    external = row(
+        read_csv("acquisition_matched_retrained_external.csv"),
+        pipeline="E14b",
+        model="CNN + radiomics",
+    )
+    assert float(external["auc"]) == pytest.approx(0.626699, abs=1e-6)
+    ext_paired = row(
+        read_csv("acquisition_matched_retrained_external_paired.csv"), model="CNN + radiomics"
+    )
+    assert float(ext_paired["delong_p"]) > 0.05
+
+
+def test_training_seed_spread_is_locked():
+    spread = row(read_csv("seed_variability_spread.csv"), model="CNN", metric="heldout_macro_auc")
+    assert float(spread["range_plan_seeds"]) == pytest.approx(0.0217, abs=1e-4)
+    assert float(spread["range_plan_seeds"]) >= 0.013
+    fused = row(
+        read_csv("seed_variability_spread.csv"), model="CNN + radiomics", metric="heldout_macro_auc"
+    )
+    assert float(fused["sd_all_seeds"]) < 0.005
+    assert len(read_csv("seed_variability_per_seed.csv")) == 21
+
+
 def test_nested_stacking_is_not_optimistic():
     for model in ["cnn_plus_radiomics", "full_fusion"]:
         summary = row(read_csv("nested_stacking_summary.csv"), model=model)

@@ -1,0 +1,5 @@
+model,auc_difference_E14b_minus_main,delong_p
+CNN,-0.0218447,0.595175
+radiomics,-0.0242718,0.606656
+CNN + radiomics,0.0484466,0.301405
+full fusion,0.00834951,0.778829
