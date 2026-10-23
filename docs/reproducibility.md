@@ -5,7 +5,10 @@ or authorized local derived artifacts.
 
 ## Supported from a public clone
 
-- Validate corrected aggregate schemas and scientific invariants.
+- Validate the schemas and scientific invariants of the submitted-analysis tables in `results/aggregate`
+  (`scripts/validate_aggregate_results.py`).
+- Check the revision tables in `results/revision_2026-10`, including `manuscript_values.csv`, against
+  the values reported in the revised manuscript (`tests/test_revision_results.py`).
 - Verify exact-value nine-test DeLong adjustments.
 - Inspect independent phase-centering and zero-padding logic.
 - Exercise preprocessing, fusion, metrics, external scenarios, and safety logic on synthetic data.

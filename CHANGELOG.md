@@ -1,5 +1,35 @@
 # Changelog
 
+## 2.4.1 — 2026-10-24
+
+Exported values and documentation aligned with the manuscript as revised after the second review. No analysis
+was rerun, and no earlier value changed.
+
+### Added
+
+- `manuscript_values.csv`: the values of the revised manuscript that no other table contained, each with its
+  section, CI, number of patients, post hoc flag, and source run, exported by `export_revision_aggregates.py`;
+  the HCC-TACE-Seg rows need the optional `--hcc-tace-seg-catalog` folder.
+- `tumor_size_by_inplane_extent.csv`: performance by third of the in-plane tumor extent (post hoc;
+  Supplementary Table S11).
+- `acquisition_only_discrimination.csv`: slice counts alone within the subset with ambiguous slice counts
+  (0.855; post hoc).
+- `adaptive_crop_internal.csv`: column `cv_sd_sample`, the sample SD of the five fold AUCs (the run reported
+  the population SD, kept in `cv_sd`).
+- Tests that lock these values.
+
+### Changed
+
+- Documentation: MCT-LTDiag discrimination described as at most marginally better than chance, with the first
+  run (201 patients, 0.581) reported; the acquisition share given with its post hoc bootstrap CI (41%, 12–88%)
+  and the out-of-fold values (51%; retrained models 0.878 out of fold); acquisition described as explaining a
+  substantial but imprecisely estimated part of the external failure; the blur-only control noted to change
+  the predicted classes; the last HCC-TACE-Seg step described as changing slice spacing, in-plane pixel size,
+  and crop together; the subset with ambiguous slice counts no longer presented as evidence against
+  slice-count use; attention enrichment described as not tested; what the tests and the validation scripts
+  check.
+- Package, citation, manifest, and README versions set to 2.4.1.
+
 ## 2.4.0 — 2026-10-23
 
 Three analyses added in the final revision, each planned in the analysis log before it was run, and the documentation

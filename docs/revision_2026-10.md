@@ -1,11 +1,12 @@
 # October 2026 revision
 
 Versions 2.0.0 to 2.4.0 add the analyses run during peer review of the manuscript (17–23 October
-2026).
+2026); version 2.4.1 exports the values of the revised manuscript that no other table contained.
 Each analysis was planned in a dated analysis log before it was run (its plan sections are published
 as the [analysis plans](analysis_plans.md)); analyses decided after seeing data are labelled
 *post hoc*. All values below are in
-[`results/revision_2026-10`](../results/revision_2026-10/README.md), and every notebook is listed in
+[`results/revision_2026-10`](../results/revision_2026-10/README.md) (those that no other table contains
+in `manuscript_values.csv`), and every notebook is listed in
 the [revision notebook guide](revision_notebooks.md).
 
 ## What changed from v1.1.0
@@ -136,21 +137,26 @@ section 60).
 | Retrained, all scans at MCT-LTDiag spacing | 0.929 | 0.905 | 0.627 (0.550–0.703) | 63 | 10 / 191 |
 
 Internal values are held-out, except the ICC calls, which count all 99 ICC patients (development
-patients out of fold). Decisions use the most probable of three classes. The frozen rows were
+patients out of fold). Out of fold (n = 154), the internal HCC-versus-ICC AUCs of the five rows were
+0.963, 0.765, 0.928, 0.954, and 0.878. Decisions use the most probable of three classes. The frozen rows were
 evaluated internally only; their external inputs are unchanged by construction.
 
 - **Frozen models.** MCT-like acquisition lowered the held-out HCC-versus-ICC AUC from 0.947 to 0.795
-  (−0.153, −0.274 to −0.050), while the blur-only control changed it little (−0.016, −0.068 to 0.026).
-  By the pre-specified rule, acquisition explains part (about 40%) of the external loss, but not most
-  of it. ICC predictions almost disappeared, as on MCT-LTDiag. A thick non-contrast reconstruction made
+  (−0.153, −0.274 to −0.050), while the blur-only control changed it little (−0.016, −0.068 to 0.026)
+  but lowered the three-class macro-AUC (0.887) and the number of HCC patients called HCC (81 to 33 of
+  94), so blur and slice geometry are not fully separated. By the pre-specified rule, acquisition
+  explains part of the external loss: 41% held-out (95% CI 12–88%) and 51% out of fold (33–75%), with
+  the CIs and the out-of-fold share computed post hoc by bootstrap over both cohorts. ICC predictions almost disappeared, as on MCT-LTDiag. A thick non-contrast reconstruction made
   by the same averaging raised the CNN's cHCC-CCA probability by 0.281 (0.237–0.325; blur-only control
   0.040).
 - **Retrained models.** Retraining every model at the MCT-LTDiag spacing removed most of the
   slice-count signal (slice counts alone: held-out macro-AUC 0.853 to 0.661) and kept the internal
   discrimination of CNN + radiomics within the rule (macro-AUC −0.047, −0.103 to 0.002), although the
-  CNN alone fell (0.802 vs. 0.919). On MCT-LTDiag, CNN + radiomics reached 0.627: better than chance,
-  but not better than the main model (paired p = 0.30). By the pre-specified reading, acquisition
-  geometry is not the main cause of the external failure.
+  CNN alone fell (0.802 vs. 0.919); out of fold, the HCC-versus-ICC AUC of CNN + radiomics fell from
+  0.963 to 0.878. On MCT-LTDiag, CNN + radiomics reached 0.627: better than chance, but not better
+  than the main model (paired p = 0.30). The pre-specified reading, that acquisition geometry is not
+  the main cause of the external failure, therefore rests on non-significant differences in small
+  samples.
 
 Thickening removes image detail as well as the shortcut, so a fall in performance cannot be attributed
 to the shortcut alone. All values are in the `acquisition_matched_*.csv` tables.
@@ -158,17 +164,20 @@ to the shortcut alone. All values are in the `acquisition_matched_*.csv` tables.
 ## External validation
 
 On MCT-LTDiag the primary CNN + radiomics model reached an HCC-versus-ICC AUC of 0.578
-(0.500–0.657); calibration failed for every model, and none of 26 mitigation comparisons was
+(0.500–0.657), at most marginally better than chance (the first run, which excluded two patients
+contrary to the plan, gave 0.581, 0.503–0.660, on 201 patients); calibration failed for every model, and none of 26 mitigation comparisons was
 significant after Benjamini–Hochberg adjustment. On HCC-TACE-Seg, the phase-dropout CNN recognized
 1 of 89 HCC with the submitted pipeline, 0 after the axis order was fixed with 1 mm isotropic voxels,
-and 47 with the native slices: only the change of slice spacing changed its predictions.
+and 47 after the internal geometry rules (native slices, internal in-plane pixel size and crop): only
+this last step changed its predictions.
 Full fusion's higher external AUC (0.690) disappeared within each sex: within men and within women it
 was no better than CNN + radiomics (post hoc), consistent with the sex composition of the two classes. Details are in the
 [external validation page](external_validation_mct_ltdiag.md).
 
 ## Attention maps
 
-Grad-CAM attention of the main CNN fell on the tumor more than expected by chance in held-out HCC
+Grad-CAM attention of the main CNN gave the tumor more than its share of the crop (not tested
+statistically) in held-out HCC
 (median enrichment 1.21–1.29 across phases) and cHCC-CCA (1.17–1.27) and in MCT-LTDiag (HCC 1.44,
 ICC 1.35), but not in held-out ICC (0.67–0.73). The non-contrast channel received the largest share
 of |gradient × input| in HCC and ICC (0.33–0.34) and the smallest in cHCC-CCA (0.18). Attribution size does
@@ -181,7 +190,7 @@ published here.
 |---|---|
 | W3 fold 1 and W4 fold 0 checkpoints were not retained | All five fold checkpoints of both CNNs were retained in private storage. The revision reran them: the four-phase CNN reproduces its saved predictions (largest probability difference 6 × 10⁻⁴, macro-AUC identical), and both CNNs reproduce the submitted external predictions (6 × 10⁻⁵). |
 | External age and sex were unavailable | The TCIA clinical file links to all 103 HCC-TACE-Seg patients; age and sex were observed for 103 of 103 and are used in the revision. |
-| The external CNN results reflect domain shift | The submitted external pipeline passed HCC-TACE-Seg volumes to the CNN with the slice axis and the first in-plane axis swapped, used a different intensity window, and resampled them to 1 mm isotropic voxels. All three are documented (notebooks 17 and 20); the step-by-step correction shows that only the change of slice spacing changed the CNN predictions. Its phase-assignment rules also took the non-contrast and arterial inputs of about half of the patients from a later examination than the segmentation; this is documented, not changed. |
+| The external CNN results reflect domain shift | The submitted external pipeline passed HCC-TACE-Seg volumes to the CNN with the slice axis and the first in-plane axis swapped, used a different intensity window, and resampled them to 1 mm isotropic voxels. All three are documented (notebooks 17 and 20); the step-by-step correction shows that only the last step, which changed slice spacing, in-plane pixel size, and crop construction together, changed the CNN predictions. Its phase-assignment rules also took the non-contrast and arterial inputs of about half of the patients from a later examination than the segmentation; this is documented, not changed. |
 | Radiomics shape features | Shape features were computed on a unit-spacing grid and are not physical measurements; they are removed from all revised models. |
 
 The v1.1.0 tables in [`results/aggregate`](../results/aggregate/) are unchanged and remain the

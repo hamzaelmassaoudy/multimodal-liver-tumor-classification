@@ -1,0 +1,58 @@
+section,quantity,value,ci_low,ci_high,n,post_hoc,source_run
+4.3,"held-out one-vs-rest AUC, CNN + radiomics, HCC",0.934566,,,56,False,E8b
+4.3,"held-out one-vs-rest AUC, CNN + radiomics, ICC",0.9625,,,56,False,E8b
+4.3,"held-out one-vs-rest AUC, CNN + radiomics, cHCC-CCA",0.959276,,,56,False,E8b
+4.3,"held-out one-vs-rest AUC, radiomics, HCC",0.883357,,,56,False,E8b
+4.3,"held-out one-vs-rest AUC, radiomics, ICC",0.858333,,,56,False,E8b
+4.3,"held-out one-vs-rest AUC, radiomics, cHCC-CCA",0.965309,,,56,False,E8b
+4.8,"calibration-in-the-large, CNN + radiomics, 39 held-out HCC and ICC patients",-0.263095,,,39,True,E8b
+4.8,"calibration slope, CNN + radiomics, 39 held-out HCC and ICC patients",0.889477,,,39,True,E8b
+4.8,"Brier score, CNN + radiomics, 39 held-out HCC and ICC patients",0.1044,,,39,True,E8b
+4.8,"calibration-in-the-large, CNN + radiomics, MCT-LTDiag",-2.02283,,,203,False,E8b
+4.8,"calibration slope, CNN + radiomics, MCT-LTDiag",0.292896,,,203,False,E8b
+4.8,"Brier score, CNN + radiomics, MCT-LTDiag",0.370669,,,203,False,E8b
+4.8,MCT-LTDiag HCC-vs-ICC AUC of sex alone,0.663058,0.60025,0.725866,203,True,
+4.8,"first run of the primary MCT-LTDiag evaluation (two patients excluded contrary to the plan), CNN + radiomics HCC-vs-ICC AUC",0.581386,0.502566,0.660207,201,False,E6
+4.8,largest probability difference between the two MCT-LTDiag inferences of the main CNN (external_mct_ltdiag.csv vs. the comparison tables),4.35412e-05,,,203,False,"E8a, E8b"
+4.6,"MCT-LTDiag HCC-vs-ICC AUC of the slice count alone, max(AUC, 1 - AUC)",0.523689,,,203,True,E12
+3.3,MCT-LTDiag HCC: tumor at least 90% inside the liver mask,82,,,103,False,E11
+3.3,MCT-LTDiag HCC: median tumor share inside the liver mask,0.981023,,,103,False,E11
+3.3,MCT-LTDiag ICC: tumor at least 90% inside the liver mask,82,,,100,False,E11
+3.3,MCT-LTDiag ICC: median tumor share inside the liver mask,0.982768,,,100,False,E11
+4.7,"held-out macro-AUC, CNN, cHCC-CCA scans control",0.919178,,,56,True,E10
+4.7,"held-out macro-AUC, CNN, cHCC-CCA scans repair",0.749355,,,56,True,E10
+4.7,"held-out macro-AUC, CNN, cHCC-CCA scans repair smooth",0.917275,,,56,True,E10
+4.7,"held-out cHCC-CCA patients called cHCC-CCA, CNN, control",12,,,17,True,E10
+4.7,"held-out cHCC-CCA patients called cHCC-CCA, CNN, repair",1,,,17,True,E10
+4.7,"held-out macro-AUC, CNN + radiomics, cHCC-CCA scans control",0.952114,,,56,True,E10
+4.7,"held-out macro-AUC, CNN + radiomics, cHCC-CCA scans repair",0.888876,,,56,True,E10
+4.7,"held-out macro-AUC, CNN + radiomics, cHCC-CCA scans repair smooth",0.949166,,,56,True,E10
+4.7,"held-out cHCC-CCA patients called cHCC-CCA, CNN + radiomics, control",13,,,17,True,E10
+4.7,"held-out cHCC-CCA patients called cHCC-CCA, CNN + radiomics, repair",5,,,17,True,E10
+4.7,"held-out macro-AUC difference, CNN + radiomics, repaired - unchanged",-0.0632378,-0.105703,-0.0291018,56,True,E10
+4.9,"share of the external loss reproduced, CNN + radiomics, held-out (bootstrap CI over both cohorts, post hoc)",0.413506,0.118683,0.876562,39,False,"E14a, E8b"
+4.9,"share of the external loss reproduced, CNN + radiomics, out-of-fold (bootstrap CI over both cohorts, post hoc)",0.514294,0.331747,0.747185,154,True,"E14a, E8b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, main pipeline, held-out",0.947368,,,39,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, main pipeline, out-of-fold",0.962869,,,154,False,"E8b, E12, E14a, E14b"
+4.9,"internal ICC patients called ICC (all 99), CNN + radiomics, main pipeline",89,,,99,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, frozen models, MCT-LTDiag spacing, held-out",0.794737,,,39,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, frozen models, MCT-LTDiag spacing, out-of-fold",0.765063,,,154,False,"E8b, E12, E14a, E14b"
+4.9,"internal ICC patients called ICC (all 99), CNN + radiomics, frozen models, MCT-LTDiag spacing",15,,,99,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, frozen models, blur-only control, held-out",0.931579,,,39,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, frozen models, blur-only control, out-of-fold",0.927932,,,154,False,"E8b, E12, E14a, E14b"
+4.9,"internal ICC patients called ICC (all 99), CNN + radiomics, frozen models, blur-only control",92,,,99,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, retrained, slice density equalized, held-out",0.921053,,,39,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, retrained, slice density equalized, out-of-fold",0.954262,,,154,False,"E8b, E12, E14a, E14b"
+4.9,"internal ICC patients called ICC (all 99), CNN + radiomics, retrained, slice density equalized",80,,,99,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, retrained, MCT-LTDiag spacing, held-out",0.928947,,,39,False,"E8b, E12, E14a, E14b"
+4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, retrained, MCT-LTDiag spacing, out-of-fold",0.877806,,,154,False,"E8b, E12, E14a, E14b"
+4.9,"internal ICC patients called ICC (all 99), CNN + radiomics, retrained, MCT-LTDiag spacing",63,,,99,False,"E8b, E12, E14a, E14b"
+4.5,patients with every portal-venous tumor voxel inside the crop,124,,,278,False,E47
+4.5,median portal-venous retention,0.998853,,,278,False,E47
+4.5,volume-weighted portal-venous retention,0.614562,,,278,False,E47
+4.1,"lesion-size baseline (log tumor voxel count), cross-validation macro-AUC, mean",0.633046,,,222,False,E47
+4.1,"lesion-size baseline, cross-validation macro-AUC, SD over five folds",0.0899204,,,222,False,E47
+S2,HCC-TACE-Seg selected-feature cells filled with training-fold medians,9880,,,15450,False,"E5c, E1_E2"
+S1,HCC-TACE-Seg non-contrast inputs from a later study than the segmentation,51,,,96,True,"DICOM catalog, input manifest"
+S1,HCC-TACE-Seg arterial inputs from a later study than the segmentation,28,,,59,True,"DICOM catalog, input manifest"
+S1,HCC-TACE-Seg portal-venous inputs from a later study than the segmentation,0,,,103,True,"DICOM catalog, input manifest"

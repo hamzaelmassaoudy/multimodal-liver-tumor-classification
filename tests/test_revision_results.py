@@ -203,6 +203,56 @@ def test_nested_stacking_is_not_optimistic():
     assert len(read_csv("nested_stacking_per_repeat.csv")) == 10
 
 
+def value(start):
+    hits = [r for r in read_csv("manuscript_values.csv") if r["quantity"].startswith(start)]
+    assert len(hits) == 1, start
+    return hits[0]
+
+
+def test_manuscript_values_are_locked():
+    rows = read_csv("manuscript_values.csv")
+    assert {r["post_hoc"] for r in rows} == {"True", "False"}
+    first = value("first run of the primary MCT-LTDiag evaluation")
+    assert int(first["n"]) == 201 and float(first["ci_low"]) > 0.5
+    assert float(first["value"]) == pytest.approx(0.581, abs=5e-4)
+    sex = value("MCT-LTDiag HCC-vs-ICC AUC of sex alone")
+    assert float(sex["value"]) == pytest.approx(0.663, abs=5e-4)
+    for cohort, expected in [("held-out", [0.41, 0.12, 0.88]), ("out-of-fold", [0.51, 0.33, 0.75])]:
+        share = value(f"share of the external loss reproduced, CNN + radiomics, {cohort}")
+        assert [round(float(share[k]), 2) for k in ("value", "ci_low", "ci_high")] == expected
+    repaired = value("held-out macro-AUC difference, CNN + radiomics, repaired - unchanged")
+    assert float(repaired["value"]) == pytest.approx(-0.063, abs=5e-4)
+    assert float(repaired["ci_high"]) < 0 and repaired["post_hoc"] == "True"
+    slope = value("calibration slope, CNN + radiomics, MCT-LTDiag")
+    assert float(slope["value"]) == pytest.approx(0.293, abs=5e-4)
+    retrained = value(
+        "internal HCC-vs-ICC AUC, CNN + radiomics, retrained, MCT-LTDiag spacing, out-of-fold"
+    )
+    assert float(retrained["value"]) == pytest.approx(0.878, abs=5e-4)
+    assert float(value("largest probability difference")["value"]) < 1e-4
+    baseline = value("lesion-size baseline, cross-validation macro-AUC, SD over five folds")
+    assert float(baseline["value"]) == pytest.approx(0.090, abs=5e-4)
+    imputed = value("HCC-TACE-Seg selected-feature cells filled")
+    assert (int(float(imputed["value"])), int(float(imputed["n"]))) == (9880, 15450)
+
+
+def test_post_hoc_size_and_slice_count_checks_are_locked():
+    rows = read_csv("tumor_size_by_inplane_extent.csv")
+    assert len(rows) == 12 and {r["post_hoc"] for r in rows} == {"True"}
+    for model in ["CNN + radiomics", "CNN"]:
+        for cohort, total in [("out-of-fold", 222), ("held-out", 56)]:
+            mine = [r for r in rows if r["model"] == model and r["cohort"] == cohort]
+            assert sum(int(r["patients"]) for r in mine) == total
+    ambiguous = row(
+        read_csv("acquisition_only_discrimination.csv"),
+        analysis="slice counts only, HCC vs ICC, ambiguous slice counts (n = 76)",
+    )
+    assert float(ambiguous["auc"]) == pytest.approx(0.855, abs=5e-4)
+    for r in read_csv("adaptive_crop_internal.csv"):
+        expected = float(r["cv_sd"]) * 1.25**0.5
+        assert float(r["cv_sd_sample"]) == pytest.approx(expected, rel=1e-4)
+
+
 def test_full_fusion_advantage_disappears_within_sex():
     rows = read_csv("external_mct_ltdiag_by_sex.csv")
     overall = row(rows, group="all", model="full fusion - CNN + radiomics")

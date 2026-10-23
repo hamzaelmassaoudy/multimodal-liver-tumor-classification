@@ -1,0 +1,13 @@
+model,cohort,third,cut_offs_px,patients,HCC/ICC/CHCC,macro_auc,boot_low,boot_high,accuracy,post_hoc
+CNN + radiomics,out-of-fold,small,71.7 / 116.0,74,13/36/25,0.939999,0.88547,0.982764,0.851351,True
+CNN + radiomics,out-of-fold,medium,71.7 / 116.0,80,27/31/22,0.96232,0.918136,0.992588,0.9,True
+CNN + radiomics,out-of-fold,large,71.7 / 116.0,68,35/12/21,0.944671,0.885347,0.98851,0.897059,True
+CNN + radiomics,held-out,small,71.7 / 116.0,19,2/10/7,0.916029,0.82203,0.981481,0.789474,True
+CNN + radiomics,held-out,medium,71.7 / 116.0,17,6/7/4,0.975613,0.903766,1,0.823529,True
+CNN + radiomics,held-out,large,71.7 / 116.0,20,11/3/6,0.898537,0.766989,1,0.75,True
+CNN,out-of-fold,small,71.7 / 116.0,74,13/36/25,0.938111,0.890422,0.978361,0.837838,True
+CNN,out-of-fold,medium,71.7 / 116.0,80,27/31/22,0.948653,0.908626,0.982608,0.85,True
+CNN,out-of-fold,large,71.7 / 116.0,68,35/12/21,0.936926,0.888232,0.977165,0.823529,True
+CNN,held-out,small,71.7 / 116.0,19,2/10/7,0.907828,0.788889,1,0.789474,True
+CNN,held-out,medium,71.7 / 116.0,17,6/7/4,0.950361,0.844907,1,0.823529,True
+CNN,held-out,large,71.7 / 116.0,20,11/3/6,0.83525,0.656415,0.98172,0.75,True

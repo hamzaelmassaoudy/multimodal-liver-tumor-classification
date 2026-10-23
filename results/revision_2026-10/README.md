@@ -33,7 +33,8 @@ patients. A `post_hoc` column marks analyses decided after seeing data.
 |---|---|
 | [`crop_truncation_by_class_phase.csv`](crop_truncation_by_class_phase.csv) | Share of each tumor kept by the fixed 96³ crop, by class and phase, with cross-phase overlap |
 | [`tumor_size_strata_out_of_fold.csv`](tumor_size_strata_out_of_fold.csv) | Out-of-fold performance by tumor-size third and by truncation |
-| [`adaptive_crop_internal.csv`](adaptive_crop_internal.csv) | Adaptive-crop and fixed-crop CNNs and fusions, internal, under each phase pattern |
+| [`tumor_size_by_inplane_extent.csv`](tumor_size_by_inplane_extent.csv) | Macro-AUC with bootstrap CI and accuracy by third of the in-plane portal-venous tumor extent, out of fold and held-out (post hoc; Supplementary Table S11) |
+| [`adaptive_crop_internal.csv`](adaptive_crop_internal.csv) | Adaptive-crop and fixed-crop CNNs and fusions, internal, under each phase pattern; `cv_sd` is the population SD of the five fold AUCs as the run reported it, `cv_sd_sample` the sample SD used in the other tables |
 | [`adaptive_crop_size_strata.csv`](adaptive_crop_size_strata.csv) | Adaptive-crop results by tumor-size third |
 | [`adaptive_crop_external.csv`](adaptive_crop_external.csv) | Adaptive-crop results on MCT-LTDiag, including large tumors |
 | [`adaptive_crop_paired_differences.csv`](adaptive_crop_paired_differences.csv) | Adaptive minus fixed crop, internal and external |
@@ -43,7 +44,7 @@ patients. A `post_hoc` column marks analyses decided after seeing data.
 | File | Contents |
 |---|---|
 | [`dataset_audit_by_class.csv`](dataset_audit_by_class.csv) | File counts, three-channel storage, empty masks, and slice measures by class and phase |
-| [`acquisition_only_discrimination.csv`](acquisition_only_discrimination.csv) | Discrimination by slice counts alone compared with CNN + radiomics (post hoc) |
+| [`acquisition_only_discrimination.csv`](acquisition_only_discrimination.csv) | Discrimination by slice counts alone compared with CNN + radiomics, also within the subset with ambiguous slice counts (post hoc) |
 | [`tumor_inside_liver_mask_by_class_phase.csv`](tumor_inside_liver_mask_by_class_phase.csv) | Share of each tumor mask inside the released liver mask (post hoc) |
 | [`performance_by_tumor_inside_liver_mask.csv`](performance_by_tumor_inside_liver_mask.csv) | Model performance by that share (post hoc) |
 | [`counterfactual_effects.csv`](counterfactual_effects.csv) | Counterfactual slice-resampling shifts against matched smoothing controls, with the pre-specified criteria |
@@ -124,6 +125,16 @@ The main CNN retrained with five further seeds (offsets +1000 to +5000) and once
 | [`seed_variability_per_seed.csv`](seed_variability_per_seed.csv) | Held-out and out-of-fold macro-AUC, held-out HCC-versus-ICC AUC, accuracy, and per-class recall of the CNN and both fusions for each training seed |
 | [`seed_variability_spread.csv`](seed_variability_spread.csv) | Range over the three seeds of the pre-specified statement; mean, SD, minimum, and maximum over all six seeds; change on retraining with the original seed |
 | [`seed_variability_training.csv`](seed_variability_training.csv) | Chosen epoch, inner-validation AUC, and training time for each seed and fold |
+
+## Values reported in the manuscript
+
+| File | Contents |
+|---|---|
+| [`manuscript_values.csv`](manuscript_values.csv) | Values of the revised manuscript that no other table contains, each with its section, CI, number of patients, `post_hoc` flag, and source run: held-out one-versus-rest AUCs, calibration of the HCC-versus-ICC score on the 39 held-out HCC and ICC patients and on MCT-LTDiag, sex alone, the first MCT-LTDiag run (201 patients), slice counts alone on MCT-LTDiag, tumor inside the liver mask on MCT-LTDiag, the non-contrast artifact repaired in every held-out cHCC-CCA scan, the share of the external loss reproduced with its bootstrap CI, the internal columns of manuscript Table 6 held-out and out of fold, crop retention, the lesion-size baseline, the imputed HCC-TACE-Seg feature cells, and the study of each HCC-TACE-Seg input |
+
+The MCT-LTDiag predictions of the main CNN in `external_mct_ltdiag.csv` and in the comparison tables come
+from two inferences of the same saved model (notebooks 21 and 24); their probabilities differ by at most
+4.4 × 10⁻⁵ (`manuscript_values.csv`).
 
 ## Figures
 

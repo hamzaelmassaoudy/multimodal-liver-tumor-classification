@@ -31,8 +31,9 @@ external cohort MCT-LTDiag has 5 mm slices in every scan of both classes.
 Slice counts alone predict the class: a logistic model on slice counts alone reached a held-out
 macro-AUC of 0.853 (random forest 0.872), and 0.922 for HCC versus ICC out of fold
 ([`acquisition_only_discrimination.csv`](../results/revision_2026-10/acquisition_only_discrimination.csv)).
-Where slice counts are ambiguous (n = 76), CNN + radiomics still separated HCC from ICC with an AUC of
-0.954, so the models are not using slice counts alone.
+Where slice counts are ambiguous (n = 76, the middle half of the slice-only score), CNN + radiomics
+separated HCC from ICC with an AUC of 0.954, but slice counts alone still reached 0.855 there, so this
+subset does not remove the slice-count signal.
 
 ## Counterfactual test
 
@@ -53,9 +54,9 @@ moved the score by less than 0.05.
 - **Non-contrast artifact.** Both directions met every criterion, each judged against its own matched
   smoothing control (0.04 and 0.02). The CNN responds strongly to this non-contrast reconstruction
   artifact of the cHCC-CCA scans. The response replicated after retraining with the tumor preserved
-  (+0.25 and −0.42; controls 0.03 and 0.01), for injection after equalized retraining (+0.087), and
-  with a thick reconstruction simulated by averaging adjacent slices (+0.281, blur-only control 0.040;
-  notebook 31).
+  (+0.25 and −0.42; controls 0.03 and 0.01) and with a thick reconstruction simulated by averaging
+  adjacent slices (+0.281, blur-only control 0.040; notebook 31). After equalized retraining, the
+  remaining response (+0.087) measures blur.
 - **Slice density.** The shifts were five to eight times larger than the smoothing controls, but the
   controls moved the score by 0.12, above the pre-set limit, so reliance on slice density is not
   claimed.
@@ -107,10 +108,13 @@ equalizes the number of slices, not the blur of a thick reconstruction
 Giving every internal scan the slice spacing of MCT-LTDiag (5 mm slices) by averaging adjacent slices
 (notebook 31) lowered the held-out HCC-versus-ICC AUC of the frozen CNN + radiomics from 0.947 to
 0.795, and only 15 of 99 ICC patients were still called ICC, the class pattern seen on MCT-LTDiag; a
-blur-only control changed little (0.932). Retraining every model at that spacing (notebook 32) kept
-CNN + radiomics at 0.929 internally but did not restore external discrimination (MCT-LTDiag 0.627, not
-better than the main model, p = 0.30). Acquisition therefore explains part of the external failure,
-not most of it ([revision overview](revision_2026-10.md#acquisition-matched-tests)).
+blur-only control changed this AUC little (0.932) but also changed the predicted classes (HCC patients
+called HCC: 81 to 33 of 94), so blur and slice geometry are not fully separated. Retraining every model
+at that spacing (notebook 32) kept CNN + radiomics at 0.929 held-out, although it fell to 0.878 out of
+fold, and did not restore external discrimination (MCT-LTDiag 0.627, not better than the main model,
+p = 0.30). Acquisition therefore explains a substantial but imprecisely estimated part of the external
+failure: 41% of the loss (post hoc 95% CI 12–88%;
+[revision overview](revision_2026-10.md#acquisition-matched-tests)).
 
 ## Recommendations for PLC-CECT users
 

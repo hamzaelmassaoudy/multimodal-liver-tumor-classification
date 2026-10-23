@@ -30,7 +30,10 @@ patients called ICC), and the share of ICC patients not called HCC use the inter
 | Full fusion (+ observed age, sex) | 0.690 (0.617–0.763) | 0.53 | 0.05; 0.61 | −1.97 / 0.48 / 0.32 |
 | Sex alone (post hoc) | 0.663 | — | — | — |
 
-- **Discrimination.** The CNNs were at chance level. Radiomics kept part of its signal. Full fusion
+- **Discrimination.** CNN + radiomics was at most marginally better than chance (lower bound of the
+  95% CI 0.4997). The first run of this evaluation (notebook 19) excluded two patients whose masks lay
+  on another grid, contrary to the plan, and gave 0.581 (0.503–0.660) on 201 patients; notebook 21
+  restored them, and the table uses all 203. The CNNs were at chance level. Radiomics kept part of its signal. Full fusion
   was higher because sex separated the classes in this cohort (79.6% of HCC and 47.0% of ICC
   patients were men): within men and within women it was no better than CNN + radiomics (+0.009,
   p = 0.68; −0.004, p = 0.87; post hoc,
@@ -54,7 +57,8 @@ All models, preprocessing variants, and subsets are in
 ## Mitigation
 
 Each strategy used internal data only, or MCT-LTDiag images without their labels, and was evaluated
-once; ComBat is the only one that estimated parameters (its feature adjustments) from MCT-LTDiag. P values are DeLong tests against the reference model, adjusted with Benjamini–Hochberg within
+once; ComBat is the only one that estimated parameters (its feature adjustments) from MCT-LTDiag, and the
+acquisition-matched tests below took their target slice spacing from the MCT-LTDiag scans. P values are DeLong tests against the reference model, adjusted with Benjamini–Hochberg within
 each family ([`external_mct_ltdiag_mitigation_comparisons.csv`](../results/revision_2026-10/external_mct_ltdiag_mitigation_comparisons.csv)).
 
 | Strategy | External AUC | Difference vs reference (95% CI) | Adjusted p |
@@ -78,7 +82,8 @@ Retraining every model with all scans at the slice spacing of MCT-LTDiag (notebo
 CNN + radiomics 0.627 (0.550–0.703): better than chance but not better than the main model (paired
 p = 0.30), with 191 of 203 patients called cHCC-CCA
 ([`acquisition_matched_retrained_external.csv`](../results/revision_2026-10/acquisition_matched_retrained_external.csv)).
-Giving the internal scans this spacing reproduced about 40% of the external loss (notebook 31; see the
+Giving the internal scans this spacing reproduced 41% of the external loss (post hoc 95% CI 12–88%;
+notebook 31), and the retrained models, at 0.929 held-out, fell to 0.878 out of fold (see the
 [revision overview](revision_2026-10.md#acquisition-matched-tests)).
 
 ## HCC-TACE-Seg stress test
@@ -95,10 +100,11 @@ this result through each pipeline correction (notebooks 17 and 20):
 | CNN + radiomics | — | 11 | 7 | 67 |
 
 The submitted pipeline read the volumes with the slice axis and the first in-plane axis swapped
-relative to the training arrays and resampled them to 1 mm isotropic voxels. Only the change of slice
-spacing changed the CNN predictions: with 1 mm isotropic voxels the main CNN called 86 of 89 patients
-ICC, and with the native 2.5 mm slices kept by the internal geometry rules it recognized 47. This is
-the dependence on slice spacing seen internally, not evidence of a corrected pipeline error. The
+relative to the training arrays and resampled them to 1 mm isotropic voxels. Only the last step
+changed the CNN predictions: with 1 mm isotropic voxels the main CNN called 86 of 89 patients ICC, and
+after the internal geometry rules, which keep the native 2.5 mm slices and apply the internal in-plane
+pixel size and crop together, it recognized 47. This matches the dependence on input geometry seen
+internally and is not evidence of a corrected pipeline error. The
 phase-assignment rules of the submitted pipeline, which the revision kept, also took the non-contrast
 input from a later examination than the segmentation in 51 of 96 patients and the arterial input in 28
 of 59; only the portal-venous input is always the segmented series.

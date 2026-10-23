@@ -43,10 +43,11 @@ MCT-LTDiag (103 HCC, 100 ICC). Stress test: HCC-TACE-Seg (89 HCC without mixed-s
 | Full fusion | 0.951 (0.903–0.984) | 0.947 ± 0.011 | 0.690 (0.617–0.763); sex alone 0.663 |
 
 Over six CNN training seeds, the held-out macro-AUC was 0.910 ± 0.009 for the CNN and 0.947 ± 0.003
-for CNN + radiomics; the saved models in the table are the best of the six (notebook 33).
-Internally, CNN + radiomics had calibration slopes of 0.82–1.12. On MCT-LTDiag, the lower bound of
-the 95% CI of CNN + radiomics was 0.4997, so its discrimination was not shown to be better than
-chance; calibration failed for every model (calibration-in-the-large −0.87 to −2.02), the models
+for CNN + radiomics; the saved models in the table are the best of the six (notebook 33), and the saved
+CNN also had a higher out-of-fold macro-AUC (0.943) than any retraining (0.913–0.924).
+Internally, CNN + radiomics had calibration slopes of 0.82–1.12. On MCT-LTDiag, CNN + radiomics
+was at most marginally better than chance (lower bound of the 95% CI 0.4997; the first run, which
+excluded two patients contrary to the plan, gave 0.581, 0.503–0.660, on 201 patients); calibration failed for every model (calibration-in-the-large −0.87 to −2.02), the models
 rarely predicted ICC, and many patients were assigned to cHCC-CCA, a class absent from that cohort. Details are in the
 [revision overview](revision_2026-10.md) and [external validation](external_validation_mct_ltdiag.md).
 
@@ -58,8 +59,9 @@ rarely predicted ICC, and many patients were assigned to cHCC-CCA, a class absen
   artifacts ([dataset audit](plc_cect_dataset_audit.md)). Retraining with slice density equalized
   removed most of the slice-count signal but not the cue of thick reconstructions, and it did not
   improve external discrimination. Giving the internal scans the slice spacing of MCT-LTDiag
-  reproduced about 40% of the external loss, and models retrained at that spacing still failed
-  externally (0.627), so acquisition explains part, not most, of the external failure.
+  reproduced 41% of the external loss (post hoc 95% CI 12–88%), and models retrained at that
+  spacing fell out of fold (0.878) and still failed externally (0.627), so acquisition explains a
+  substantial but imprecisely estimated part of the external failure.
 - **Masked tumor tissue.** In 52 of 99 ICC patients, less than 90% of the tumor lies inside the
   released liver mask, so part of the tumor is blanked in the model input. Retraining with the
   tumor preserved changed none of the conclusions (corrected-mask analysis).
