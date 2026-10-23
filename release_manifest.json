@@ -13,9 +13,9 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "c83e9486a33bceeae88f09a6b5489cc7f7be6dc5",
+  "commit_hash": "6c49bd35e677558893aaa5fb558544d43b4d82ff",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "c83e9486a33bceeae88f09a6b5489cc7f7be6dc5",
+  "content_commit": "6c49bd35e677558893aaa5fb558544d43b4d82ff",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 1020020,
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 14063
+      "size_bytes": 15827
     },
     {
       "path": "CITATION.cff",
@@ -65,7 +65,7 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 7424
+      "size_bytes": 7642
     },
     {
       "path": "SECURITY.md",
@@ -121,7 +121,7 @@
     },
     {
       "path": "docs/external_validation_mct_ltdiag.md",
-      "size_bytes": 7937
+      "size_bytes": 8521
     },
     {
       "path": "docs/fusion_definition.md",
@@ -137,11 +137,11 @@
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 5234
+      "size_bytes": 5498
     },
     {
       "path": "docs/plc_cect_dataset_audit.md",
-      "size_bytes": 9661
+      "size_bytes": 10023
     },
     {
       "path": "docs/preprocessing.md",
@@ -161,7 +161,7 @@
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 6479
+      "size_bytes": 6749
     },
     {
       "path": "docs/results_provenance.md",
@@ -169,7 +169,7 @@
     },
     {
       "path": "docs/revision_2026-10.md",
-      "size_bytes": 14971
+      "size_bytes": 15973
     },
     {
       "path": "docs/revision_notebooks.md",
@@ -397,7 +397,7 @@
     },
     {
       "path": "results/revision_2026-10/README.md",
-      "size_bytes": 14260
+      "size_bytes": 15780
     },
     {
       "path": "results/revision_2026-10/acquisition_matched_frozen_density_by_class.csv",
@@ -449,7 +449,7 @@
     },
     {
       "path": "results/revision_2026-10/acquisition_only_discrimination.csv",
-      "size_bytes": 352
+      "size_bytes": 431
     },
     {
       "path": "results/revision_2026-10/adaptive_crop_external.csv",
@@ -457,7 +457,7 @@
     },
     {
       "path": "results/revision_2026-10/adaptive_crop_internal.csv",
-      "size_bytes": 1844
+      "size_bytes": 2036
     },
     {
       "path": "results/revision_2026-10/adaptive_crop_paired_differences.csv",
@@ -624,6 +624,10 @@
       "size_bytes": 527
     },
     {
+      "path": "results/revision_2026-10/manuscript_values.csv",
+      "size_bytes": 6069
+    },
+    {
       "path": "results/revision_2026-10/nested_stacking_per_repeat.csv",
       "size_bytes": 1560
     },
@@ -650,6 +654,10 @@
     {
       "path": "results/revision_2026-10/tumor_inside_liver_mask_by_class_phase.csv",
       "size_bytes": 597
+    },
+    {
+      "path": "results/revision_2026-10/tumor_size_by_inplane_extent.csv",
+      "size_bytes": 1149
     },
     {
       "path": "results/revision_2026-10/tumor_size_strata_out_of_fold.csv",
@@ -685,7 +693,7 @@
     },
     {
       "path": "scripts/revision/export_revision_aggregates.py",
-      "size_bytes": 29516
+      "size_bytes": 50790
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
@@ -773,16 +781,16 @@
     },
     {
       "path": "tests/test_revision_results.py",
-      "size_bytes": 9194
+      "size_bytes": 11954
     },
     {
       "path": "tests/test_synthetic_example.py",
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.4.0",
+  "repository_version": "2.4.1",
   "test_status": {
     "passed": true,
-    "tests_passed": 47
+    "tests_passed": 49
   }
 }
