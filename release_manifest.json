@@ -13,9 +13,9 @@
     "results/aggregate/radiomics_imputation_controls.csv": "26e759be62c7680c38aaea51b459e286dcc1e0c0be44a1195467273e1391b758",
     "results/aggregate/reproducibility_status.json": "8f7532545950a58dbbcb690578fc5d63675cfef54103b27be28579c99aa316ee"
   },
-  "commit_hash": "6c49bd35e677558893aaa5fb558544d43b4d82ff",
+  "commit_hash": "4f63d5cbd1d0e10336dfcf36e61a19502da75e2d",
   "commit_note": "The manifest is committed after the content commit to avoid a self-referential hash.",
-  "content_commit": "6c49bd35e677558893aaa5fb558544d43b4d82ff",
+  "content_commit": "4f63d5cbd1d0e10336dfcf36e61a19502da75e2d",
   "files_exceeding_github_limit": 0,
   "github_file_limit_bytes": 104857600,
   "largest_public_file_bytes": 1020020,
@@ -49,7 +49,7 @@
     },
     {
       "path": "CHANGELOG.md",
-      "size_bytes": 15827
+      "size_bytes": 17502
     },
     {
       "path": "CITATION.cff",
@@ -65,7 +65,7 @@
     },
     {
       "path": "README.md",
-      "size_bytes": 7642
+      "size_bytes": 7686
     },
     {
       "path": "SECURITY.md",
@@ -101,7 +101,7 @@
     },
     {
       "path": "docs/analysis_plans.md",
-      "size_bytes": 55639
+      "size_bytes": 55609
     },
     {
       "path": "docs/artifact_contracts.md",
@@ -121,7 +121,7 @@
     },
     {
       "path": "docs/external_validation_mct_ltdiag.md",
-      "size_bytes": 8521
+      "size_bytes": 8886
     },
     {
       "path": "docs/fusion_definition.md",
@@ -137,11 +137,11 @@
     },
     {
       "path": "docs/model_card.md",
-      "size_bytes": 5498
+      "size_bytes": 5516
     },
     {
       "path": "docs/plc_cect_dataset_audit.md",
-      "size_bytes": 10023
+      "size_bytes": 10232
     },
     {
       "path": "docs/preprocessing.md",
@@ -161,7 +161,7 @@
     },
     {
       "path": "docs/reproducibility.md",
-      "size_bytes": 6749
+      "size_bytes": 6990
     },
     {
       "path": "docs/results_provenance.md",
@@ -169,15 +169,15 @@
     },
     {
       "path": "docs/revision_2026-10.md",
-      "size_bytes": 15973
+      "size_bytes": 16485
     },
     {
       "path": "docs/revision_notebooks.md",
-      "size_bytes": 7921
+      "size_bytes": 7951
     },
     {
       "path": "docs/scientific_scope.md",
-      "size_bytes": 2792
+      "size_bytes": 2808
     },
     {
       "path": "examples/synthetic_fusion.py",
@@ -397,7 +397,7 @@
     },
     {
       "path": "results/revision_2026-10/README.md",
-      "size_bytes": 15780
+      "size_bytes": 16335
     },
     {
       "path": "results/revision_2026-10/acquisition_matched_frozen_density_by_class.csv",
@@ -572,6 +572,10 @@
       "size_bytes": 5075
     },
     {
+      "path": "results/revision_2026-10/external_mct_ltdiag_secondary_comparisons.csv",
+      "size_bytes": 527
+    },
+    {
       "path": "results/revision_2026-10/figures/figure1_study_design.png",
       "size_bytes": 950899
     },
@@ -625,7 +629,7 @@
     },
     {
       "path": "results/revision_2026-10/manuscript_values.csv",
-      "size_bytes": 6069
+      "size_bytes": 6595
     },
     {
       "path": "results/revision_2026-10/nested_stacking_per_repeat.csv",
@@ -693,7 +697,7 @@
     },
     {
       "path": "scripts/revision/export_revision_aggregates.py",
-      "size_bytes": 50790
+      "size_bytes": 53518
     },
     {
       "path": "scripts/revision/make_revision_figures.py",
@@ -781,16 +785,16 @@
     },
     {
       "path": "tests/test_revision_results.py",
-      "size_bytes": 11954
+      "size_bytes": 13272
     },
     {
       "path": "tests/test_synthetic_example.py",
       "size_bytes": 1430
     }
   ],
-  "repository_version": "2.4.1",
+  "repository_version": "2.4.2",
   "test_status": {
     "passed": true,
-    "tests_passed": 49
+    "tests_passed": 50
   }
 }
