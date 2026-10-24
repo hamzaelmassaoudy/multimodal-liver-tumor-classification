@@ -32,6 +32,10 @@ section,quantity,value,ci_low,ci_high,n,post_hoc,source_run
 4.7,"held-out macro-AUC difference, CNN + radiomics, repaired - unchanged",-0.0632378,-0.105703,-0.0291018,56,True,E10
 4.9,"share of the external loss reproduced, CNN + radiomics, held-out (bootstrap CI over both cohorts, post hoc)",0.413506,0.118683,0.876562,39,False,"E14a, E8b"
 4.9,"share of the external loss reproduced, CNN + radiomics, out-of-fold (bootstrap CI over both cohorts, post hoc)",0.514294,0.331747,0.747185,154,True,"E14a, E8b"
+4.9,"share of the external loss reproduced by MCT-LTDiag spacing beyond the blur-only control, CNN + radiomics, held-out",0.370729,,,39,True,"E14a, E8b"
+4.2,"out-of-fold HCC-vs-ICC AUC of CNN + radiomics over six retrainings of the main CNN, minimum",0.953249,,,154,True,E15
+4.2,"out-of-fold HCC-vs-ICC AUC of CNN + radiomics over six retrainings of the main CNN, maximum",0.965063,,,154,True,E15
+4.9,"median slab-averaging factor of the cHCC-CCA non-contrast scans, retraining at MCT-LTDiag spacing",0.907612,,,85,False,E14b
 4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, main pipeline, held-out",0.947368,,,39,False,"E8b, E12, E14a, E14b"
 4.9,"internal HCC-vs-ICC AUC, CNN + radiomics, main pipeline, out-of-fold",0.962869,,,154,False,"E8b, E12, E14a, E14b"
 4.9,"internal ICC patients called ICC (all 99), CNN + radiomics, main pipeline",89,,,99,False,"E8b, E12, E14a, E14b"

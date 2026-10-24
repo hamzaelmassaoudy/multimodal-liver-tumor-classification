@@ -1,5 +1,31 @@
 # Changelog
 
+## 2.4.2 — 2026-10-24
+
+Exported values and documentation aligned with the manuscript as revised after the third review. No analysis was
+rerun, and no earlier value changed.
+
+### Added
+
+- `external_mct_ltdiag_secondary_comparisons.csv`: the three secondary external comparisons of the analysis plan
+  (phase-dropout versus original CNN, full fusion versus CNN + radiomics, radiomics versus CNN), saved by the run
+  on all 203 MCT-LTDiag patients but not exported before.
+- `manuscript_values.csv`: the share of the external loss reproduced beyond the blur-only control (post hoc), the
+  out-of-fold HCC-versus-ICC range of CNN + radiomics over six retrainings, and the slab-averaging factor of the
+  cHCC-CCA non-contrast scans in the retraining at MCT-LTDiag spacing.
+- Tests that lock these values.
+
+### Changed
+
+- Documentation: repeat 0 of the repeated cross-validation reused the saved models; the same-seed retraining of
+  notebook 33 used other data-loader settings than the original run, so it shows retraining variation rather than
+  GPU arithmetic alone; the margins of the saved models over the next-best seed (0.002 and 0.004); the retrained
+  models called 191 to 198 of 203 external patients cHCC-CCA, so the pre-specified readings of the retrainings are
+  inconclusive and the size of the acquisition contribution cannot be determined; after equalized retraining a
+  response to a thick reconstruction remained; the planned secondary external comparisons; two local folder paths
+  removed from the analysis plans; the rules of the corrected-mask artifact test are in Section 3.9 of the paper.
+- Package, citation, manifest, and README versions set to 2.4.2.
+
 ## 2.4.1 — 2026-10-24
 
 Exported values and documentation aligned with the manuscript as revised after the second review. No analysis

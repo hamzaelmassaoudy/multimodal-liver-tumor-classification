@@ -33,7 +33,10 @@ patients called ICC), and the share of ICC patients not called HCC use the inter
 - **Discrimination.** CNN + radiomics was at most marginally better than chance (lower bound of the
   95% CI 0.4997). The first run of this evaluation (notebook 19) excluded two patients whose masks lay
   on another grid, contrary to the plan, and gave 0.581 (0.503–0.660) on 201 patients; notebook 21
-  restored them, and the table uses all 203. The CNNs were at chance level. Radiomics kept part of its signal. Full fusion
+  restored them, and the table uses all 203. The CNNs were at chance level. Radiomics kept part of its signal. In the pre-specified paired
+  comparisons, radiomics exceeded the phase-dropout CNN (+0.127, 0.004 to 0.246), the two CNNs did not
+  differ (+0.003, −0.049 to 0.053), and full fusion exceeded CNN + radiomics (+0.112, 0.044 to 0.178)
+  ([`external_mct_ltdiag_secondary_comparisons.csv`](../results/revision_2026-10/external_mct_ltdiag_secondary_comparisons.csv)). Full fusion
   was higher because sex separated the classes in this cohort (79.6% of HCC and 47.0% of ICC
   patients were men): within men and within women it was no better than CNN + radiomics (+0.009,
   p = 0.68; −0.004, p = 0.87; post hoc,

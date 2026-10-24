@@ -55,13 +55,13 @@ rarely predicted ICC, and many patients were assigned to cHCC-CCA, a class absen
 
 - **Dataset shortcuts.** PLC-CECT acquisition differs by class. The CNN responds strongly to a
   non-contrast reconstruction artifact of the cHCC-CCA scans, and slice counts alone predict the class
-  (held-out macro-AUC 0.853–0.872). Internal performance therefore partly relies on dataset
+  (held-out macro-AUC 0.853–0.872). Internal performance therefore partly reflects dataset
   artifacts ([dataset audit](plc_cect_dataset_audit.md)). Retraining with slice density equalized
   removed most of the slice-count signal but not the cue of thick reconstructions, and it did not
   improve external discrimination. Giving the internal scans the slice spacing of MCT-LTDiag
   reproduced 41% of the external loss (post hoc 95% CI 12–88%), and models retrained at that
-  spacing fell out of fold (0.878) and still failed externally (0.627), so acquisition explains a
-  substantial but imprecisely estimated part of the external failure.
+  spacing fell out of fold (0.878), still failed externally (0.627), and called 191 of 203 external
+  patients cHCC-CCA, so the size of the acquisition contribution cannot be determined.
 - **Masked tumor tissue.** In 52 of 99 ICC patients, less than 90% of the tumor lies inside the
   released liver mask, so part of the tumor is blanked in the model input. Retraining with the
   tumor preserved changed none of the conclusions (corrected-mask analysis).

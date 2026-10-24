@@ -13,7 +13,7 @@ The revised study (v2.0.0) asks three questions:
 
 - **Internal:** PLC-CECT V4, 278 patients (94 HCC, 99 ICC, 85 cHCC-CCA); 222 development patients
   in five stratified folds and 56 held-out patients never used for fitting (their results were known when the main CNN was chosen); five repeats
-  of five-fold cross-validation with the whole pipeline retrained.
+  of five-fold cross-validation (repeats 1–4 with the whole pipeline retrained).
 - **Dataset audit:** a file-level census of all 1,112 scans and a counterfactual slice-resampling
   test with matched smoothing controls.
 - **External validation:** MCT-LTDiag (103 HCC, 100 ICC) with observed age and sex; frozen models,

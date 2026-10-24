@@ -66,8 +66,10 @@ possible from a public clone.
 - **CNN retraining is not bit-exact.** Training fixes the random seeds but does not enable
   PyTorch's deterministic algorithms, and notebooks 03, 04, and 16 also enable cuDNN autotuning
   (`torch.backends.cudnn.benchmark = True`). Retraining on a GPU therefore gives close but not
-  bit-identical weights and predictions. Notebook 33 measured this variation: retraining the main
-  CNN with its own seed changed its held-out macro-AUC by −0.003 (CNN + radiomics −0.001), and over
+  bit-identical weights and predictions. Notebook 33 measured this variation; its training code seeds the
+  data-loader workers and does not use cuDNN autotuning, unlike notebook 16, so retraining the main
+  CNN with its own seed (held-out macro-AUC −0.003, CNN + radiomics −0.001; out-of-fold CNN −0.019)
+  shows retraining variation rather than GPU arithmetic alone, and over
   six training seeds the held-out macro-AUC was 0.910 ± 0.009 for the CNN and 0.947 ± 0.003 for
   CNN + radiomics. (The repeated cross-validation of notebook 23 shows how much the results vary
   with different folds.)
@@ -96,7 +98,8 @@ would require nesting upstream fitting and model selection within each evaluatio
 56-patient held-out evaluation set did not enter these development procedures.
 
 The revision addressed these points: the main CNN uses an inner validation split and per-fold
-class weights, the whole pipeline was retrained in 5 × 5 repeated cross-validation, and
+class weights, the pipeline was run in 5 × 5 repeated cross-validation (repeat 0 with the saved models,
+repeats 1–4 retrained on new folds), and
 Harrell's bootstrap estimated the optimism of both fusions (0.007). Notebook 30 then nested the
 stacking step: in every outer fold of the five repeats, the meta-learners were fitted only on
 predictions of base models trained without that fold. The nested out-of-fold macro-AUC was slightly

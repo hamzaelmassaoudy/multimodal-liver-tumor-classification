@@ -55,8 +55,9 @@ moved the score by less than 0.05.
   smoothing control (0.04 and 0.02). The CNN responds strongly to this non-contrast reconstruction
   artifact of the cHCC-CCA scans. The response replicated after retraining with the tumor preserved
   (+0.25 and −0.42; controls 0.03 and 0.01) and with a thick reconstruction simulated by averaging
-  adjacent slices (+0.281, blur-only control 0.040; notebook 31). After equalized retraining, the
-  remaining response (+0.087) measures blur.
+  adjacent slices (+0.281, blur-only control 0.040; notebook 31). After equalized retraining a
+  response remained (CNN +0.087, radiomics +0.195), so equalizing slice counts did not remove the cue
+  of a thick reconstruction.
 - **Slice density.** The shifts were five to eight times larger than the smoothing controls, but the
   controls moved the score by 0.12, above the pre-set limit, so reliance on slice density is not
   claimed.
@@ -112,8 +113,9 @@ blur-only control changed this AUC little (0.932) but also changed the predicted
 called HCC: 81 to 33 of 94), so blur and slice geometry are not fully separated. Retraining every model
 at that spacing (notebook 32) kept CNN + radiomics at 0.929 held-out, although it fell to 0.878 out of
 fold, and did not restore external discrimination (MCT-LTDiag 0.627, not better than the main model,
-p = 0.30). Acquisition therefore explains a substantial but imprecisely estimated part of the external
-failure: 41% of the loss (post hoc 95% CI 12–88%;
+p = 0.30), and like the models of notebooks 28 and 29 it called nearly every MCT-LTDiag patient
+cHCC-CCA (191 to 198 of 203). Acquisition therefore contributes to the external failure by an amount
+these tests cannot determine (41% of the loss reproduced; post hoc 95% CI 12–88%;
 [revision overview](revision_2026-10.md#acquisition-matched-tests)).
 
 ## Recommendations for PLC-CECT users

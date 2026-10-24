@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification/actions/workflows/ci.yml/badge.svg)](https://github.com/hamzaelmassaoudy/multimodal-liver-tumor-classification/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version 2.4.1](https://img.shields.io/badge/version-2.4.1-475569.svg)](CHANGELOG.md)
+[![Version 2.4.2](https://img.shields.io/badge/version-2.4.2-475569.svg)](CHANGELOG.md)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](pyproject.toml)
 
 Code, notebooks, and cohort-level results for **"Multimodal Classification of Primary Liver
@@ -25,7 +25,7 @@ tests the models on an external cohort from another hospital.
 | Acquisition is confounded with class in PLC-CECT | Slice counts alone predict the class (held-out macro-AUC 0.853–0.872); anatomical estimates indicate class-dependent slice spacing |
 | The CNN uses a dataset artifact | Counterfactual test: injecting the cHCC-CCA non-contrast reconstruction artifact raises p(cHCC-CCA) by 0.25 (0.21–0.30); repairing it lowers it by 0.50 (0.42–0.58) |
 | Internal performance does not transport | MCT-LTDiag (103 HCC, 100 ICC): CNN + radiomics HCC-vs-ICC AUC **0.578** (0.500–0.657), at most marginally better than chance; calibration failed; no mitigation strategy helped significantly |
-| Acquisition explains a substantial but imprecisely estimated part of the external failure | Internal scans given MCT-LTDiag's slice spacing: frozen CNN + radiomics HCC-vs-ICC AUC 0.947 → 0.795, 41% of the external loss (post hoc 95% CI 12–88%), and ICC predictions disappear; retrained at that spacing: 0.929 held-out but 0.878 out of fold, and MCT-LTDiag 0.627 (0.550–0.703), not better than the main model (p = 0.30) |
+| Acquisition contributes to the external failure by an amount the tests cannot determine | Internal scans given MCT-LTDiag's slice spacing: frozen CNN + radiomics HCC-vs-ICC AUC 0.947 → 0.795, 41% of the external loss (post hoc 95% CI 12–88%), and ICC predictions disappear; retrained at that spacing: 0.929 held-out but 0.878 out of fold, MCT-LTDiag 0.627 (0.550–0.703), not better than the main model (p = 0.30), and 191 of 203 external patients called cHCC-CCA |
 | The conclusions hold with the tumor preserved | Retrained with liver ∪ tumor masks: CNN + radiomics 0.963 internally, the CNN still uses the artifact, MCT-LTDiag 0.571 (paired p = 0.83) |
 
 The models are research software and are **not suitable for clinical use**.

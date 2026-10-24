@@ -253,6 +253,29 @@ def test_post_hoc_size_and_slice_count_checks_are_locked():
         assert float(r["cv_sd_sample"]) == pytest.approx(expected, rel=1e-4)
 
 
+def test_planned_secondary_comparisons_are_locked():
+    rows = read_csv("external_mct_ltdiag_secondary_comparisons.csv")
+    assert sum(r["pre_specified"] == "True" for r in rows) == 3
+    fusion = row(rows, model_a="full_fusion [phase_dropout_CNN]")
+    assert float(fusion["difference"]) == pytest.approx(0.112, abs=5e-4)
+    assert float(fusion["boot_low"]) > 0
+    cnns = row(rows, model_a="phase_dropout_CNN", model_b="original_CNN")
+    assert float(cnns["boot_low"]) < 0 < float(cnns["boot_high"])
+    radiomics = row(rows, model_a="radiomics_noshape")
+    assert float(radiomics["difference"]) == pytest.approx(0.127, abs=5e-4)
+    beyond = value("share of the external loss reproduced by MCT-LTDiag spacing beyond")
+    assert float(beyond["value"]) == pytest.approx(0.371, abs=5e-4) and beyond["post_hoc"] == "True"
+    low = value(
+        "out-of-fold HCC-vs-ICC AUC of CNN + radiomics over six retrainings of the main CNN, min"
+    )
+    high = value(
+        "out-of-fold HCC-vs-ICC AUC of CNN + radiomics over six retrainings of the main CNN, max"
+    )
+    assert (round(float(low["value"]), 3), round(float(high["value"]), 3)) == (0.953, 0.965)
+    factor = value("median slab-averaging factor of the cHCC-CCA non-contrast scans")
+    assert float(factor["value"]) == pytest.approx(0.91, abs=5e-3)
+
+
 def test_full_fusion_advantage_disappears_within_sex():
     rows = read_csv("external_mct_ltdiag_by_sex.csv")
     overall = row(rows, group="all", model="full fusion - CNN + radiomics")

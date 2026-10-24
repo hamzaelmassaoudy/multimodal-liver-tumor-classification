@@ -857,6 +857,65 @@ def manuscript_values(runs: Path, project: Path, catalog: Path | None) -> pd.Dat
             post_hoc=cohort == "out-of-fold",
             run="E14a, E8b",
         )
+    # Sections 4.2 and 4.9 (round 16): share beyond blur, seed range, slab-averaging factor
+    ext = roc_auc_score(ye, se)
+    a_c, a_m, a_s = (
+        roc_auc_score(
+            *_hcc_icc(
+                p14[
+                    (p14.model == "CNN + radiomics")
+                    & (p14.condition == cond)
+                    & p14.patient_id.isin(held)
+                ],
+                labels,
+            )
+        )
+        for cond in ["control", "mct", "mct_smooth"]
+    )
+    add(
+        "4.9",
+        "share of the external loss reproduced by MCT-LTDiag spacing beyond the blur-only "
+        "control, CNN + radiomics, held-out",
+        (a_s - a_m) / (a_c - ext),
+        n=39,
+        post_hoc=True,
+        run="E14a, E8b",
+    )
+    p15 = read(runs, "E15", "E15_predictions.csv", dtype={"patient_id": str})
+    seeds = [
+        roc_auc_score(
+            *_hcc_icc(
+                p15[
+                    (p15.run == run)
+                    & (p15.model == "CNN + radiomics")
+                    & (p15.cohort == "internal_oof")
+                ],
+                labels,
+            )
+        )
+        for run in p15.run.unique()
+        if run != "seed 42 (saved E3)"
+    ]
+    for name, val in [("minimum", min(seeds)), ("maximum", max(seeds))]:
+        add(
+            "4.2",
+            "out-of-fold HCC-vs-ICC AUC of CNN + radiomics over six retrainings of the main CNN, "
+            f"{name}",
+            val,
+            n=154,
+            post_hoc=True,
+            run="E15",
+        )
+    crops = read(runs, "E14b", "E14b_internal_crop_stats.csv")
+    chcc = crops[crops["class"] == "CHCC"]
+    add(
+        "4.9",
+        "median slab-averaging factor of the cHCC-CCA non-contrast scans, retraining at "
+        "MCT-LTDiag spacing",
+        float(chcc.factor_P.median()),
+        n=len(chcc),
+        run="E14b",
+    )
     internal = {
         "main pipeline": preds[
             preds.cohort.isin(["internal_test", "internal_oof"]) & (preds.model == REF_FUSION)
@@ -1054,6 +1113,25 @@ def adaptive_crop_internal(runs: Path) -> pd.DataFrame:
     return table.assign(cv_sd_sample=table["cv_sd"] * np.sqrt(5 / 4))
 
 
+PLANNED_SECONDARY = {
+    ("phase_dropout_CNN", "original_CNN"),
+    ("full_fusion [phase_dropout_CNN]", "cnn_plus_radiomics [phase_dropout_CNN]"),
+    ("radiomics_noshape", "phase_dropout_CNN"),
+}
+
+
+def secondary_comparisons(runs: Path) -> pd.DataFrame:
+    """The secondary MCT-LTDiag comparisons of the plan (section 17.6: paired bootstrap of AUC
+    differences), computed by run E8.0 on all 203 patients with the paired DeLong p-value; the
+    fourth row was computed in the same run but was not planned."""
+    table = read(runs, "E8a", "E8_0_E6_203_paired_differences.csv")
+    planned = [
+        (a, b) in PLANNED_SECONDARY for a, b in zip(table.model_a, table.model_b, strict=True)
+    ]
+    assert sum(planned) == 3
+    return table.assign(pre_specified=planned)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -1116,6 +1194,7 @@ def main() -> int:
     tables["external_mct_ltdiag_mitigation_comparisons.csv"] = paired
     tables["external_mct_ltdiag_by_sex.csv"] = mct_by_sex(runs, project)
     tables["manuscript_values.csv"] = manuscript_values(runs, project, args.hcc_tace_seg_catalog)
+    tables["external_mct_ltdiag_secondary_comparisons.csv"] = secondary_comparisons(runs)
     tables["tumor_size_by_inplane_extent.csv"] = size_by_inplane_extent(runs, project)
     for name, source in [
         ("corrected_mask_crops_by_class.csv", "E11_crop_summary_by_class.csv"),

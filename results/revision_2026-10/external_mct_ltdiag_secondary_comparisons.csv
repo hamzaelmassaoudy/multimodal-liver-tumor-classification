@@ -1,0 +1,5 @@
+model_a,model_b,auc_a,auc_b,difference,boot_low,boot_high,delong_p,pre_specified
+phase_dropout_CNN,original_CNN,0.527573,0.524951,0.00262136,-0.049492,0.0531073,0.92019,True
+full_fusion [phase_dropout_CNN],cnn_plus_radiomics [phase_dropout_CNN],0.690097,0.578252,0.111845,0.0436895,0.177963,0.000634593,True
+radiomics_noshape,phase_dropout_CNN,0.654854,0.527573,0.127282,0.00368513,0.245823,0.037905,True
+cnn_plus_radiomics [phase_dropout_CNN],radiomics_noshape,0.578252,0.654854,-0.0766019,-0.164331,0.0107899,0.0863616,False

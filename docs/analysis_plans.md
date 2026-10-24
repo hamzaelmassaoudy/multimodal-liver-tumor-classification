@@ -1,6 +1,6 @@
 # Analysis plans of the October 2026 revision
 
-These are the plan sections of the dated analysis log in which each analysis of the revision was planned, with its decision rules, before it was run. They are copied verbatim, except that Google Drive file identifiers and local folder paths were removed (7 places) and two phrases were reworded for the repository's automated release checks (the name of a software tool, and the word for a nominal header value). The log addresses the corresponding author in the second person ("you"), and the dates are those recorded in the log; the log was not registered, and its other sections (correspondence, run records, and file locations) are kept with the private project records. Results are reported in the [revision overview](revision_2026-10.md) and the manuscript; the notebook for each analysis ID is listed in the [revision notebooks](revision_notebooks.md).
+These are the plan sections of the dated analysis log in which each analysis of the revision was planned, with its decision rules, before it was run. They are copied verbatim, except that Google Drive file identifiers and local folder paths were removed (9 places) and two phrases were reworded for the repository's automated release checks (the name of a software tool, and the word for a nominal header value). The log addresses the corresponding author in the second person ("you"), and the dates are those recorded in the log; the log was not registered, and its other sections (correspondence, run records, and file locations) are kept with the private project records. Results are reported in the [revision overview](revision_2026-10.md) and the manuscript; the notebook for each analysis ID is listed in the [revision notebooks](revision_notebooks.md).
 
 ## 10. Approved analysis plan (E1–E7)
 
@@ -306,7 +306,7 @@ That is 100 CNN trainings. Only predictions and training logs are kept; no weigh
 - **Safety:** each notebook is resumable, saves an error file and disconnects on error, and disconnects when done.
 
 **Implementation notes (22 Oct 2026).**
-- Builders and tests are in `03_Code/notebook_builders_E12_E13_2026-10-22/`.
+- Builders and tests are kept with the private project files.
 - **R16 E13**
   - Drive: `notebooks/3_revision_2026-10/1_internal_models_and_statistics/R16_E13_nested_stacking.ipynb`.
   - Local test on synthetic data (1 epoch, stand-in CNN and LightGBM) passed:
@@ -402,7 +402,7 @@ You asked to run the experiments needed for a submission-ready paper, and then t
 - **All three:**
   - Notebooks `R17_E14a_mct_like_acquisition_frozen_models.ipynb`, `R18_E14b_mct_density_retraining.ipynb` and `R19_E15_cnn_training_seed_variability.ipynb`.
   - On an error, each notebook saves the error to Drive and disconnects.
-  - Builders and local tests are in `03_Code/notebook_builders_E14_E15_2026-10-23/`.
+  - Builders and local tests are kept with the private project files.
 
 **Reviewer points answered:**
 - R4 comment 4 (acquisition versus population): E14a tests acquisition alone with frozen models; E14b retrains with the external acquisition.

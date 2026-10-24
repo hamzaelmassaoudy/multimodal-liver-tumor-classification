@@ -60,6 +60,7 @@ patients. A `post_hoc` column marks analyses decided after seeing data.
 | [`external_mct_ltdiag_mitigation.csv`](external_mct_ltdiag_mitigation.csv) | Every mitigation strategy on MCT-LTDiag |
 | [`external_mct_ltdiag_mitigation_comparisons.csv`](external_mct_ltdiag_mitigation_comparisons.csv) | Mitigation versus reference: difference, DeLong p, and Benjamini–Hochberg-adjusted p within each family |
 | [`external_hcc_tace_seg.csv`](external_hcc_tace_seg.csv) | HCC-TACE-Seg HCC recognition after each pipeline correction, for 89 and 103 patients |
+| [`external_mct_ltdiag_secondary_comparisons.csv`](external_mct_ltdiag_secondary_comparisons.csv) | The secondary comparisons of the analysis plan (phase-dropout versus original CNN, full fusion versus CNN + radiomics, radiomics versus CNN) on all 203 MCT-LTDiag patients: AUC difference with paired bootstrap 95% CI and paired DeLong p; a fourth row from the same run was not planned (`pre_specified`) |
 | [`external_mct_ltdiag_by_sex.csv`](external_mct_ltdiag_by_sex.csv) | MCT-LTDiag AUC of CNN + radiomics and full fusion within men and within women, with the paired DeLong test (post hoc) |
 
 ## Corrected-mask sensitivity analysis (notebook 28, post hoc)
@@ -72,7 +73,7 @@ Each phase masked by the union of the liver and tumor masks instead of the liver
 | [`corrected_mask_internal.csv`](corrected_mask_internal.csv) | Held-out and out-of-fold results of the retrained and the main models |
 | [`corrected_mask_internal_paired.csv`](corrected_mask_internal_paired.csv) | Retrained minus main model: held-out bootstrap difference and out-of-fold difference |
 | [`corrected_mask_by_tumor_inside_liver.csv`](corrected_mask_by_tumor_inside_liver.csv) | Results for patients with less than and at least 90% of the tumor inside the liver mask |
-| [`corrected_mask_counterfactual_effects.csv`](corrected_mask_counterfactual_effects.csv) | Non-contrast artifact test with the retrained models (rules of Section 3.5 of the paper) |
+| [`corrected_mask_counterfactual_effects.csv`](corrected_mask_counterfactual_effects.csv) | Non-contrast artifact test with the retrained models (rules of Section 3.9 of the paper) |
 | [`corrected_mask_external.csv`](corrected_mask_external.csv) | MCT-LTDiag results of the retrained and the main models |
 | [`corrected_mask_external_paired.csv`](corrected_mask_external_paired.csv) | Retrained minus main model on MCT-LTDiag, paired DeLong test |
 
@@ -130,7 +131,7 @@ The main CNN retrained with five further seeds (offsets +1000 to +5000) and once
 
 | File | Contents |
 |---|---|
-| [`manuscript_values.csv`](manuscript_values.csv) | Values of the revised manuscript that no other table contains, each with its section, CI, number of patients, `post_hoc` flag, and source run: held-out one-versus-rest AUCs, calibration of the HCC-versus-ICC score on the 39 held-out HCC and ICC patients and on MCT-LTDiag, sex alone, the first MCT-LTDiag run (201 patients), slice counts alone on MCT-LTDiag, tumor inside the liver mask on MCT-LTDiag, the non-contrast artifact repaired in every held-out cHCC-CCA scan, the share of the external loss reproduced with its bootstrap CI, the internal columns of manuscript Table 6 held-out and out of fold, crop retention, the lesion-size baseline, the imputed HCC-TACE-Seg feature cells, and the study of each HCC-TACE-Seg input |
+| [`manuscript_values.csv`](manuscript_values.csv) | Values of the revised manuscript that no other table contains, each with its section, CI, number of patients, `post_hoc` flag, and source run: held-out one-versus-rest AUCs, calibration of the HCC-versus-ICC score on the 39 held-out HCC and ICC patients and on MCT-LTDiag, sex alone, the first MCT-LTDiag run (201 patients), slice counts alone on MCT-LTDiag, tumor inside the liver mask on MCT-LTDiag, the non-contrast artifact repaired in every held-out cHCC-CCA scan, the share of the external loss reproduced with its bootstrap CI, the internal columns of manuscript Table 6 held-out and out of fold, the share beyond the blur-only control, the out-of-fold seed range of CNN + radiomics, the slab-averaging factor of the cHCC-CCA non-contrast scans, crop retention, the lesion-size baseline, the imputed HCC-TACE-Seg feature cells, and the study of each HCC-TACE-Seg input |
 
 The MCT-LTDiag predictions of the main CNN in `external_mct_ltdiag.csv` and in the comparison tables come
 from two inferences of the same saved model (notebooks 21 and 24); their probabilities differ by at most

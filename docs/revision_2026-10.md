@@ -27,7 +27,8 @@ alongside it throughout.
 ## Internal performance (PLC-CECT)
 
 Held-out macro-AUC on 56 patients with 95% bootstrap CIs, and the mean ± SD of pooled out-of-fold
-macro-AUC over five repeats of five-fold cross-validation (the whole pipeline retrained per repeat):
+macro-AUC over five repeats of five-fold cross-validation (repeat 0: the saved models on the original
+folds; repeats 1–4: the whole pipeline retrained on new folds):
 
 | Model | Held-out | Repeated CV | Accuracy | Macro-F1 |
 |---|---:|---:|---:|---:|
@@ -50,7 +51,8 @@ macro-AUC over five repeats of five-fold cross-validation (the whole pipeline re
   ([`nested_stacking_summary.csv`](../results/revision_2026-10/nested_stacking_summary.csv)).
 - **Training seeds.** Retraining the main CNN with five further seeds (notebook 33) gave held-out
   macro-AUCs over the six seeds of 0.910 ± 0.009 for the CNN (0.897–0.919) and 0.947 ± 0.003 for
-  CNN + radiomics (0.944–0.952); the saved main models are the best of the six (by 0.010 and 0.005).
+  CNN + radiomics (0.944–0.952); the saved main models are the best of the six (by 0.002 and 0.004 over the next-best seed), and the
+  saved CNN is a favorable out-of-fold draw (0.943 against 0.913–0.924 for six retrainings).
   The 0.013 spread of the three CNN candidates lies within this seed variability
   ([`seed_variability_spread.csv`](../results/revision_2026-10/seed_variability_spread.csv)).
 - **Calibration.** CNN + radiomics had one-versus-rest calibration slopes of 0.82–1.12 and
@@ -154,9 +156,12 @@ evaluated internally only; their external inputs are unchanged by construction.
   discrimination of CNN + radiomics within the rule (macro-AUC −0.047, −0.103 to 0.002), although the
   CNN alone fell (0.802 vs. 0.919); out of fold, the HCC-versus-ICC AUC of CNN + radiomics fell from
   0.963 to 0.878. On MCT-LTDiag, CNN + radiomics reached 0.627: better than chance, but not better
-  than the main model (paired p = 0.30). The pre-specified reading, that acquisition geometry is not
-  the main cause of the external failure, therefore rests on non-significant differences in small
-  samples.
+  than the main model (paired p = 0.30), and it called 191 of 203 MCT-LTDiag patients cHCC-CCA, as
+  the models retrained with corrected masks (197) and equalized slice density (198) did: the cHCC-CCA
+  non-contrast scans, the only native thick reconstructions in training, stay almost unchanged by slab
+  averaging (median factor 0.91), like every MCT-LTDiag scan. The pre-specified readings of the
+  retrainings, including that acquisition geometry is not the main cause of the external failure,
+  are therefore inconclusive.
 
 Thickening removes image detail as well as the shortcut, so a fall in performance cannot be attributed
 to the shortcut alone. All values are in the `acquisition_matched_*.csv` tables.
